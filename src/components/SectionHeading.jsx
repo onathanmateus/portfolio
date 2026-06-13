@@ -1,4 +1,5 @@
 import { Reveal } from "./Reveal";
+import { ScrambleText } from "./ScrambleText";
 
 export function SectionHeading({ index, title, subtitle }) {
   return (
@@ -11,9 +12,11 @@ export function SectionHeading({ index, title, subtitle }) {
         </span>
         <span className="h-px flex-1 bg-gradient-to-r from-accent/60 to-transparent" />
       </div>
-      <h2 className="mt-4 font-display text-2xl font-bold uppercase tracking-tight sm:text-3xl">
-        {title}
-      </h2>
+      <ScrambleText
+        as="h2"
+        text={title}
+        className="mt-4 block font-display text-2xl font-bold uppercase tracking-tight sm:text-3xl"
+      />
       {subtitle ? (
         <p className="mt-3 max-w-2xl font-mono text-sm text-muted">{subtitle}</p>
       ) : null}

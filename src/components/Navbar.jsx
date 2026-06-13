@@ -27,10 +27,10 @@ export function Navbar() {
     <header className="fixed inset-x-0 top-0 z-50">
       <div className="mx-auto max-w-5xl px-4 sm:px-6">
       <nav
-        className={`flex items-center justify-between px-4 py-3 transition-all duration-300 sm:px-5 ${
+        className={`glass flex items-center justify-between px-4 py-3 backdrop-blur-2xl backdrop-saturate-150 transition-all duration-300 sm:px-5 ${
           scrolled
-            ? "mt-3 rounded-sm border border-border glass"
-            : "border border-transparent"
+            ? "mt-3 rounded-sm border border-border"
+            : "border-b border-border"
         }`}
         style={scrolled ? { boxShadow: "0 0 24px -10px var(--glow)" } : undefined}
       >

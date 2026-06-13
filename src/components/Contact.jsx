@@ -2,6 +2,7 @@ import { contact } from "@/data/portfolio";
 import { Reveal } from "./Reveal";
 import { SectionHeading } from "./SectionHeading";
 import { Circuit } from "./Circuit";
+import { Tilt } from "./Tilt";
 
 const channels = [
   {
@@ -59,6 +60,7 @@ export function Contact() {
       <div className="grid gap-5 sm:grid-cols-3">
         {channels.map((ch, i) => (
           <Reveal key={ch.label} delay={i * 0.08}>
+            <Tilt className="h-full" max={6}>
             <a
               href={ch.href}
               target={ch.href.startsWith("mailto:") ? undefined : "_blank"}
@@ -73,6 +75,7 @@ export function Contact() {
               <span className="font-mono text-xs uppercase tracking-wider text-muted">{ch.label}</span>
               <span className="break-all font-medium">{ch.value}</span>
             </a>
+            </Tilt>
           </Reveal>
         ))}
       </div>

@@ -1,6 +1,9 @@
 import { Geist, Geist_Mono, Orbitron } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider, themeInitScript } from "@/components/ThemeProvider";
+import { Cursor } from "@/components/Cursor";
+import { BootSequence } from "@/components/BootSequence";
+import { ShaderBackground } from "@/components/ShaderBackground";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
@@ -45,12 +48,16 @@ export default function RootLayout({ children }) {
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
       <body className="relative min-h-full" suppressHydrationWarning>
+        {/* Fundo WebGL surreal (atrás de tudo) */}
+        <ShaderBackground className="pointer-events-none fixed inset-0 -z-10 h-full w-full" />
         <ThemeProvider>{children}</ThemeProvider>
         {/* Scanlines globais (overlay sutil) */}
         <div
           className="scanlines pointer-events-none fixed inset-0 z-50 opacity-60"
           aria-hidden="true"
         />
+        <Cursor />
+        <BootSequence />
         <Analytics />
         <SpeedInsights />
       </body>

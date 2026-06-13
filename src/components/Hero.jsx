@@ -4,7 +4,8 @@ import { useRef } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "motion/react";
 import { profile, contact } from "@/data/portfolio";
 import { Circuit } from "./Circuit";
-import { GlitchText } from "./GlitchText";
+import { ScrambleText } from "./ScrambleText";
+import { Magnetic } from "./Magnetic";
 
 const container = {
   hidden: {},
@@ -95,14 +96,14 @@ export function Hero() {
             variants={item}
             className="font-display text-4xl font-bold uppercase tracking-tight neon-text sm:text-6xl"
           >
-            <GlitchText>{profile.name}</GlitchText>
+            <ScrambleText as="span" text={profile.name} duration={900} />
           </motion.h1>
 
           <motion.p
             variants={item}
             className="mt-4 font-mono text-sm uppercase tracking-[0.3em] text-accent-soft sm:text-base"
           >
-            {profile.role}
+            <ScrambleText as="span" text={profile.role} duration={700} />
           </motion.p>
 
           <motion.p
@@ -113,29 +114,35 @@ export function Hero() {
           </motion.p>
 
           <motion.div variants={item} className="mt-9 flex flex-wrap items-center justify-center gap-3">
-            <a
-              href="#contato"
-              className="rounded-sm border border-accent bg-accent/10 px-6 py-3 font-mono text-sm font-semibold uppercase tracking-wider text-accent transition-all hover:bg-accent hover:text-[#04060a]"
-              style={{ boxShadow: "0 0 20px -6px var(--glow)" }}
-            >
-              Entre em contato
-            </a>
-            <a
-              href={contact.linkedin}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-sm border border-border bg-surface/70 px-6 py-3 font-mono text-sm font-semibold uppercase tracking-wider text-foreground transition-colors hover:border-accent hover:text-accent"
-            >
-              LinkedIn
-            </a>
-            <a
-              href={contact.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-sm border border-border bg-surface/70 px-6 py-3 font-mono text-sm font-semibold uppercase tracking-wider text-foreground transition-colors hover:border-accent hover:text-accent"
-            >
-              GitHub
-            </a>
+            <Magnetic strength={0.5}>
+              <a
+                href="#contato"
+                className="block rounded-sm border border-accent bg-accent/10 px-6 py-3 font-mono text-sm font-semibold uppercase tracking-wider text-accent transition-colors hover:bg-accent hover:text-[#04060a]"
+                style={{ boxShadow: "0 0 20px -6px var(--glow)" }}
+              >
+                Entre em contato
+              </a>
+            </Magnetic>
+            <Magnetic strength={0.5}>
+              <a
+                href={contact.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block rounded-sm border border-border bg-surface/70 px-6 py-3 font-mono text-sm font-semibold uppercase tracking-wider text-foreground transition-colors hover:border-accent hover:text-accent"
+              >
+                LinkedIn
+              </a>
+            </Magnetic>
+            <Magnetic strength={0.5}>
+              <a
+                href={contact.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block rounded-sm border border-border bg-surface/70 px-6 py-3 font-mono text-sm font-semibold uppercase tracking-wider text-foreground transition-colors hover:border-accent hover:text-accent"
+              >
+                GitHub
+              </a>
+            </Magnetic>
           </motion.div>
         </motion.div>
       </div>

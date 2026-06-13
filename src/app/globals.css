@@ -89,11 +89,10 @@
     color: transparent;
   }
 
-  /* Vidro fosco translúcido */
+  /* Fundo translúcido. O blur é aplicado via utilities nativas do Tailwind
+     (backdrop-blur-*) no JSX, pois o Tailwind v4 sobrescreve backdrop-filter custom. */
   .glass {
-    background: color-mix(in srgb, var(--surface) 88%, transparent);
-    backdrop-filter: saturate(160%) blur(16px);
-    -webkit-backdrop-filter: saturate(160%) blur(16px);
+    background: color-mix(in srgb, var(--surface) 60%, transparent);
   }
 
   /* Card cyberpunk: borda fina + bracket de canto (HUD) + brilho no hover */
@@ -123,6 +122,19 @@
   .cyber-card:hover::before {
     opacity: 1;
     box-shadow: 0 0 8px var(--glow);
+  }
+
+  /* Marquee infinito (ticker de skills) */
+  .marquee-track {
+    animation: marquee 26s linear infinite;
+  }
+  .marquee-track:hover {
+    animation-play-state: paused;
+  }
+
+  /* Perspectiva para tilt 3D */
+  .perspective {
+    perspective: 900px;
   }
 
   /* Scanlines globais (sutis) */
@@ -194,6 +206,21 @@
     text-shadow: 1px 0 #4f8cff;
     animation: glitchBottom 5s steps(2, end) infinite;
   }
+}
+
+/* Esconde o cursor nativo quando o cursor custom está ativo (apenas ponteiro fino) */
+@media (pointer: fine) {
+  html.custom-cursor,
+  html.custom-cursor a,
+  html.custom-cursor button,
+  html.custom-cursor [role="button"] {
+    cursor: none;
+  }
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
 }
 
 @keyframes flow100 {
