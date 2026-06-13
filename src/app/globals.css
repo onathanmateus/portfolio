@@ -3,30 +3,34 @@
 /* Estratégia de dark mode manual: ativada pela classe .dark no <html> */
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* ---------- Tokens de tema (claro) ---------- */
+/* ---------- Tokens de tema (claro — "blueprint") ---------- */
 :root {
-  --background: #f7f8fa;
+  --background: #eef3f7;
   --surface: #ffffff;
-  --surface-2: #f1f3f6;
-  --foreground: #0a0c10;
-  --muted: #5b6472;
-  --border: rgba(10, 12, 16, 0.08);
+  --surface-2: #e6eef4;
+  --foreground: #081019;
+  --muted: #4f6678;
+  --border: rgba(8, 145, 178, 0.20);
   --accent: #0891b2;
   --accent-soft: #06b6d4;
-  --glow: rgba(8, 145, 178, 0.18);
+  --grid-line: rgba(8, 145, 178, 0.10);
+  --glow: rgba(8, 145, 178, 0.30);
+  --scan: rgba(8, 16, 25, 0.05);
 }
 
-/* ---------- Tokens de tema (escuro) ---------- */
+/* ---------- Tokens de tema (escuro — "neon") ---------- */
 .dark {
-  --background: #06070a;
-  --surface: #0d0f14;
-  --surface-2: #12151c;
-  --foreground: #eef1f6;
-  --muted: #97a1b2;
-  --border: rgba(255, 255, 255, 0.08);
+  --background: #05070d;
+  --surface: #0a0f1a;
+  --surface-2: #0f1828;
+  --foreground: #d7ebf7;
+  --muted: #6f8aa3;
+  --border: rgba(34, 211, 238, 0.16);
   --accent: #22d3ee;
-  --accent-soft: #38bdf8;
-  --glow: rgba(34, 211, 238, 0.22);
+  --accent-soft: #67e8f9;
+  --grid-line: rgba(34, 211, 238, 0.08);
+  --glow: rgba(34, 211, 238, 0.55);
+  --scan: rgba(0, 0, 0, 0.16);
 }
 
 @theme inline {
@@ -40,6 +44,7 @@
   --color-accent-soft: var(--accent-soft);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-orbitron);
 }
 
 @layer base {
@@ -62,70 +67,168 @@
 
   ::selection {
     background: var(--accent);
-    color: #fff;
+    color: #04060a;
   }
 }
 
 @layer utilities {
-  /* Texto com gradiente de destaque */
+  .font-display {
+    font-family: var(--font-display), var(--font-sans), sans-serif;
+  }
+
+  /* Texto neon com brilho */
+  .neon-text {
+    color: var(--accent);
+    text-shadow: 0 0 6px var(--glow), 0 0 20px var(--glow);
+  }
+
   .text-gradient {
-    background-image: linear-gradient(
-      120deg,
-      var(--accent-soft),
-      var(--accent) 50%,
-      #3b82f6
-    );
+    background-image: linear-gradient(120deg, var(--accent-soft), var(--accent) 60%, #3b82f6);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
   }
 
-  /* Vidro fosco (estética Apple/futurista) — translúcido, não transparente.
-     O blur é aplicado via utilities nativas do Tailwind (backdrop-blur-*),
-     pois o Lightning CSS remove `backdrop-filter` de utilities custom. */
+  /* Vidro fosco translúcido */
   .glass {
-    background: color-mix(in srgb, var(--surface) 92%, transparent);
+    background: color-mix(in srgb, var(--surface) 88%, transparent);
+    backdrop-filter: saturate(160%) blur(16px);
+    -webkit-backdrop-filter: saturate(160%) blur(16px);
   }
 
-  /* Brilho ambiente atrás de elementos */
-  .glow-accent {
-    box-shadow: 0 0 0 1px var(--border), 0 20px 60px -20px var(--glow);
+  /* Card cyberpunk: borda fina + bracket de canto (HUD) + brilho no hover */
+  .cyber-card {
+    position: relative;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
   }
-
-  /* Aurora: manchas de luz que flutuam (substitui a grade comum) */
-  .aurora-blob {
+  .cyber-card::before {
+    content: "";
     position: absolute;
-    border-radius: 9999px;
-    filter: blur(64px);
-    will-change: transform;
-    mix-blend-mode: screen;
+    top: -1px;
+    right: -1px;
+    width: 16px;
+    height: 16px;
+    border-top: 2px solid var(--accent);
+    border-right: 2px solid var(--accent);
+    opacity: 0.45;
+    transition: opacity 0.3s ease, box-shadow 0.3s ease;
+  }
+  .cyber-card:hover {
+    border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+    box-shadow: 0 0 24px -8px var(--glow), inset 0 0 24px -18px var(--glow);
+    transform: translateY(-2px);
+  }
+  .cyber-card:hover::before {
+    opacity: 1;
+    box-shadow: 0 0 8px var(--glow);
+  }
+
+  /* Scanlines globais (sutis) */
+  .scanlines {
+    background-image: repeating-linear-gradient(
+      0deg,
+      transparent 0,
+      transparent 2px,
+      var(--scan) 2px,
+      var(--scan) 3px
+    );
+  }
+
+  /* Linhas/pulsos de circuito */
+  .trace {
+    fill: none;
+    stroke: var(--grid-line);
+    stroke-width: 1;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+  }
+  .pulse {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    filter: drop-shadow(0 0 3px var(--glow)) drop-shadow(0 0 6px var(--glow));
+  }
+  .pulse-hero {
+    stroke-dasharray: 14 86;
+    animation: flow100 4s linear infinite;
+  }
+  .pulse-accent {
+    stroke-dasharray: 9 291;
+    animation: flow300 8s linear infinite;
+  }
+  .pad {
+    fill: var(--surface);
+    stroke: var(--accent);
+    stroke-width: 1;
+    opacity: 0.5;
+  }
+  .pad-live {
+    animation: padPulse 3s ease-in-out infinite;
+  }
+
+  /* Glitch (dispara "de vez em quando") */
+  .glitch {
+    position: relative;
+    display: inline-block;
+  }
+  .glitch::before,
+  .glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: var(--background);
+    clip-path: inset(0 0 100% 0);
+  }
+  .glitch::before {
+    left: 2px;
+    text-shadow: -1px 0 var(--accent-soft);
+    animation: glitchTop 5s steps(2, end) infinite;
+  }
+  .glitch::after {
+    left: -2px;
+    text-shadow: 1px 0 #4f8cff;
+    animation: glitchBottom 5s steps(2, end) infinite;
   }
 }
 
-/* Movimento da aurora — lento e orgânico */
-@keyframes aurora-a {
-  0%, 100% { transform: translate3d(-6%, -4%, 0) scale(1); }
-  33% { transform: translate3d(8%, 6%, 0) scale(1.18); }
-  66% { transform: translate3d(-4%, 10%, 0) scale(0.92); }
+@keyframes flow100 {
+  to { stroke-dashoffset: -100; }
 }
-@keyframes aurora-b {
-  0%, 100% { transform: translate3d(6%, 2%, 0) scale(1.1); }
-  50% { transform: translate3d(-10%, -6%, 0) scale(0.95); }
+@keyframes flow300 {
+  to { stroke-dashoffset: -300; }
 }
-@keyframes aurora-c {
-  0%, 100% { transform: translate3d(0, 4%, 0) scale(0.95); }
-  50% { transform: translate3d(10%, -8%, 0) scale(1.2); }
+@keyframes padPulse {
+  0%, 100% { opacity: 0.35; }
+  50% { opacity: 1; filter: drop-shadow(0 0 4px var(--glow)); }
+}
+
+/* Glitch: identidade na maior parte do ciclo, fragmenta em janelas curtas */
+@keyframes glitchTop {
+  0%, 78%, 100% { clip-path: inset(0 0 100% 0); transform: translate(0); opacity: 0; }
+  80% { clip-path: inset(0 0 62% 0); transform: translate(-2px, -1px); opacity: 0.9; }
+  84% { clip-path: inset(8% 0 50% 0); transform: translate(3px, 1px); opacity: 0.9; }
+  88% { clip-path: inset(0 0 70% 0); transform: translate(-1px, 0); opacity: 0.9; }
+  92% { clip-path: inset(0 0 100% 0); opacity: 0; }
+}
+@keyframes glitchBottom {
+  0%, 78%, 100% { clip-path: inset(100% 0 0 0); transform: translate(0); opacity: 0; }
+  81% { clip-path: inset(60% 0 0 0); transform: translate(2px, 1px); opacity: 0.9; }
+  85% { clip-path: inset(72% 0 8% 0); transform: translate(-3px, -1px); opacity: 0.9; }
+  89% { clip-path: inset(55% 0 0 0); transform: translate(1px, 0); opacity: 0.9; }
+  93% { clip-path: inset(100% 0 0 0); opacity: 0; }
 }
 
 /* Respeita usuários que preferem menos movimento */
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-  *,
-  *::before,
-  *::after {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
     animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
   }
 }

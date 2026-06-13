@@ -1,6 +1,7 @@
 import { contact } from "@/data/portfolio";
 import { Reveal } from "./Reveal";
 import { SectionHeading } from "./SectionHeading";
+import { Circuit } from "./Circuit";
 
 const channels = [
   {
@@ -35,7 +36,20 @@ const channels = [
 
 export function Contact() {
   return (
-    <section id="contato" className="mx-auto max-w-5xl scroll-mt-24 px-5 py-20 sm:px-6 sm:py-28">
+    <section id="contato" className="relative scroll-mt-24 overflow-hidden">
+      {/* Acento de circuito (pulsos ocasionais) */}
+      <div
+        className="pointer-events-none absolute left-0 top-0 -z-10 h-full w-1/2 opacity-50"
+        style={{
+          maskImage: "linear-gradient(to right, #000, transparent 85%)",
+          WebkitMaskImage: "linear-gradient(to right, #000, transparent 85%)",
+        }}
+        aria-hidden="true"
+      >
+        <Circuit variant="accent" count={10} seed={23} className="h-full w-full" />
+      </div>
+
+      <div className="mx-auto max-w-5xl px-5 py-20 sm:px-6 sm:py-28">
       <SectionHeading
         index="05"
         title="Vamos conversar"
@@ -49,18 +63,19 @@ export function Contact() {
               href={ch.href}
               target={ch.href.startsWith("mailto:") ? undefined : "_blank"}
               rel="noopener noreferrer"
-              className="group flex h-full flex-col gap-3 rounded-2xl border border-border bg-surface p-6 transition-all hover:-translate-y-1 hover:border-accent/60"
+              className="cyber-card group flex h-full flex-col gap-3 p-6"
             >
-              <span className="grid h-11 w-11 place-items-center rounded-xl border border-border bg-surface-2 text-accent transition-colors group-hover:bg-accent group-hover:text-white">
+              <span className="grid h-11 w-11 place-items-center rounded-sm border border-border bg-surface-2 text-accent transition-colors group-hover:bg-accent group-hover:text-[#04060a]">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   {ch.icon}
                 </svg>
               </span>
-              <span className="text-xs uppercase tracking-wider text-muted">{ch.label}</span>
+              <span className="font-mono text-xs uppercase tracking-wider text-muted">{ch.label}</span>
               <span className="break-all font-medium">{ch.value}</span>
             </a>
           </Reveal>
         ))}
+      </div>
       </div>
     </section>
   );

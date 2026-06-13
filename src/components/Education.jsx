@@ -10,9 +10,9 @@ export function Education() {
       <div className="grid gap-5 sm:grid-cols-2">
         {education.map((edu, i) => (
           <Reveal key={edu.course} delay={i * 0.08}>
-            <div className="h-full rounded-2xl border border-border bg-surface p-6 transition-all duration-300 hover:-translate-y-1 hover:border-accent/60">
-              <span className="font-mono text-xs text-muted">{edu.period}</span>
-              <h3 className="mt-2 text-lg font-semibold">{edu.course}</h3>
+            <div className="cyber-card h-full p-6">
+              <span className="font-mono text-xs text-accent">{edu.period}</span>
+              <h3 className="mt-2 font-display text-base font-bold uppercase tracking-tight">{edu.course}</h3>
               <a
                 href={edu.url}
                 target="_blank"

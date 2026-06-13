@@ -16,18 +16,18 @@ export function About() {
         </Reveal>
 
         <Reveal delay={0.1}>
-          <div className="rounded-2xl border border-border bg-surface p-6 glow-accent">
+          <div className="cyber-card p-6">
             <dl className="space-y-5">
               <div>
-                <dt className="text-xs uppercase tracking-wider text-muted">Cargo atual</dt>
+                <dt className="font-mono text-xs uppercase tracking-wider text-accent">Cargo atual</dt>
                 <dd className="mt-1 font-medium">{profile.role}</dd>
               </div>
               <div>
-                <dt className="text-xs uppercase tracking-wider text-muted">Localização</dt>
+                <dt className="font-mono text-xs uppercase tracking-wider text-accent">Localização</dt>
                 <dd className="mt-1 font-medium">{profile.location}</dd>
               </div>
               <div>
-                <dt className="text-xs uppercase tracking-wider text-muted">Foco</dt>
+                <dt className="font-mono text-xs uppercase tracking-wider text-accent">Foco</dt>
                 <dd className="mt-1 font-medium">Protheus · ADVPL / TLPP · Web</dd>
               </div>
             </dl>

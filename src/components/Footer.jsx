@@ -4,8 +4,9 @@ import { CurrentYear } from "./CurrentYear";
 export function Footer() {
   return (
     <footer className="border-t border-border">
-      <div className="mx-auto max-w-5xl px-5 py-8 text-center text-sm text-muted sm:px-6">
-        © <CurrentYear /> {profile.name}
+      <div className="mx-auto max-w-5xl px-5 py-8 text-center font-mono text-xs uppercase tracking-widest text-muted sm:px-6">
+        <span className="text-accent">&gt;</span> © <CurrentYear /> {profile.name}
+        <span className="ml-1 inline-block animate-pulse text-accent">_</span>
       </div>
     </footer>
   );

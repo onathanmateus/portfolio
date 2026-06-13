@@ -3,6 +3,8 @@
 import { useRef } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "motion/react";
 import { profile, contact } from "@/data/portfolio";
+import { Circuit } from "./Circuit";
+import { GlitchText } from "./GlitchText";
 
 const container = {
   hidden: {},
@@ -16,15 +18,15 @@ const item = {
 export function Hero() {
   const sectionRef = useRef(null);
 
-  // Parallax do avatar conforme a posição do mouse (-0.5 a 0.5 nos eixos).
+  // Parallax do avatar conforme a posição do mouse.
   const px = useMotionValue(0);
   const py = useMotionValue(0);
   const sx = useSpring(px, { stiffness: 120, damping: 18 });
   const sy = useSpring(py, { stiffness: 120, damping: 18 });
   const avatarX = useTransform(sx, [-0.5, 0.5], [-18, 18]);
   const avatarY = useTransform(sy, [-0.5, 0.5], [-18, 18]);
-  const glowX = useTransform(sx, [-0.5, 0.5], [14, -14]);
-  const glowY = useTransform(sy, [-0.5, 0.5], [14, -14]);
+  const circuitX = useTransform(sx, [-0.5, 0.5], [12, -12]);
+  const circuitY = useTransform(sy, [-0.5, 0.5], [12, -12]);
 
   function handleMove(e) {
     const rect = sectionRef.current?.getBoundingClientRect();
@@ -43,58 +45,47 @@ export function Hero() {
       ref={sectionRef}
       onPointerMove={handleMove}
       onPointerLeave={handleLeave}
-      className="relative overflow-hidden"
+      className="relative overflow-hidden border-b border-border"
     >
-      {/* Fundo: aurora animada (no lugar da grade comum) */}
-      <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden" aria-hidden="true">
-        <div
-          className="aurora-blob h-[34rem] w-[34rem] opacity-40 dark:opacity-50"
-          style={{
-            left: "8%",
-            top: "-8rem",
-            background: "radial-gradient(circle, var(--accent-soft), transparent 62%)",
-            animation: "aurora-a 22s ease-in-out infinite",
-          }}
-        />
-        <div
-          className="aurora-blob h-[30rem] w-[30rem] opacity-35 dark:opacity-45"
-          style={{
-            right: "4%",
-            top: "-4rem",
-            background: "radial-gradient(circle, #3b82f6, transparent 62%)",
-            animation: "aurora-b 26s ease-in-out infinite",
-          }}
-        />
-        <motion.div
-          className="aurora-blob h-[26rem] w-[26rem] opacity-30 dark:opacity-40"
-          style={{
-            left: "50%",
-            top: "2rem",
-            marginLeft: "-13rem",
-            x: glowX,
-            y: glowY,
-            background: "radial-gradient(circle, var(--accent), transparent 60%)",
-            animation: "aurora-c 19s ease-in-out infinite",
-          }}
-        />
-      </div>
+      {/* Circuito vivo de fundo */}
+      <motion.div
+        className="pointer-events-none absolute inset-0 -z-10"
+        style={{
+          x: circuitX,
+          y: circuitY,
+          maskImage:
+            "radial-gradient(ellipse 75% 65% at 50% 35%, #000 35%, transparent 80%)",
+          WebkitMaskImage:
+            "radial-gradient(ellipse 75% 65% at 50% 35%, #000 35%, transparent 80%)",
+        }}
+        aria-hidden="true"
+      >
+        <Circuit variant="hero" count={20} seed={42} className="h-full w-full" />
+      </motion.div>
+
+      {/* Brilho ambiente atrás do conteúdo */}
+      <div
+        className="pointer-events-none absolute left-1/2 top-[8%] -z-10 h-[34rem] w-[34rem] -translate-x-1/2 rounded-full blur-3xl"
+        style={{ background: "radial-gradient(circle, var(--glow), transparent 60%)", opacity: 0.5 }}
+        aria-hidden="true"
+      />
 
       <div className="mx-auto flex max-w-5xl flex-col items-center px-5 pb-20 pt-36 text-center sm:px-6 sm:pt-44">
         <motion.div variants={container} initial="hidden" animate="show" className="flex flex-col items-center">
-          {/* Avatar (placeholder até a foto) — com parallax */}
+          {/* Avatar com parallax + anel neon */}
           <motion.div variants={item} className="relative mb-8" style={{ x: avatarX, y: avatarY }}>
-            <div className="absolute -inset-1 rounded-full bg-gradient-to-tr from-accent-soft to-blue-500 opacity-70 blur-md" aria-hidden="true" />
-            <div className="relative grid h-28 w-28 place-items-center rounded-full border border-border bg-surface font-mono text-3xl font-semibold text-gradient sm:h-32 sm:w-32">
+            <div className="absolute -inset-1.5 rounded-full bg-gradient-to-tr from-accent-soft to-accent opacity-80 blur-md" aria-hidden="true" />
+            <div className="relative grid h-28 w-28 place-items-center rounded-full border border-accent/60 bg-surface font-display text-3xl font-bold text-gradient sm:h-32 sm:w-32">
               NM
             </div>
           </motion.div>
 
           <motion.span
             variants={item}
-            className="mb-5 inline-flex items-center gap-2 rounded-full border border-border bg-surface px-4 py-1.5 text-xs font-medium text-muted"
+            className="mb-6 inline-flex items-center gap-2 rounded-sm border border-border bg-surface/70 px-4 py-1.5 font-mono text-xs uppercase tracking-[0.2em] text-muted"
           >
             <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-60" />
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-70" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
             </span>
             Disponível para novos desafios
@@ -102,18 +93,21 @@ export function Hero() {
 
           <motion.h1
             variants={item}
-            className="text-balance text-4xl font-semibold tracking-tight sm:text-6xl"
+            className="font-display text-4xl font-bold uppercase tracking-tight neon-text sm:text-6xl"
           >
-            {profile.name}
+            <GlitchText>{profile.name}</GlitchText>
           </motion.h1>
 
-          <motion.p variants={item} className="mt-3 text-lg font-medium text-gradient sm:text-xl">
+          <motion.p
+            variants={item}
+            className="mt-4 font-mono text-sm uppercase tracking-[0.3em] text-accent-soft sm:text-base"
+          >
             {profile.role}
           </motion.p>
 
           <motion.p
             variants={item}
-            className="mt-5 max-w-xl text-balance text-base leading-relaxed text-muted sm:text-lg"
+            className="mt-6 max-w-xl text-balance text-base leading-relaxed text-muted sm:text-lg"
           >
             {profile.tagline}
           </motion.p>
@@ -121,8 +115,8 @@ export function Hero() {
           <motion.div variants={item} className="mt-9 flex flex-wrap items-center justify-center gap-3">
             <a
               href="#contato"
-              className="rounded-full bg-accent px-6 py-3 text-sm font-semibold text-white shadow-lg transition-transform hover:-translate-y-0.5"
-              style={{ boxShadow: "0 16px 40px -16px var(--glow)" }}
+              className="rounded-sm border border-accent bg-accent/10 px-6 py-3 font-mono text-sm font-semibold uppercase tracking-wider text-accent transition-all hover:bg-accent hover:text-[#04060a]"
+              style={{ boxShadow: "0 0 20px -6px var(--glow)" }}
             >
               Entre em contato
             </a>
@@ -130,7 +124,7 @@ export function Hero() {
               href={contact.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-full border border-border bg-surface px-6 py-3 text-sm font-semibold text-foreground transition-colors hover:border-accent hover:text-accent"
+              className="rounded-sm border border-border bg-surface/70 px-6 py-3 font-mono text-sm font-semibold uppercase tracking-wider text-foreground transition-colors hover:border-accent hover:text-accent"
             >
               LinkedIn
             </a>
@@ -138,7 +132,7 @@ export function Hero() {
               href={contact.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-full border border-border bg-surface px-6 py-3 text-sm font-semibold text-foreground transition-colors hover:border-accent hover:text-accent"
+              className="rounded-sm border border-border bg-surface/70 px-6 py-3 font-mono text-sm font-semibold uppercase tracking-wider text-foreground transition-colors hover:border-accent hover:text-accent"
             >
               GitHub
             </a>

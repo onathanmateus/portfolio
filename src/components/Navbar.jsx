@@ -29,13 +29,14 @@ export function Navbar() {
       <nav
         className={`flex items-center justify-between px-4 py-3 transition-all duration-300 sm:px-5 ${
           scrolled
-            ? "mt-3 rounded-2xl border border-border glass glow-accent backdrop-blur-xl backdrop-saturate-150"
+            ? "mt-3 rounded-sm border border-border glass"
             : "border border-transparent"
         }`}
+        style={scrolled ? { boxShadow: "0 0 24px -10px var(--glow)" } : undefined}
       >
-        <a href="#top" className="font-mono text-sm font-semibold tracking-tight">
-          <span className="text-gradient">NM</span>
-          <span className="text-muted">.dev</span>
+        <a href="#top" className="font-display text-sm font-bold uppercase tracking-widest">
+          <span className="neon-text">NM</span>
+          <span className="text-muted">_dev</span>
         </a>
 
         {/* Links desktop */}
@@ -44,7 +45,7 @@ export function Navbar() {
             <li key={link.href}>
               <a
                 href={link.href}
-                className="rounded-full px-3 py-1.5 text-sm text-muted transition-colors hover:bg-surface-2 hover:text-foreground"
+                className="rounded-sm px-3 py-1.5 font-mono text-xs uppercase tracking-wider text-muted transition-colors hover:bg-surface-2 hover:text-accent"
               >
                 {link.label}
               </a>

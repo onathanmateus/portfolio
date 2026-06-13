@@ -14,15 +14,15 @@ export function Skills() {
       <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {skillGroups.map((group, i) => (
           <Reveal key={group.title} delay={i * 0.08}>
-            <div className="h-full rounded-2xl border border-border bg-surface p-6 transition-all duration-300 hover:-translate-y-1 hover:border-accent/60">
-              <h3 className="text-sm font-semibold uppercase tracking-wider text-accent">
+            <div className="cyber-card h-full p-6">
+              <h3 className="font-display text-sm font-bold uppercase tracking-wider text-accent neon-text">
                 {group.title}
               </h3>
               <Stagger className="mt-4 flex flex-wrap gap-2" gap={0.05} delay={0.1}>
                 {group.items.map((item) => (
                   <RevealItem
                     key={item}
-                    className="rounded-lg border border-border bg-surface-2 px-3 py-1.5 text-sm font-medium transition-colors hover:border-accent/50 hover:text-accent"
+                    className="rounded-sm border border-border bg-surface-2 px-3 py-1.5 font-mono text-sm transition-colors hover:border-accent hover:text-accent"
                   >
                     {item}
                   </RevealItem>
