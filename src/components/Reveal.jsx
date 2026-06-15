@@ -1,14 +1,15 @@
 "use client";
 
+import { useRef } from "react";
 import { motion } from "motion/react";
 
 const EASE = [0.76, 0, 0.24, 1];
 const VIEWPORT = { once: true, amount: 0.2, margin: "0px 0px -10% 0px" };
 
-// O wrapper externo é quem OBSERVA (nunca é cortado, então o IntersectionObserver
-// sempre detecta). O filho interno é quem ANIMA (clip-path), evitando o paradoxo
-// de o elemento se esconder de si mesmo antes de entrar em vista.
+// O wrapper externo OBSERVA (nunca é cortado); o filho interno ANIMA (clip-path).
+// Ao terminar, removemos o clip para não recortar a borda/bracket no hover (Tilt).
 export function Reveal({ children, delay = 0, x = 0, y = 24, className }) {
+  const ref = useRef(null);
   return (
     <motion.div
       className="h-full"
@@ -18,7 +19,11 @@ export function Reveal({ children, delay = 0, x = 0, y = 24, className }) {
       variants={{ hidden: {}, show: {} }}
     >
       <motion.div
+        ref={ref}
         className={`h-full ${className || ""}`}
+        onAnimationComplete={(def) => {
+          if (def === "show" && ref.current) ref.current.style.clipPath = "none";
+        }}
         variants={{
           hidden: { opacity: 0, x, y, clipPath: "inset(0% 0% 100% 0%)" },
           show: {
