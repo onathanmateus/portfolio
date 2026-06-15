@@ -139,11 +139,11 @@ function Wheel({ z }) {
         <cylinderGeometry args={[0.72, 0.72, 0.26, 32]} />
         <meshStandardMaterial color="#03070c" metalness={0.85} roughness={0.35} />
       </mesh>
-      <mesh rotation={[0, 0, Math.PI / 2]}>
+      <mesh rotation={[0, Math.PI / 2, 0]}>
         <torusGeometry args={[0.72, 0.07, 14, 40]} />
         <meshBasicMaterial color="#22d3ee" toneMapped={false} />
       </mesh>
-      <mesh rotation={[0, 0, Math.PI / 2]}>
+      <mesh rotation={[0, Math.PI / 2, 0]}>
         <torusGeometry args={[0.42, 0.04, 12, 32]} />
         <meshBasicMaterial color="#67e8f9" toneMapped={false} />
       </mesh>
