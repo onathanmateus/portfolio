@@ -48,12 +48,23 @@ const BOOT = [
 export function Terminal() {
   const { toggleTheme } = useTheme();
   const router = useRouter();
+  const [desktop, setDesktop] = useState(false);
   const [open, setOpen] = useState(false);
   const [intro, setIntro] = useState(false);
   const [lines, setLines] = useState([]);
   const [input, setInput] = useState("");
   const inputRef = useRef(null);
   const bodyRef = useRef(null);
+
+  // O terminal só existe no desktop (precisa de teclado).
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 768px)");
+    const onChange = (e) => setDesktop(e.matches);
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- estado externo (media query)
+    setDesktop(mq.matches);
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
 
   const print = useCallback((text, type = "out") => {
     const arr = Array.isArray(text) ? text : [text];
@@ -130,8 +141,9 @@ export function Terminal() {
     return () => window.removeEventListener("keydown", onKey);
   }, [intro, enterSite]);
 
-  // Intro (boot) na primeira visita da sessão.
+  // Intro (boot) na primeira visita da sessão — apenas no desktop.
   useEffect(() => {
+    if (!desktop) return;
     let booted = false;
     try {
       booted = sessionStorage.getItem("nm_booted") === "1";
@@ -152,7 +164,7 @@ export function Terminal() {
       setTimeout(() => setLines((l) => [...l, { type: "out", text: t }]), 200 + i * 260)
     );
     return () => timers.forEach(clearTimeout);
-  }, []);
+  }, [desktop]);
 
   // Foco no input ao abrir + autoscroll do corpo.
   useEffect(() => {
@@ -167,6 +179,9 @@ export function Terminal() {
     run(input);
     setInput("");
   }
+
+  // Sem terminal/console no mobile.
+  if (!desktop) return null;
 
   return (
     <>
