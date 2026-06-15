@@ -10,15 +10,25 @@ function applyTheme(theme) {
   root.classList.toggle("dark", theme === "dark");
   root.style.colorScheme = theme;
 
-  // Força um repaint do documento. Sem isso, alguns navegadores mobile só
-  // atualizam o conteúdo em fluxo (cores via CSS vars) depois de uma rolagem.
+  // Força a recriação do render tree para repintar TODAS as camadas com o
+  // tema novo. Sem isso, navegadores mobile mantêm camadas compostas (do
+  // framer-motion) com o tema antigo até uma rolagem. O toggle de display é
+  // síncrono (mesmo frame), então não há flash visível.
   const body = document.body;
   if (body) {
-    body.style.transform = "translateZ(0)";
-    requestAnimationFrame(() => {
-      body.style.transform = "";
-    });
+    body.style.display = "none";
+    // Leitura força o reflow, impedindo que o navegador "una" as duas mudanças.
+    void body.offsetHeight;
+    body.style.display = "";
   }
+
+  // Reforço: um "nudge" de rolagem de 1px replica exatamente o que corrige
+  // manualmente (rolar), invalidando os tiles de pintura do conteúdo.
+  requestAnimationFrame(() => {
+    const y = window.scrollY;
+    window.scrollTo(0, y + 1);
+    window.scrollTo(0, y);
+  });
 }
 
 export function ThemeProvider({ children }) {
