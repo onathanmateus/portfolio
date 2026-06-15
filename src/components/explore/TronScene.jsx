@@ -15,75 +15,7 @@ export const SECTIONS = [
 
 export const ARENA = 52;
 const START = { x: 0, z: 18, heading: Math.PI };
-const WALL_H = 2.2;
-const MAX_PTS = 800;
-const HIT2 = 0.75 * 0.75;
-const COL_TOP = [0.45, 1.0, 1.15];
-const COL_BOT = [0.03, 0.26, 0.34];
 
-// ---- helpers ----
-function buildTrail(points, geo) {
-  const n = points.length;
-  if (n < 2) {
-    geo.setAttribute("position", new THREE.BufferAttribute(new Float32Array(0), 3));
-    geo.setAttribute("color", new THREE.BufferAttribute(new Float32Array(0), 3));
-    return;
-  }
-  const segs = n - 1;
-  const pos = new Float32Array(segs * 18);
-  const col = new Float32Array(segs * 18);
-  for (let i = 0; i < segs; i++) {
-    const a = points[i], b = points[i + 1];
-    const P = [
-      a.x, 0, a.y, a.x, WALL_H, a.y, b.x, WALL_H, b.y,
-      a.x, 0, a.y, b.x, WALL_H, b.y, b.x, 0, b.y,
-    ];
-    const C = [
-      ...COL_BOT, ...COL_TOP, ...COL_TOP,
-      ...COL_BOT, ...COL_TOP, ...COL_BOT,
-    ];
-    const base = i * 18;
-    for (let j = 0; j < 18; j++) {
-      pos[base + j] = P[j];
-      col[base + j] = C[j];
-    }
-  }
-  geo.setAttribute("position", new THREE.BufferAttribute(pos, 3));
-  geo.setAttribute("color", new THREE.BufferAttribute(col, 3));
-}
-// faixa de luz no chão (sempre visível de cima), seguindo o caminho
-function buildFloor(points, geo, halfW) {
-  const n = points.length;
-  if (n < 2) {
-    geo.setAttribute("position", new THREE.BufferAttribute(new Float32Array(0), 3));
-    return;
-  }
-  const segs = n - 1;
-  const pos = new Float32Array(segs * 18);
-  for (let i = 0; i < segs; i++) {
-    const a = points[i], b = points[i + 1];
-    let dx = b.x - a.x, dz = b.y - a.y;
-    const len = Math.hypot(dx, dz) || 1;
-    dx /= len;
-    dz /= len;
-    const px = -dz * halfW, pz = dx * halfW;
-    const P = [
-      a.x + px, 0.05, a.y + pz, a.x - px, 0.05, a.y - pz, b.x - px, 0.05, b.y - pz,
-      a.x + px, 0.05, a.y + pz, b.x - px, 0.05, b.y - pz, b.x + px, 0.05, b.y + pz,
-    ];
-    const base = i * 18;
-    for (let j = 0; j < 18; j++) pos[base + j] = P[j];
-  }
-  geo.setAttribute("position", new THREE.BufferAttribute(pos, 3));
-}
-function segDist2(px, pz, ax, az, bx, bz) {
-  const dx = bx - ax, dz = bz - az;
-  const l2 = dx * dx + dz * dz;
-  let t = l2 > 0 ? ((px - ax) * dx + (pz - az) * dz) / l2 : 0;
-  t = t < 0 ? 0 : t > 1 ? 1 : t;
-  const ex = px - (ax + t * dx), ez = pz - (az + t * dz);
-  return ex * ex + ez * ez;
-}
 function rng(seed) {
   let s = seed >>> 0;
   return () => {
@@ -154,8 +86,7 @@ function Portal({ pos, label, n, active }) {
     if (core.current) {
       core.current.rotation.y = t * 1.1;
       core.current.rotation.x = t * 0.7;
-      const sc = 1 + Math.sin(t * 2.5) * 0.12;
-      core.current.scale.setScalar(sc);
+      core.current.scale.setScalar(1 + Math.sin(t * 2.5) * 0.12);
     }
     if (beam.current) beam.current.material.opacity = 0.16 + Math.sin(t * 3) * 0.05 + (active ? 0.22 : 0);
   });
@@ -227,39 +158,32 @@ function LightCycle({ bikeRef }) {
   return (
     <group ref={bikeRef}>
       <group position={[0, 0.72, 0]}>
-        {/* chassi principal baixo */}
         <mesh position={[0, -0.05, 0]}>
           <boxGeometry args={[0.36, 0.34, 2.7]} />
           <meshStandardMaterial color="#071521" emissive="#22d3ee" emissiveIntensity={0.3} metalness={0.95} roughness={0.18} />
         </mesh>
-        {/* carenagem dianteira (cunha) */}
         <mesh position={[0, 0.02, 1.55]} rotation={[Math.PI / 2, 0, 0]}>
           <coneGeometry args={[0.3, 1.3, 4]} />
           <meshStandardMaterial color="#06121d" emissive="#22d3ee" emissiveIntensity={0.35} metalness={0.95} roughness={0.18} />
         </mesh>
-        {/* carenagem traseira */}
         <mesh position={[0, 0.05, -1.45]} rotation={[-Math.PI / 2, 0, 0]}>
           <coneGeometry args={[0.28, 1.1, 4]} />
           <meshStandardMaterial color="#06121d" emissive="#22d3ee" emissiveIntensity={0.35} metalness={0.95} roughness={0.18} />
         </mesh>
-        {/* espinha neon no topo */}
         <mesh position={[0, 0.18, 0]}>
           <boxGeometry args={[0.07, 0.06, 2.9]} />
           <meshBasicMaterial color="#a9f3ff" toneMapped={false} />
         </mesh>
-        {/* faixas neon laterais */}
         {[-0.2, 0.2].map((x) => (
           <mesh key={x} position={[x, -0.02, 0]}>
             <boxGeometry args={[0.04, 0.16, 2.6]} />
             <meshBasicMaterial color="#22d3ee" toneMapped={false} />
           </mesh>
         ))}
-        {/* canopy */}
         <mesh position={[0, 0.26, -0.1]} scale={[0.7, 0.55, 1.5]}>
           <sphereGeometry args={[0.3, 18, 14]} />
           <meshStandardMaterial color="#020a12" emissive="#67e8f9" emissiveIntensity={0.4} metalness={1} roughness={0.08} />
         </mesh>
-        {/* núcleo do motor */}
         <mesh position={[0, 0, -0.2]}>
           <sphereGeometry args={[0.16, 12, 12]} />
           <meshBasicMaterial color="#a9f3ff" toneMapped={false} />
@@ -273,61 +197,17 @@ function LightCycle({ bikeRef }) {
   );
 }
 
-function World({ keysRef, onActive, telemetryRef, onDeath, active }) {
+function World({ keysRef, onActive, telemetryRef, active }) {
   const bikeRef = useRef(null);
   const { camera } = useThree();
-  const wallGeo = useMemo(() => {
-    const g = new THREE.BufferGeometry();
-    g.setAttribute("position", new THREE.BufferAttribute(new Float32Array(0), 3));
-    g.setAttribute("color", new THREE.BufferAttribute(new Float32Array(0), 3));
-    return g;
-  }, []);
-  const floorGeo = useMemo(() => {
-    const g = new THREE.BufferGeometry();
-    g.setAttribute("position", new THREE.BufferAttribute(new Float32Array(0), 3));
-    return g;
-  }, []);
-  const m = useRef({
-    heading: START.heading,
-    speed: 0,
-    pos: new THREE.Vector3(START.x, 0, START.z),
-    points: [],
-    lastX: START.x,
-    lastZ: START.z,
-    dead: false,
-    deadAt: 0,
-  });
+  const m = useRef({ heading: START.heading, speed: 0, pos: new THREE.Vector3(START.x, 0, START.z) });
   const lastActive = useRef(null);
-
-  function respawn() {
-    const s = m.current;
-    s.pos.set(START.x, 0, START.z);
-    s.heading = START.heading;
-    s.speed = 0;
-    s.points = [];
-    s.lastX = START.x;
-    s.lastZ = START.z;
-    buildTrail(s.points, wallGeo);
-    buildFloor(s.points, floorGeo, 0.45);
-  }
 
   useFrame((stt, delta) => {
     const dt = Math.min(delta, 0.05);
     const s = m.current;
-    const now = stt.clock.elapsedTime;
-
-    if (s.dead) {
-      if (bikeRef.current) bikeRef.current.scale.setScalar(THREE.MathUtils.damp(bikeRef.current.scale.x, 0.01, 10, dt));
-      if (now - s.deadAt > 1) { s.dead = false; respawn(); }
-      telemetryRef.current.dead = true;
-      telemetryRef.current.speed = 0;
-      return;
-    }
-    if (bikeRef.current && bikeRef.current.scale.x < 0.999) {
-      bikeRef.current.scale.setScalar(THREE.MathUtils.damp(bikeRef.current.scale.x, 1, 10, dt));
-    }
-
     const k = keysRef.current;
+
     const accel = 26, maxFwd = 32, maxBack = 10, steer = 2.1;
     if (k.forward) s.speed += accel * dt;
     else if (k.back) s.speed -= accel * dt;
@@ -352,35 +232,6 @@ function World({ keysRef, onActive, telemetryRef, onDeath, active }) {
     camera.position.lerp(ct, 1 - Math.pow(0.0009, dt));
     camera.lookAt(s.pos.x, 1, s.pos.z);
 
-    if (s.speed > 1) {
-      const d2 = (s.pos.x - s.lastX) ** 2 + (s.pos.z - s.lastZ) ** 2;
-      if (d2 > 0.6) {
-        s.points.push(new THREE.Vector2(s.pos.x, s.pos.z));
-        s.lastX = s.pos.x;
-        s.lastZ = s.pos.z;
-        if (s.points.length > MAX_PTS) s.points.shift();
-        buildTrail(s.points, wallGeo);
-        buildFloor(s.points, floorGeo, 0.45);
-      }
-    }
-
-    const pts = s.points;
-    const skip = 6;
-    let crashed = false;
-    for (let i = 0; i < pts.length - 1 - skip; i++) {
-      if (segDist2(s.pos.x, s.pos.z, pts[i].x, pts[i].y, pts[i + 1].x, pts[i + 1].y) < HIT2) {
-        crashed = true;
-        break;
-      }
-    }
-    if (crashed) {
-      s.dead = true;
-      s.deadAt = now;
-      if (onDeath) onDeath();
-      telemetryRef.current.dead = true;
-      return;
-    }
-
     let near = null;
     for (const sec of SECTIONS) {
       const dx = s.pos.x - sec.pos[0], dz = s.pos.z - sec.pos[2];
@@ -396,7 +247,6 @@ function World({ keysRef, onActive, telemetryRef, onDeath, active }) {
     tel.z = s.pos.z;
     tel.heading = s.heading;
     tel.speed = s.speed;
-    tel.dead = false;
   });
 
   return (
@@ -420,13 +270,6 @@ function World({ keysRef, onActive, telemetryRef, onDeath, active }) {
         fadeStrength={1.3}
       />
 
-      <mesh geometry={floorGeo}>
-        <meshBasicMaterial color="#3ee4f5" transparent opacity={0.7} side={THREE.DoubleSide} depthWrite={false} blending={THREE.AdditiveBlending} toneMapped={false} />
-      </mesh>
-      <mesh geometry={wallGeo}>
-        <meshBasicMaterial vertexColors transparent opacity={0.9} side={THREE.DoubleSide} depthWrite={false} blending={THREE.AdditiveBlending} toneMapped={false} />
-      </mesh>
-
       <LightCycle bikeRef={bikeRef} />
       <Buildings />
       {SECTIONS.map((sec) => (
@@ -436,14 +279,14 @@ function World({ keysRef, onActive, telemetryRef, onDeath, active }) {
   );
 }
 
-export default function TronScene({ keysRef, onActive, telemetryRef, onDeath, active }) {
+export default function TronScene({ keysRef, onActive, telemetryRef, active }) {
   return (
     <Canvas
       camera={{ position: [0, 7, 30], fov: 60 }}
       dpr={[1, 1.5]}
       gl={{ antialias: true, powerPreference: "high-performance" }}
     >
-      <World keysRef={keysRef} onActive={onActive} telemetryRef={telemetryRef} onDeath={onDeath} active={active} />
+      <World keysRef={keysRef} onActive={onActive} telemetryRef={telemetryRef} active={active} />
     </Canvas>
   );
 }

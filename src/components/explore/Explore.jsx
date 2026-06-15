@@ -70,10 +70,9 @@ function Minimap({ telemetryRef, active }) {
 
 export function Explore() {
   const router = useRouter();
-  const { enabled, toggle, setSpeed, playDeath } = useTronAudio();
+  const { enabled, toggle, setSpeed } = useTronAudio();
   const [eligible, setEligible] = useState(null);
   const [active, setActive] = useState(null);
-  const [dead, setDead] = useState(false);
   const keysRef = useRef({ forward: false, back: false, left: false, right: false });
   const activeRef = useRef(null);
   const telemetryRef = useRef({ x: 0, z: 0, heading: Math.PI, speed: 0, dead: false });
@@ -84,12 +83,6 @@ export function Explore() {
     activeRef.current = id;
     setActive(id);
   }, []);
-
-  const onDeath = useCallback(() => {
-    playDeath();
-    setDead(true);
-    setTimeout(() => setDead(false), 1100);
-  }, [playDeath]);
 
   useEffect(() => {
     const fine = window.matchMedia("(pointer: fine)").matches && window.matchMedia("(min-width: 768px)").matches;
@@ -153,15 +146,7 @@ export function Explore() {
 
   return (
     <div className="fixed inset-0 bg-[#04060a]">
-      <TronScene keysRef={keysRef} onActive={onActive} telemetryRef={telemetryRef} onDeath={onDeath} active={active} />
-
-      {/* Flash de morte */}
-      {dead ? (
-        <div className="pointer-events-none fixed inset-0 z-20 flex items-center justify-center" style={{ background: "radial-gradient(circle, rgba(255,40,80,0.25), rgba(255,40,80,0.05))" }}>
-          <span className="scanlines absolute inset-0 opacity-40" />
-          <span className="font-display text-xl font-bold uppercase tracking-widest text-red-300">colisão · reiniciando…</span>
-        </div>
-      ) : null}
+      <TronScene keysRef={keysRef} onActive={onActive} telemetryRef={telemetryRef} active={active} />
 
       {/* HUD topo */}
       <div className="fixed left-5 top-5 z-10 flex items-center gap-2">
@@ -196,7 +181,7 @@ export function Explore() {
           </button>
         ) : (
           <p className="rounded-sm border border-border bg-surface/50 px-4 py-2 font-mono text-[11px] uppercase tracking-[0.2em] text-muted backdrop-blur-md">
-            <span className="text-accent">WASD</span> / setas para pilotar · não toque no seu rastro · chegue num portal
+            <span className="text-accent">WASD</span> / setas para pilotar · chegue num portal
           </p>
         )}
       </div>
