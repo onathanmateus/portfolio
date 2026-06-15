@@ -9,6 +9,16 @@ function applyTheme(theme) {
   const root = document.documentElement;
   root.classList.toggle("dark", theme === "dark");
   root.style.colorScheme = theme;
+
+  // Força um repaint do documento. Sem isso, alguns navegadores mobile só
+  // atualizam o conteúdo em fluxo (cores via CSS vars) depois de uma rolagem.
+  const body = document.body;
+  if (body) {
+    body.style.transform = "translateZ(0)";
+    requestAnimationFrame(() => {
+      body.style.transform = "";
+    });
+  }
 }
 
 export function ThemeProvider({ children }) {

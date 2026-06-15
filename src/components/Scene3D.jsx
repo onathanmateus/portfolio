@@ -67,7 +67,7 @@ export default function Scene3D() {
     <div
       aria-hidden="true"
       className={`pointer-events-none fixed inset-0 -z-[5] transition-opacity duration-700 ${
-        active ? "opacity-100" : "opacity-0"
+        active ? "opacity-40 dark:opacity-100" : "opacity-0"
       }`}
     >
       <Canvas

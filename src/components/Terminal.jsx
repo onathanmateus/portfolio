@@ -190,7 +190,7 @@ export function Terminal() {
         type="button"
         onClick={() => setOpen(true)}
         aria-label="Abrir console"
-        className="fixed bottom-5 right-5 z-[80] flex items-center gap-2 rounded-sm border border-border bg-surface/80 px-3 py-2 font-mono text-xs uppercase tracking-wider text-accent backdrop-blur-md transition-colors hover:border-accent hover:bg-accent hover:text-[#04060a]"
+        className="fixed bottom-5 right-5 z-[80] flex items-center gap-2 rounded-sm border border-border bg-surface/80 px-3 py-2 font-mono text-xs uppercase tracking-wider text-accent backdrop-blur-md transition-colors hover:border-accent hover:bg-accent hover:text-white dark:hover:text-[#04060a]"
       >
         <span className="text-base leading-none">▸</span> console
         <kbd className="ml-1 hidden rounded-sm border border-border px-1 text-[10px] text-muted sm:inline">^K</kbd>

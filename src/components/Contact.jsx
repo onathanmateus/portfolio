@@ -67,7 +67,7 @@ export function Contact() {
               rel="noopener noreferrer"
               className="cyber-card group flex h-full flex-col gap-3 p-6"
             >
-              <span className="grid h-11 w-11 place-items-center rounded-sm border border-border bg-surface-2 text-accent transition-colors group-hover:bg-accent group-hover:text-[#04060a]">
+              <span className="grid h-11 w-11 place-items-center rounded-sm border border-border bg-surface-2 text-accent transition-colors group-hover:bg-accent group-hover:text-white dark:group-hover:text-[#04060a]">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   {ch.icon}
                 </svg>

@@ -5,17 +5,17 @@
 
 /* ---------- Tokens de tema (claro — "blueprint") ---------- */
 :root {
-  --background: #eef3f7;
+  --background: #f3f6f9;
   --surface: #ffffff;
-  --surface-2: #e6eef4;
-  --foreground: #081019;
-  --muted: #4f6678;
-  --border: rgba(8, 145, 178, 0.20);
-  --accent: #0891b2;
-  --accent-soft: #06b6d4;
-  --grid-line: rgba(8, 145, 178, 0.10);
-  --glow: rgba(8, 145, 178, 0.30);
-  --scan: rgba(8, 16, 25, 0.05);
+  --surface-2: #e9eff4;
+  --foreground: #06121c;
+  --muted: #42566a;
+  --border: rgba(14, 116, 144, 0.22);
+  --accent: #0e7490;
+  --accent-soft: #0891b2;
+  --grid-line: rgba(14, 116, 144, 0.10);
+  --glow: rgba(14, 116, 144, 0.22);
+  --scan: rgba(6, 18, 28, 0.04);
 }
 
 /* ---------- Tokens de tema (escuro — "neon") ---------- */
@@ -81,9 +81,11 @@
     font-family: var(--font-display), var(--font-sans), sans-serif;
   }
 
-  /* Texto neon com brilho */
+  /* Texto neon — cor sólida no claro, brilho forte só no escuro */
   .neon-text {
     color: var(--accent);
+  }
+  .dark .neon-text {
     text-shadow: 0 0 6px var(--glow), 0 0 20px var(--glow);
   }
 

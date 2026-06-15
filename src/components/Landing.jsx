@@ -5,6 +5,7 @@ import { motion } from "motion/react";
 import { profile, contact } from "@/data/portfolio";
 import { ScrambleText } from "./ScrambleText";
 import { Magnetic } from "./Magnetic";
+import { ThemeToggle } from "./ThemeToggle";
 
 const sections = [
   { href: "/sobre", n: "01", label: "Sobre" },
@@ -22,6 +23,11 @@ const fade = {
 export function Landing() {
   return (
     <section className="relative flex min-h-[100svh] flex-col items-center justify-center overflow-hidden px-5 py-24">
+      {/* Toggle de tema (a landing não tem navbar) */}
+      <div className="fixed right-4 top-4 z-40 sm:right-6 sm:top-6">
+        <ThemeToggle />
+      </div>
+
       {/* O objeto 3D vem do layer global (Scene3DLayer), atrás do conteúdo. */}
 
       {/* Conteúdo */}
@@ -84,9 +90,9 @@ export function Landing() {
             <Magnetic key={s.href} strength={0.4}>
               <Link
                 href={s.href}
-                className="group flex items-center gap-2 rounded-sm border border-border bg-surface/60 px-5 py-3 font-mono text-sm uppercase tracking-wider backdrop-blur-md transition-colors hover:border-accent hover:bg-accent hover:text-[#04060a]"
+                className="group flex items-center gap-2 rounded-sm border border-border bg-surface/60 px-5 py-3 font-mono text-sm uppercase tracking-wider backdrop-blur-md transition-colors hover:border-accent hover:bg-accent hover:text-white dark:hover:text-[#04060a]"
               >
-                <span className="text-accent transition-colors group-hover:text-[#04060a]">{s.n}</span>
+                <span className="text-accent transition-colors group-hover:text-white dark:group-hover:text-[#04060a]">{s.n}</span>
                 {s.label}
               </Link>
             </Magnetic>
