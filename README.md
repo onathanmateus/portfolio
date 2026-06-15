@@ -1,16 +1,17 @@
 <div align="center">
 
-# 💼 Portfólio — Nathan Mateus
+# ⚡ Portfólio — Nathan Mateus
 
-Portfólio pessoal _single-page_ de **Nathan Mateus**, Analista de Sistemas Pleno
+Portfólio pessoal **cyberpunk** de **Nathan Mateus**, Analista de Sistemas Pleno
 especialista em **Protheus (ADVPL / TLPP)** com base sólida em desenvolvimento web.
 
-Estética _Apple_ com toque futurista, tema claro/escuro e animações suaves.
+Experiência imersiva e disruptiva: landing 3D, terminal interativo, fundo WebGL e tema claro/escuro.
 
 <br/>
 
 ![Next.js](https://img.shields.io/badge/Next.js-16-000000?style=for-the-badge&logo=next.js&logoColor=white)
 ![React](https://img.shields.io/badge/React-19-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![Three.js](https://img.shields.io/badge/Three.js-R3F-000000?style=for-the-badge&logo=three.js&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-0EA5E9?style=for-the-badge&logo=tailwindcss&logoColor=white)
 ![Motion](https://img.shields.io/badge/Motion-12-FF4D8D?style=for-the-badge&logo=framer&logoColor=white)
 ![Vercel](https://img.shields.io/badge/Deploy-Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
@@ -21,28 +22,42 @@ Estética _Apple_ com toque futurista, tema claro/escuro e animações suaves.
 
 ## ✨ Destaques
 
-- 🎨 **Visual elegante** — inspirado na estética Apple, com detalhes futuristas e cor de destaque ciano.
-- 🌗 **Tema claro/escuro** — alternável por um botão, com persistência e _script_ anti-_flash_ (respeita a preferência do sistema na primeira visita).
-- 🌌 **Fundo aurora animado** no _hero_ e **parallax** do avatar conforme o mouse se move.
-- 🎬 **Animações de scroll** — o conteúdo se revela em cascata à medida que você navega.
-- 📱 **100% responsivo** — _mobile-first_, com menu adaptado para telas pequenas.
-- ♿ **Acessível** — respeita `prefers-reduced-motion` para quem prefere menos movimento.
-- ⚡ **Totalmente estático** — gerado em build, rápido e ótimo para SEO.
+- 🧊 **Landing 3D** — abertura com um objeto neon distorcido (wireframe) e partículas, em WebGL via **React Three Fiber**, reagindo ao mouse.
+- 🖥️ **Terminal interativo** — abre na primeira visita e fica acessível a qualquer momento (botão, `Ctrl+K` ou `~`); navegue digitando comandos.
+- 🌌 **Fundo WebGL reativo** — campo de energia cyberpunk que responde ao scroll e ao cursor.
+- 🗺️ **Multi-page** — landing + rotas dedicadas para cada seção, com transições (cortina + entrada animada).
+- 🎯 **Cursor HUD custom** + botões magnéticos, **decode/scramble** de texto, **tilt 3D** nos cards e **marquee** de skills.
+- 🌗 **Tema claro/escuro** — alternável, com persistência e _script_ anti-_flash_.
+- 📊 **Vercel Analytics + Speed Insights** integrados.
+- 📱 **Responsivo** e ♿ **acessível** — respeita `prefers-reduced-motion` e desliga efeitos pesados em telas de toque.
 
-## 🧩 Seções
+## 🗺️ Rotas
 
-`Hero` · `Sobre mim` · `Experiência` (timeline) · `Conhecimentos técnicos` · `Formação` · `Contato`
+| Rota | Conteúdo |
+| --- | --- |
+| `/` | Landing 3D (nome, boas-vindas e navegação) |
+| `/sobre` | Sobre mim |
+| `/experiencia` | Experiência profissional (timeline) |
+| `/skills` | Conhecimentos técnicos |
+| `/formacao` | Formação acadêmica |
+| `/contato` | Canais de contato |
+
+## ⌨️ Comandos do terminal
+
+`sobre` · `experiencia` · `skills` · `formacao` · `contato` · `github` · `linkedin` · `email` · `tema` · `clear` · `help` · `start`
 
 ## 🛠️ Tecnologias
 
-| Camada        | Ferramenta                          |
-| ------------- | ----------------------------------- |
-| Framework     | [Next.js 16](https://nextjs.org) (App Router) |
-| UI            | [React 19](https://react.dev)       |
-| Estilo        | [Tailwind CSS v4](https://tailwindcss.com) |
-| Animações     | [Motion](https://motion.dev)        |
-| Fontes        | [Geist](https://vercel.com/font) via `next/font` |
-| Hospedagem    | [Vercel](https://vercel.com)        |
+| Camada | Ferramenta |
+| --- | --- |
+| Framework | [Next.js 16](https://nextjs.org) (App Router) |
+| UI | [React 19](https://react.dev) |
+| 3D / WebGL | [Three.js](https://threejs.org) · [React Three Fiber](https://r3f.docs.pmnd.rs) · [drei](https://github.com/pmndrs/drei) |
+| Estilo | [Tailwind CSS v4](https://tailwindcss.com) |
+| Animações | [Motion](https://motion.dev) |
+| Fontes | [Geist](https://vercel.com/font) + [Orbitron](https://fonts.google.com/specimen/Orbitron) via `next/font` |
+| Métricas | [Vercel Analytics](https://vercel.com/analytics) · [Speed Insights](https://vercel.com/docs/speed-insights) |
+| Hospedagem | [Vercel](https://vercel.com) |
 
 ---
 
@@ -86,12 +101,12 @@ http://localhost:3000
 
 ## 📜 Scripts disponíveis
 
-| Comando         | O que faz                                            |
-| --------------- | ---------------------------------------------------- |
-| `npm run dev`   | Sobe o servidor de desenvolvimento (hot reload)      |
-| `npm run build` | Gera a versão de produção otimizada                  |
-| `npm run start` | Serve a versão de produção (após o `build`)          |
-| `npm run lint`  | Verifica o código com o ESLint                       |
+| Comando | O que faz |
+| --- | --- |
+| `npm run dev` | Sobe o servidor de desenvolvimento (hot reload) |
+| `npm run build` | Gera a versão de produção otimizada |
+| `npm run start` | Serve a versão de produção (após o `build`) |
+| `npm run lint` | Verifica o código com o ESLint |
 
 ---
 
@@ -111,12 +126,15 @@ Basta alterar os dados desse arquivo — não é preciso mexer nos componentes.
 ```
 src/
 ├── app/
-│   ├── layout.js        # Layout raiz, metadados e tema
-│   ├── page.js          # Monta as seções da página
-│   └── globals.css      # Tokens de tema, aurora e utilitários
-├── components/          # Hero, Navbar, Experience, Skills, etc.
+│   ├── layout.js          # Layout raiz: tema, cursor, terminal, shader, fontes
+│   ├── page.js            # Landing (/)
+│   ├── template.js        # Transição de entrada das páginas
+│   ├── globals.css        # Tokens de tema, neon, circuito e utilitários
+│   └── (site)/            # Rotas das seções (Navbar + Footer)
+│       ├── sobre/ experiencia/ skills/ formacao/ contato/
+├── components/            # Landing, Scene3D, Terminal, Navbar, Cursor, etc.
 └── data/
-    └── portfolio.js     # 👈 Conteúdo do site
+    └── portfolio.js       # 👈 Conteúdo do site
 ```
 
 ---
