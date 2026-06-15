@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "motion/react";
 import { contact } from "@/data/portfolio";
 import { useTheme } from "./ThemeProvider";
@@ -19,16 +20,19 @@ const HELP = [
 ];
 
 const NAV = {
-  sobre: "sobre",
-  about: "sobre",
-  experiencia: "experiencia",
-  experiência: "experiencia",
-  exp: "experiencia",
-  skills: "skills",
-  formacao: "formacao",
-  formação: "formacao",
-  contato: "contato",
-  contact: "contato",
+  sobre: "/sobre",
+  about: "/sobre",
+  experiencia: "/experiencia",
+  experiência: "/experiencia",
+  exp: "/experiencia",
+  skills: "/skills",
+  formacao: "/formacao",
+  formação: "/formacao",
+  contato: "/contato",
+  contact: "/contato",
+  inicio: "/",
+  início: "/",
+  home: "/",
 };
 
 const BOOT = [
@@ -43,6 +47,7 @@ const BOOT = [
 
 export function Terminal() {
   const { toggleTheme } = useTheme();
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [intro, setIntro] = useState(false);
   const [lines, setLines] = useState([]);
@@ -67,12 +72,11 @@ export function Terminal() {
   }, []);
 
   const goto = useCallback(
-    (id) => {
-      const el = document.getElementById(id);
+    (route) => {
       enterSite();
-      if (el) setTimeout(() => el.scrollIntoView({ behavior: "smooth" }), 80);
+      router.push(route);
     },
-    [enterSite]
+    [enterSite, router]
   );
 
   const run = useCallback(
