@@ -13,6 +13,7 @@ uniform vec2 u_res;
 uniform float u_time;
 uniform vec2 u_mouse;
 uniform float u_dark;
+uniform float u_scroll;
 
 float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1,311.7)))*43758.5453); }
 float noise(vec2 p){
@@ -23,29 +24,38 @@ float noise(vec2 p){
 }
 float fbm(vec2 p){
   float v=0.0, a=0.5;
-  for(int i=0;i<5;i++){ v+=a*noise(p); p*=2.0; a*=0.5; }
+  mat2 m = mat2(1.6, 1.2, -1.2, 1.6);
+  for(int i=0;i<6;i++){ v+=a*noise(p); p=m*p; a*=0.5; }
   return v;
 }
 void main(){
   vec2 p = (gl_FragCoord.xy - 0.5*u_res.xy)/u_res.y;
-  float t = u_time*0.05;
+  float t = u_time*0.08;
   vec2 m = (u_mouse - 0.5);
-  p += m*0.25;
 
-  float n = fbm(p*2.6 + vec2(t, -t) + fbm(p*1.4 - t));
-  vec2 g = abs(fract(p*9.0 + vec2(t*2.0, t)) - 0.5);
-  float lines = 1.0 - smoothstep(0.0, 0.045, min(g.x, g.y));
-  float energy = pow(n, 2.6);
+  // Domain warp + o scroll deforma e desloca o campo.
+  vec2 q = p*1.8 + vec2(0.0, u_scroll*1.2) + m*0.4;
+  float warp = fbm(q + t);
+  float n = fbm(q + warp*1.6 + vec2(-t, t*0.6));
 
-  vec3 cyan = vec3(0.13, 0.83, 0.93);
-  vec3 col = cyan * (energy*1.25 + lines*0.3*energy);
+  // Streaks de energia que correm com o scroll.
+  float streak = pow(abs(sin(p.y*6.0 + warp*3.0 - u_scroll*2.0 + t*2.0)), 18.0);
+  // Grade em movimento.
+  vec2 g = abs(fract(p*7.0 + vec2(t, -t + u_scroll)) - 0.5);
+  float lines = 1.0 - smoothstep(0.0, 0.04, min(g.x, g.y));
+  // Ondulação ao redor do cursor.
+  float ripple = 0.12 / (length(p - m)*8.0 + 0.4);
 
-  float vig = smoothstep(1.15, 0.15, length(p));
+  float energy = pow(n, 2.2);
+  vec3 cyan = vec3(0.18, 0.85, 0.95);
+  vec3 col = cyan * (energy*1.4 + streak*0.7 + lines*0.25 + ripple);
+
+  float vig = smoothstep(1.3, 0.05, length(p));
   col *= vig;
-  float alpha = (energy*0.55 + lines*0.12) * vig;
-  alpha *= mix(0.18, 0.85, u_dark);
+  float alpha = (energy*0.6 + streak*0.5 + lines*0.12 + ripple*0.6) * vig;
+  alpha *= mix(0.22, 0.95, u_dark);
 
-  gl_FragColor = vec4(col, alpha);
+  gl_FragColor = vec4(col, clamp(alpha, 0.0, 0.95));
 }
 `;
 
@@ -93,6 +103,7 @@ export function ShaderBackground({ className = "" }) {
     const uTime = gl.getUniformLocation(prog, "u_time");
     const uMouse = gl.getUniformLocation(prog, "u_mouse");
     const uDark = gl.getUniformLocation(prog, "u_dark");
+    const uScroll = gl.getUniformLocation(prog, "u_scroll");
 
     gl.enable(gl.BLEND);
     gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
@@ -121,10 +132,12 @@ export function ShaderBackground({ className = "" }) {
     const render = (now) => {
       resize();
       const dark = document.documentElement.classList.contains("dark") ? 1 : 0;
+      const scroll = window.scrollY / Math.max(1, window.innerHeight);
       gl.uniform2f(uRes, canvas.width, canvas.height);
       gl.uniform1f(uTime, (now - start) / 1000);
       gl.uniform2f(uMouse, mouse.x, mouse.y);
       gl.uniform1f(uDark, dark);
+      gl.uniform1f(uScroll, scroll);
       gl.drawArrays(gl.TRIANGLES, 0, 3);
       raf = requestAnimationFrame(render);
     };
