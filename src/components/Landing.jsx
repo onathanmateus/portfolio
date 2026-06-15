@@ -78,13 +78,33 @@ export function Landing() {
           {profile.tagline}
         </motion.p>
 
-        {/* Botões para as seções */}
-        <motion.nav
+        {/* Entrada em destaque: explorar em 3D */}
+        <motion.div
           custom={4}
           variants={fade}
           initial="hidden"
           animate="show"
-          className="pointer-events-auto mt-10 flex flex-wrap items-center justify-center gap-3"
+          className="pointer-events-auto mt-9"
+        >
+          <Magnetic strength={0.4}>
+            <Link
+              href="/explore"
+              className="group flex items-center gap-3 rounded-sm border border-accent bg-accent/10 px-7 py-4 font-mono text-sm font-bold uppercase tracking-widest text-accent backdrop-blur-md transition-colors hover:bg-accent hover:text-white dark:hover:text-[#04060a]"
+              style={{ boxShadow: "0 0 26px -6px var(--glow)" }}
+            >
+              <span className="text-lg leading-none">▶</span> Explorar em 3D
+              <span className="hidden text-[10px] font-normal tracking-wider opacity-70 sm:inline">moto de luz</span>
+            </Link>
+          </Magnetic>
+        </motion.div>
+
+        {/* Ou navegue direto pelas seções */}
+        <motion.nav
+          custom={5}
+          variants={fade}
+          initial="hidden"
+          animate="show"
+          className="pointer-events-auto mt-6 flex flex-wrap items-center justify-center gap-3"
         >
           {sections.map((s) => (
             <Magnetic key={s.href} strength={0.4}>
@@ -101,7 +121,7 @@ export function Landing() {
 
         {/* Links externos */}
         <motion.div
-          custom={5}
+          custom={6}
           variants={fade}
           initial="hidden"
           animate="show"
@@ -117,7 +137,7 @@ export function Landing() {
 
       {/* Dica do terminal */}
       <motion.p
-        custom={6}
+        custom={7}
         variants={fade}
         initial="hidden"
         animate="show"
