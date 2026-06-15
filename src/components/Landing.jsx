@@ -1,14 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import dynamic from "next/dynamic";
 import { motion } from "motion/react";
 import { profile, contact } from "@/data/portfolio";
 import { ScrambleText } from "./ScrambleText";
 import { Magnetic } from "./Magnetic";
-
-// 3D só no cliente (WebGL).
-const Scene3D = dynamic(() => import("./Scene3D"), { ssr: false, loading: () => null });
 
 const sections = [
   { href: "/sobre", n: "01", label: "Sobre" },
@@ -26,12 +22,9 @@ const fade = {
 export function Landing() {
   return (
     <section className="relative flex min-h-[100svh] flex-col items-center justify-center overflow-hidden px-5 py-24">
-      {/* Cena 3D (centro, reage ao mouse) */}
-      <div className="absolute inset-0 z-0">
-        <Scene3D />
-      </div>
+      {/* O objeto 3D vem do layer global (Scene3DLayer), atrás do conteúdo. */}
 
-      {/* Conteúdo (deixa passar o mouse para o 3D, exceto nos elementos interativos) */}
+      {/* Conteúdo */}
       <div className="pointer-events-none relative z-10 flex flex-col items-center text-center">
         <motion.span
           custom={0}

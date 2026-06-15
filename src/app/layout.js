@@ -4,6 +4,7 @@ import { ThemeProvider, themeInitScript } from "@/components/ThemeProvider";
 import { Cursor } from "@/components/Cursor";
 import { Terminal } from "@/components/Terminal";
 import { ShaderBackground } from "@/components/ShaderBackground";
+import { Scene3DLayer } from "@/components/Scene3DLayer";
 import { RouteFx } from "@/components/RouteFx";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -51,6 +52,8 @@ export default function RootLayout({ children }) {
       <body className="relative min-h-full" suppressHydrationWarning>
         {/* Fundo WebGL surreal (atrás de tudo) */}
         <ShaderBackground className="pointer-events-none fixed inset-0 -z-10 h-full w-full" />
+        {/* Objeto 3D da landing (layer global persistente) */}
+        <Scene3DLayer />
         <ThemeProvider>
           {children}
           <Cursor />
