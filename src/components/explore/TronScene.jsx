@@ -2,25 +2,57 @@
 
 import { useMemo, useRef } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { Grid, Html, Edges } from "@react-three/drei";
+import { Grid, Html, Edges, Sparkles } from "@react-three/drei";
 import * as THREE from "three";
 
 export const SECTIONS = [
-  { id: "/sobre", label: "SOBRE", n: "01", pos: [0, 0, -36] },
-  { id: "/experiencia", label: "EXPERIÊNCIA", n: "02", pos: [38, 0, -8] },
-  { id: "/skills", label: "SKILLS", n: "03", pos: [24, 0, 34] },
-  { id: "/formacao", label: "FORMAÇÃO", n: "04", pos: [-24, 0, 34] },
-  { id: "/contato", label: "CONTATO", n: "05", pos: [-38, 0, -8] },
+  { id: "/sobre", label: "SOBRE", n: "01", pos: [0, 0, -38] },
+  { id: "/experiencia", label: "EXPERIÊNCIA", n: "02", pos: [40, 0, -8] },
+  { id: "/skills", label: "SKILLS", n: "03", pos: [26, 0, 36] },
+  { id: "/formacao", label: "FORMAÇÃO", n: "04", pos: [-26, 0, 36] },
+  { id: "/contato", label: "CONTATO", n: "05", pos: [-40, 0, -8] },
 ];
 
-export const ARENA = 50;
+export const ARENA = 52;
 const START = { x: 0, z: 18, heading: Math.PI };
-const WALL_H = 1.8;
-const MAX_PTS = 260;
+const WALL_H = 2.2;
+const MAX_PTS = 800;
 const HIT2 = 0.75 * 0.75;
+const COL_TOP = [0.45, 1.0, 1.15];
+const COL_BOT = [0.03, 0.26, 0.34];
 
 // ---- helpers ----
-function buildWall(points, geo) {
+function buildTrail(points, geo) {
+  const n = points.length;
+  if (n < 2) {
+    geo.setAttribute("position", new THREE.BufferAttribute(new Float32Array(0), 3));
+    geo.setAttribute("color", new THREE.BufferAttribute(new Float32Array(0), 3));
+    return;
+  }
+  const segs = n - 1;
+  const pos = new Float32Array(segs * 18);
+  const col = new Float32Array(segs * 18);
+  for (let i = 0; i < segs; i++) {
+    const a = points[i], b = points[i + 1];
+    const P = [
+      a.x, 0, a.y, a.x, WALL_H, a.y, b.x, WALL_H, b.y,
+      a.x, 0, a.y, b.x, WALL_H, b.y, b.x, 0, b.y,
+    ];
+    const C = [
+      ...COL_BOT, ...COL_TOP, ...COL_TOP,
+      ...COL_BOT, ...COL_TOP, ...COL_BOT,
+    ];
+    const base = i * 18;
+    for (let j = 0; j < 18; j++) {
+      pos[base + j] = P[j];
+      col[base + j] = C[j];
+    }
+  }
+  geo.setAttribute("position", new THREE.BufferAttribute(pos, 3));
+  geo.setAttribute("color", new THREE.BufferAttribute(col, 3));
+}
+// faixa de luz no chão (sempre visível de cima), seguindo o caminho
+function buildFloor(points, geo, halfW) {
   const n = points.length;
   if (n < 2) {
     geo.setAttribute("position", new THREE.BufferAttribute(new Float32Array(0), 3));
@@ -28,17 +60,21 @@ function buildWall(points, geo) {
   }
   const segs = n - 1;
   const pos = new Float32Array(segs * 18);
-  let o = 0;
   for (let i = 0; i < segs; i++) {
     const a = points[i], b = points[i + 1];
-    const v = [
-      a.x, 0, a.y, a.x, WALL_H, a.y, b.x, WALL_H, b.y,
-      a.x, 0, a.y, b.x, WALL_H, b.y, b.x, 0, b.y,
+    let dx = b.x - a.x, dz = b.y - a.y;
+    const len = Math.hypot(dx, dz) || 1;
+    dx /= len;
+    dz /= len;
+    const px = -dz * halfW, pz = dx * halfW;
+    const P = [
+      a.x + px, 0.05, a.y + pz, a.x - px, 0.05, a.y - pz, b.x - px, 0.05, b.y - pz,
+      a.x + px, 0.05, a.y + pz, b.x - px, 0.05, b.y - pz, b.x + px, 0.05, b.y + pz,
     ];
-    for (let j = 0; j < 18; j++) pos[o++] = v[j];
+    const base = i * 18;
+    for (let j = 0; j < 18; j++) pos[base + j] = P[j];
   }
   geo.setAttribute("position", new THREE.BufferAttribute(pos, 3));
-  geo.computeVertexNormals();
 }
 function segDist2(px, pz, ax, az, bx, bz) {
   const dx = bx - ax, dz = bz - az;
@@ -58,30 +94,49 @@ function rng(seed) {
   };
 }
 
-// ---- cenário: cidade de neon ----
+// ---- cidade neon ----
 function Buildings() {
   const items = useMemo(() => {
-    const r = rng(99);
+    const r = rng(7);
     const out = [];
-    for (let i = 0; i < 46; i++) {
+    for (let i = 0; i < 54; i++) {
       const ang = r() * Math.PI * 2;
-      const rad = 64 + r() * 70;
-      const w = 5 + r() * 12;
-      const d = 5 + r() * 12;
-      const h = 10 + r() * 46;
-      out.push({ x: Math.cos(ang) * rad, z: Math.sin(ang) * rad, w, d, h, key: i });
+      const rad = 66 + r() * 90;
+      const w = 5 + r() * 13;
+      const d = 5 + r() * 13;
+      const h = 12 + r() * 60;
+      const accent = r() > 0.82;
+      const stripes = [];
+      const sc = 2 + Math.floor(r() * 4);
+      for (let k = 1; k <= sc; k++) stripes.push((k / (sc + 1)) * h - h / 2);
+      out.push({ x: Math.cos(ang) * rad, z: Math.sin(ang) * rad, w, d, h, stripes, accent, key: i });
     }
     return out;
   }, []);
   return (
     <group>
-      {items.map((b) => (
-        <mesh key={b.key} position={[b.x, b.h / 2, b.z]}>
-          <boxGeometry args={[b.w, b.h, b.d]} />
-          <meshStandardMaterial color="#02060b" emissive="#0a2b33" emissiveIntensity={0.4} metalness={0.6} roughness={0.5} />
-          <Edges color="#22d3ee" />
-        </mesh>
-      ))}
+      {items.map((b) => {
+        const edge = b.accent ? "#4f8cff" : "#22d3ee";
+        return (
+          <group key={b.key} position={[b.x, 0, b.z]}>
+            <mesh position={[0, b.h / 2, 0]}>
+              <boxGeometry args={[b.w, b.h, b.d]} />
+              <meshStandardMaterial color="#02060b" emissive={edge} emissiveIntensity={0.25} metalness={0.6} roughness={0.55} />
+              <Edges color={edge} />
+            </mesh>
+            {b.stripes.map((y, si) => (
+              <mesh key={si} position={[0, b.h / 2 + y, 0]}>
+                <boxGeometry args={[b.w + 0.06, 0.18, b.d + 0.06]} />
+                <meshBasicMaterial color={edge} transparent opacity={0.6} toneMapped={false} />
+              </mesh>
+            ))}
+            <mesh position={[0, b.h + 0.6, 0]}>
+              <sphereGeometry args={[0.3, 8, 8]} />
+              <meshBasicMaterial color={edge} toneMapped={false} />
+            </mesh>
+          </group>
+        );
+      })}
     </group>
   );
 }
@@ -90,41 +145,53 @@ function Buildings() {
 function Portal({ pos, label, n, active }) {
   const r1 = useRef(null);
   const r2 = useRef(null);
+  const core = useRef(null);
   const beam = useRef(null);
   useFrame((s) => {
     const t = s.clock.elapsedTime;
     if (r1.current) r1.current.rotation.z = t * 0.6;
-    if (r2.current) r2.current.rotation.z = -t * 0.9;
-    if (beam.current) beam.current.material.opacity = 0.18 + Math.sin(t * 3) * 0.06 + (active ? 0.2 : 0);
+    if (r2.current) { r2.current.rotation.z = -t * 0.9; r2.current.rotation.x = t * 0.4; }
+    if (core.current) {
+      core.current.rotation.y = t * 1.1;
+      core.current.rotation.x = t * 0.7;
+      const sc = 1 + Math.sin(t * 2.5) * 0.12;
+      core.current.scale.setScalar(sc);
+    }
+    if (beam.current) beam.current.material.opacity = 0.16 + Math.sin(t * 3) * 0.05 + (active ? 0.22 : 0);
   });
   const color = active ? "#ffffff" : "#22d3ee";
-  const ei = active ? 3.4 : 1.5;
+  const ei = active ? 3.6 : 1.6;
   return (
     <group position={pos}>
-      <mesh ref={r1} position={[0, 3.4, 0]}>
-        <torusGeometry args={[3, 0.16, 16, 60]} />
+      <mesh ref={r1} position={[0, 3.6, 0]}>
+        <torusGeometry args={[3.2, 0.16, 16, 64]} />
         <meshStandardMaterial color={color} emissive={color} emissiveIntensity={ei} toneMapped={false} />
       </mesh>
-      <mesh ref={r2} position={[0, 3.4, 0]}>
-        <torusGeometry args={[2.2, 0.1, 12, 48]} />
+      <mesh ref={r2} position={[0, 3.6, 0]}>
+        <torusGeometry args={[2.3, 0.1, 12, 48]} />
         <meshStandardMaterial color={color} emissive={color} emissiveIntensity={ei * 0.8} toneMapped={false} />
       </mesh>
-      {[-3, 3].map((x) => (
-        <mesh key={x} position={[x, 1.7, 0]}>
-          <cylinderGeometry args={[0.14, 0.18, 3.4, 12]} />
+      <mesh ref={core} position={[0, 3.6, 0]}>
+        <icosahedronGeometry args={[0.9, 0]} />
+        <meshStandardMaterial color={color} emissive={color} emissiveIntensity={ei * 1.2} wireframe toneMapped={false} />
+      </mesh>
+      {[-3.2, 3.2].map((x) => (
+        <mesh key={x} position={[x, 1.8, 0]}>
+          <cylinderGeometry args={[0.16, 0.22, 3.6, 12]} />
           <meshStandardMaterial color={color} emissive={color} emissiveIntensity={ei * 0.6} toneMapped={false} />
         </mesh>
       ))}
-      <mesh ref={beam} position={[0, 8, 0]}>
-        <cylinderGeometry args={[1.4, 1.4, 16, 24, 1, true]} />
+      <mesh ref={beam} position={[0, 9, 0]}>
+        <cylinderGeometry args={[1.6, 1.6, 18, 24, 1, true]} />
         <meshBasicMaterial color={color} transparent opacity={0.2} side={THREE.DoubleSide} depthWrite={false} blending={THREE.AdditiveBlending} toneMapped={false} />
       </mesh>
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.03, 0]}>
-        <ringGeometry args={[2.3, 3.7, 60]} />
-        <meshBasicMaterial color={color} transparent opacity={active ? 0.55 : 0.22} toneMapped={false} />
+        <ringGeometry args={[2.5, 3.9, 64]} />
+        <meshBasicMaterial color={color} transparent opacity={active ? 0.6 : 0.24} toneMapped={false} />
       </mesh>
-      <pointLight position={[0, 3, 0]} color={color} intensity={active ? 10 : 3.5} distance={26} />
-      <Html position={[0, 6.6, 0]} center distanceFactor={28} occlude={false}>
+      <Sparkles count={22} scale={[5, 7, 5]} position={[0, 4, 0]} size={3} speed={0.5} color={color} opacity={0.7} />
+      <pointLight position={[0, 3.6, 0]} color={color} intensity={active ? 12 : 4} distance={30} />
+      <Html position={[0, 7, 0]} center distanceFactor={30} occlude={false}>
         <div className={`pointer-events-none whitespace-nowrap font-mono text-sm uppercase tracking-[0.25em] ${active ? "text-white" : "text-accent"}`}>
           <span className="opacity-60">[{n}]</span> {label}
         </div>
@@ -133,48 +200,74 @@ function Portal({ pos, label, n, active }) {
   );
 }
 
-// ---- moto de luz ----
+// ---- moto de luz detalhada ----
+function Wheel({ z }) {
+  return (
+    <group position={[0, 0, z]}>
+      <mesh rotation={[0, 0, Math.PI / 2]}>
+        <cylinderGeometry args={[0.72, 0.72, 0.26, 32]} />
+        <meshStandardMaterial color="#03070c" metalness={0.85} roughness={0.35} />
+      </mesh>
+      <mesh rotation={[0, 0, Math.PI / 2]}>
+        <torusGeometry args={[0.72, 0.07, 14, 40]} />
+        <meshBasicMaterial color="#22d3ee" toneMapped={false} />
+      </mesh>
+      <mesh rotation={[0, 0, Math.PI / 2]}>
+        <torusGeometry args={[0.42, 0.04, 12, 32]} />
+        <meshBasicMaterial color="#67e8f9" toneMapped={false} />
+      </mesh>
+      <mesh rotation={[0, 0, Math.PI / 2]}>
+        <cylinderGeometry args={[0.34, 0.34, 0.3, 20]} />
+        <meshStandardMaterial color="#06121d" emissive="#22d3ee" emissiveIntensity={0.5} metalness={1} roughness={0.2} />
+      </mesh>
+    </group>
+  );
+}
 function LightCycle({ bikeRef }) {
   return (
     <group ref={bikeRef}>
-      <group position={[0, 0.62, 0]}>
-        {/* chassi baixo e alongado */}
+      <group position={[0, 0.72, 0]}>
+        {/* chassi principal baixo */}
         <mesh position={[0, -0.05, 0]}>
-          <boxGeometry args={[0.34, 0.28, 3.1]} />
-          <meshStandardMaterial color="#081521" emissive="#22d3ee" emissiveIntensity={0.3} metalness={0.95} roughness={0.2} />
+          <boxGeometry args={[0.36, 0.34, 2.7]} />
+          <meshStandardMaterial color="#071521" emissive="#22d3ee" emissiveIntensity={0.3} metalness={0.95} roughness={0.18} />
         </mesh>
-        {/* carenagem superior inclinada */}
-        <mesh position={[0, 0.16, -0.1]} rotation={[0.12, 0, 0]}>
-          <boxGeometry args={[0.3, 0.22, 1.9]} />
-          <meshStandardMaterial color="#06121d" emissive="#22d3ee" emissiveIntensity={0.45} metalness={0.95} roughness={0.18} />
+        {/* carenagem dianteira (cunha) */}
+        <mesh position={[0, 0.02, 1.55]} rotation={[Math.PI / 2, 0, 0]}>
+          <coneGeometry args={[0.3, 1.3, 4]} />
+          <meshStandardMaterial color="#06121d" emissive="#22d3ee" emissiveIntensity={0.35} metalness={0.95} roughness={0.18} />
+        </mesh>
+        {/* carenagem traseira */}
+        <mesh position={[0, 0.05, -1.45]} rotation={[-Math.PI / 2, 0, 0]}>
+          <coneGeometry args={[0.28, 1.1, 4]} />
+          <meshStandardMaterial color="#06121d" emissive="#22d3ee" emissiveIntensity={0.35} metalness={0.95} roughness={0.18} />
+        </mesh>
+        {/* espinha neon no topo */}
+        <mesh position={[0, 0.18, 0]}>
+          <boxGeometry args={[0.07, 0.06, 2.9]} />
+          <meshBasicMaterial color="#a9f3ff" toneMapped={false} />
         </mesh>
         {/* faixas neon laterais */}
-        {[-0.18, 0.18].map((x) => (
-          <mesh key={x} position={[x, 0, 0]}>
-            <boxGeometry args={[0.04, 0.12, 3.0]} />
+        {[-0.2, 0.2].map((x) => (
+          <mesh key={x} position={[x, -0.02, 0]}>
+            <boxGeometry args={[0.04, 0.16, 2.6]} />
             <meshBasicMaterial color="#22d3ee" toneMapped={false} />
           </mesh>
         ))}
-        {/* cockpit */}
-        <mesh position={[0, 0.3, -0.15]}>
-          <sphereGeometry args={[0.26, 16, 12]} />
-          <meshStandardMaterial color="#031018" emissive="#67e8f9" emissiveIntensity={0.5} metalness={1} roughness={0.1} />
+        {/* canopy */}
+        <mesh position={[0, 0.26, -0.1]} scale={[0.7, 0.55, 1.5]}>
+          <sphereGeometry args={[0.3, 18, 14]} />
+          <meshStandardMaterial color="#020a12" emissive="#67e8f9" emissiveIntensity={0.4} metalness={1} roughness={0.08} />
         </mesh>
-        {/* rodas + aros neon */}
-        {[1.25, -1.2].map((z) => (
-          <group key={z} position={[0, -0.12, z]}>
-            <mesh rotation={[0, 0, Math.PI / 2]}>
-              <cylinderGeometry args={[0.62, 0.62, 0.22, 28]} />
-              <meshStandardMaterial color="#03060a" metalness={0.9} roughness={0.3} />
-            </mesh>
-            <mesh rotation={[0, 0, Math.PI / 2]}>
-              <torusGeometry args={[0.62, 0.06, 12, 32]} />
-              <meshBasicMaterial color="#22d3ee" toneMapped={false} />
-            </mesh>
-          </group>
-        ))}
-        <pointLight position={[0, 0.1, 1.8]} color="#67e8f9" intensity={6} distance={16} />
-        <pointLight position={[0, 0.6, 0]} color="#22d3ee" intensity={2} distance={6} />
+        {/* núcleo do motor */}
+        <mesh position={[0, 0, -0.2]}>
+          <sphereGeometry args={[0.16, 12, 12]} />
+          <meshBasicMaterial color="#a9f3ff" toneMapped={false} />
+        </mesh>
+        <Wheel z={1.25} />
+        <Wheel z={-1.25} />
+        <pointLight position={[0, 0.1, 2]} color="#67e8f9" intensity={7} distance={18} />
+        <pointLight position={[0, 0.5, 0]} color="#22d3ee" intensity={2.5} distance={7} />
       </group>
     </group>
   );
@@ -183,7 +276,17 @@ function LightCycle({ bikeRef }) {
 function World({ keysRef, onActive, telemetryRef, onDeath, active }) {
   const bikeRef = useRef(null);
   const { camera } = useThree();
-  const wallGeo = useMemo(() => new THREE.BufferGeometry(), []);
+  const wallGeo = useMemo(() => {
+    const g = new THREE.BufferGeometry();
+    g.setAttribute("position", new THREE.BufferAttribute(new Float32Array(0), 3));
+    g.setAttribute("color", new THREE.BufferAttribute(new Float32Array(0), 3));
+    return g;
+  }, []);
+  const floorGeo = useMemo(() => {
+    const g = new THREE.BufferGeometry();
+    g.setAttribute("position", new THREE.BufferAttribute(new Float32Array(0), 3));
+    return g;
+  }, []);
   const m = useRef({
     heading: START.heading,
     speed: 0,
@@ -204,7 +307,8 @@ function World({ keysRef, onActive, telemetryRef, onDeath, active }) {
     s.points = [];
     s.lastX = START.x;
     s.lastZ = START.z;
-    buildWall(s.points, wallGeo);
+    buildTrail(s.points, wallGeo);
+    buildFloor(s.points, floorGeo, 0.45);
   }
 
   useFrame((stt, delta) => {
@@ -214,10 +318,7 @@ function World({ keysRef, onActive, telemetryRef, onDeath, active }) {
 
     if (s.dead) {
       if (bikeRef.current) bikeRef.current.scale.setScalar(THREE.MathUtils.damp(bikeRef.current.scale.x, 0.01, 10, dt));
-      if (now - s.deadAt > 1) {
-        s.dead = false;
-        respawn();
-      }
+      if (now - s.deadAt > 1) { s.dead = false; respawn(); }
       telemetryRef.current.dead = true;
       telemetryRef.current.speed = 0;
       return;
@@ -251,19 +352,18 @@ function World({ keysRef, onActive, telemetryRef, onDeath, active }) {
     camera.position.lerp(ct, 1 - Math.pow(0.0009, dt));
     camera.lookAt(s.pos.x, 1, s.pos.z);
 
-    // rastro persistente
     if (s.speed > 1) {
       const d2 = (s.pos.x - s.lastX) ** 2 + (s.pos.z - s.lastZ) ** 2;
-      if (d2 > 0.7) {
+      if (d2 > 0.6) {
         s.points.push(new THREE.Vector2(s.pos.x, s.pos.z));
         s.lastX = s.pos.x;
         s.lastZ = s.pos.z;
         if (s.points.length > MAX_PTS) s.points.shift();
-        buildWall(s.points, wallGeo);
+        buildTrail(s.points, wallGeo);
+        buildFloor(s.points, floorGeo, 0.45);
       }
     }
 
-    // colisão com o próprio rastro (pula os últimos segmentos perto da cauda)
     const pts = s.points;
     const skip = 6;
     let crashed = false;
@@ -281,11 +381,10 @@ function World({ keysRef, onActive, telemetryRef, onDeath, active }) {
       return;
     }
 
-    // proximidade dos portais
     let near = null;
     for (const sec of SECTIONS) {
       const dx = s.pos.x - sec.pos[0], dz = s.pos.z - sec.pos[2];
-      if (dx * dx + dz * dz < 22) { near = sec.id; break; }
+      if (dx * dx + dz * dz < 24) { near = sec.id; break; }
     }
     if (near !== lastActive.current) {
       lastActive.current = near;
@@ -303,12 +402,13 @@ function World({ keysRef, onActive, telemetryRef, onDeath, active }) {
   return (
     <>
       <color attach="background" args={["#04060a"]} />
-      <fog attach="fog" args={["#04060a", 36, 130]} />
+      <fog attach="fog" args={["#04060a", 42, 150]} />
       <ambientLight intensity={0.22} />
       <directionalLight position={[10, 30, 10]} intensity={0.4} color="#67e8f9" />
+      <hemisphereLight args={["#0a2230", "#020308", 0.5]} />
 
       <Grid
-        args={[260, 260]}
+        args={[300, 300]}
         cellSize={2}
         cellThickness={0.6}
         cellColor="#0e3b44"
@@ -316,12 +416,15 @@ function World({ keysRef, onActive, telemetryRef, onDeath, active }) {
         sectionThickness={1.2}
         sectionColor="#22d3ee"
         infiniteGrid
-        fadeDistance={130}
-        fadeStrength={1.4}
+        fadeDistance={150}
+        fadeStrength={1.3}
       />
 
+      <mesh geometry={floorGeo}>
+        <meshBasicMaterial color="#3ee4f5" transparent opacity={0.7} side={THREE.DoubleSide} depthWrite={false} blending={THREE.AdditiveBlending} toneMapped={false} />
+      </mesh>
       <mesh geometry={wallGeo}>
-        <meshBasicMaterial color="#22d3ee" transparent opacity={0.4} side={THREE.DoubleSide} depthWrite={false} blending={THREE.AdditiveBlending} toneMapped={false} />
+        <meshBasicMaterial vertexColors transparent opacity={0.9} side={THREE.DoubleSide} depthWrite={false} blending={THREE.AdditiveBlending} toneMapped={false} />
       </mesh>
 
       <LightCycle bikeRef={bikeRef} />
