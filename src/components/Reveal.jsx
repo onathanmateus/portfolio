@@ -2,36 +2,42 @@
 
 import { motion } from "motion/react";
 
-const EASE = [0.22, 1, 0.36, 1];
+const EASE = [0.76, 0, 0.24, 1];
+const VIEWPORT = { once: true, amount: 0.2, margin: "0px 0px -10% 0px" };
 
-// Gatilho de viewport compartilhado: a margem inferior negativa atrasa o
-// disparo até o elemento subir mais para o centro da tela, dando tempo de
-// a pessoa ver a animação acontecendo (em vez de já pronta lá embaixo).
-const VIEWPORT = { once: true, amount: 0.2, margin: "0px 0px -12% 0px" };
-
-// Revela um elemento quando ele entra na viewport (fade + slide + leve "foco").
-export function Reveal({ children, delay = 0, x = 0, y = 28, blur = true, className }) {
-  const hidden = { opacity: 0, x, y };
-  const show = { opacity: 1, x: 0, y: 0 };
-  if (blur) {
-    hidden.filter = "blur(8px)";
-    show.filter = "blur(0px)";
-  }
+// O wrapper externo é quem OBSERVA (nunca é cortado, então o IntersectionObserver
+// sempre detecta). O filho interno é quem ANIMA (clip-path), evitando o paradoxo
+// de o elemento se esconder de si mesmo antes de entrar em vista.
+export function Reveal({ children, delay = 0, x = 0, y = 24, className }) {
   return (
     <motion.div
-      className={className}
-      initial={hidden}
-      whileInView={show}
+      className="h-full"
+      initial="hidden"
+      whileInView="show"
       viewport={VIEWPORT}
-      transition={{ duration: 0.9, delay, ease: EASE }}
+      variants={{ hidden: {}, show: {} }}
     >
-      {children}
+      <motion.div
+        className={`h-full ${className || ""}`}
+        variants={{
+          hidden: { opacity: 0, x, y, clipPath: "inset(0% 0% 100% 0%)" },
+          show: {
+            opacity: 1,
+            x: 0,
+            y: 0,
+            clipPath: "inset(0% 0% 0% 0%)",
+            transition: { duration: 0.8, delay, ease: EASE },
+          },
+        }}
+      >
+        {children}
+      </motion.div>
     </motion.div>
   );
 }
 
-// Container que escalona a entrada dos filhos (use com <RevealItem>).
-export function Stagger({ children, className, gap = 0.12, delay = 0 }) {
+// Container que escalona a entrada dos filhos (observa a si mesmo, sem clip).
+export function Stagger({ children, className, gap = 0.1, delay = 0 }) {
   return (
     <motion.div
       className={className}
@@ -48,14 +54,19 @@ export function Stagger({ children, className, gap = 0.12, delay = 0 }) {
   );
 }
 
-// Item animado para usar dentro de <Stagger>.
-export function RevealItem({ children, className, y = 20 }) {
+// Item para usar dentro de <Stagger> — wipe da esquerda p/ direita.
+export function RevealItem({ children, className, y = 14 }) {
   return (
     <motion.div
       className={className}
       variants={{
-        hidden: { opacity: 0, y, scale: 0.96 },
-        show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.7, ease: EASE } },
+        hidden: { opacity: 0, y, clipPath: "inset(0% 100% 0% 0%)" },
+        show: {
+          opacity: 1,
+          y: 0,
+          clipPath: "inset(0% 0% 0% 0%)",
+          transition: { duration: 0.55, ease: EASE },
+        },
       }}
     >
       {children}

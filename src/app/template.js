@@ -1,16 +1,13 @@
 "use client";
 
-import { motion } from "motion/react";
+import { PageShutter } from "@/components/PageShutter";
 
-// Re-monta a cada navegação → anima a entrada de cada página.
+// Re-monta a cada navegação → toca a transição shutter e revela a página.
 export default function Template({ children }) {
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.35, ease: "easeOut" }}
-    >
+    <>
+      <PageShutter />
       {children}
-    </motion.div>
+    </>
   );
 }

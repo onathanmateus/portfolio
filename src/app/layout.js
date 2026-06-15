@@ -5,7 +5,6 @@ import { Cursor } from "@/components/Cursor";
 import { Terminal } from "@/components/Terminal";
 import { ShaderBackground } from "@/components/ShaderBackground";
 import { Scene3DLayer } from "@/components/Scene3DLayer";
-import { RouteFx } from "@/components/RouteFx";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
@@ -64,7 +63,6 @@ export default function RootLayout({ children }) {
           className="scanlines pointer-events-none fixed inset-0 z-50 opacity-60"
           aria-hidden="true"
         />
-        <RouteFx />
         <Analytics />
         <SpeedInsights />
       </body>
