@@ -52,6 +52,7 @@ Experiência imersiva e disruptiva: landing 3D, terminal interativo, fundo WebGL
 | --- | --- |
 | Framework | [Next.js 16](https://nextjs.org) (App Router) |
 | UI | [React 19](https://react.dev) |
+| Componentes | [HeroUI v3](https://heroui.com) — base para componentes novos |
 | 3D / WebGL | [Three.js](https://threejs.org) · [React Three Fiber](https://r3f.docs.pmnd.rs) · [drei](https://github.com/pmndrs/drei) |
 | Estilo | [Tailwind CSS v4](https://tailwindcss.com) |
 | Animações | [Motion](https://motion.dev) |

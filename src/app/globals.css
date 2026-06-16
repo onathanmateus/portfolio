@@ -1,4 +1,8 @@
-@import "tailwindcss";
+/* HeroUI v3 traz o próprio @import "tailwindcss" + base/tema/componentes.
+   Usamos o bundle dele como entrada única do Tailwind. Os tokens cyberpunk
+   abaixo ficam FORA de @layer, então têm prioridade sobre o tema do HeroUI
+   (preservando o visual e fazendo os componentes HeroUI herdarem nossa paleta). */
+@import "@heroui/react/styles";
 
 /* Estratégia de dark mode manual: ativada pela classe .dark no <html> */
 @custom-variant dark (&:where(.dark, .dark *));
