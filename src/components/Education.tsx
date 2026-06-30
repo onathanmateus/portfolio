@@ -1,0 +1,39 @@
+import Link from "next/link";
+import { Card } from "@heroui/react";
+import { education } from "@/data/portfolio";
+import { Stagger, RevealItem } from "./Reveal";
+import { SectionHeading } from "./SectionHeading";
+
+export function Education() {
+  return (
+    <section id="formacao" className="mx-auto w-full max-w-5xl scroll-mt-24">
+      <SectionHeading eyebrow="Formação" title="Educação" />
+
+      <Stagger className="grid gap-5 sm:grid-cols-2">
+        {education.map((item) => (
+          <RevealItem key={item.course}>
+            <Card className="lift h-full">
+              <Card.Header>
+                <Card.Title className="text-lg">{item.course}</Card.Title>
+                <Card.Description>
+                  <Link
+                    href={item.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-medium text-foreground transition-colors hover:text-accent"
+                  >
+                    {item.school}
+                  </Link>
+                </Card.Description>
+              </Card.Header>
+              <Card.Footer className="justify-between text-sm text-muted">
+                <span>{item.period}</span>
+                <span>{item.location}</span>
+              </Card.Footer>
+            </Card>
+          </RevealItem>
+        ))}
+      </Stagger>
+    </section>
+  );
+}

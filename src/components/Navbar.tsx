@@ -20,7 +20,7 @@ export function Navbar() {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 16);
+    const onScroll = () => setScrolled(window.scrollY > 12);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -35,14 +35,15 @@ export function Navbar() {
     <header className="fixed inset-x-0 top-0 z-50">
       <div className="mx-auto max-w-5xl px-4 sm:px-6">
         <nav
-          className={`glass flex items-center justify-between px-4 py-3 backdrop-blur-2xl backdrop-saturate-150 transition-all duration-300 sm:px-5 ${
-            scrolled ? "mt-3 rounded-sm border border-border" : "border-b border-border"
+          className={`glass mt-3 flex items-center justify-between rounded-2xl px-4 py-2.5 backdrop-blur-2xl backdrop-saturate-150 transition-shadow duration-300 sm:px-5 ${
+            scrolled ? "border border-border shadow-[0_8px_30px_-12px_rgba(0,0,0,0.25)]" : "border border-transparent"
           }`}
-          style={scrolled ? { boxShadow: "0 0 24px -10px var(--glow)" } : undefined}
         >
-          <Link href="/" className="font-display text-sm font-bold uppercase tracking-widest">
-            <span className="neon-text">NM</span>
-            <span className="text-muted">_dev</span>
+          <Link
+            href="/"
+            className="text-sm font-semibold tracking-tight text-foreground transition-opacity hover:opacity-70"
+          >
+            Nathan Mateus
           </Link>
 
           <ul className="hidden items-center gap-1 md:flex">
@@ -52,11 +53,12 @@ export function Navbar() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className={`rounded-sm px-3 py-1.5 font-mono text-xs uppercase tracking-wider transition-colors ${
-                      active ? "text-accent" : "text-muted hover:bg-surface-2 hover:text-accent"
+                    className={`rounded-full px-3.5 py-1.5 text-sm transition-colors ${
+                      active
+                        ? "text-accent"
+                        : "text-muted hover:bg-surface-tertiary hover:text-foreground"
                     }`}
                   >
-                    {active ? <span className="text-accent/60">&gt; </span> : null}
                     {link.label}
                   </Link>
                 </li>
@@ -64,14 +66,14 @@ export function Navbar() {
             })}
           </ul>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5">
             <ThemeToggle />
             <button
               type="button"
               onClick={() => setOpen((v) => !v)}
               aria-label="Abrir menu"
               aria-expanded={open}
-              className="grid h-10 w-10 place-items-center rounded-sm border border-border bg-surface text-foreground md:hidden"
+              className="grid h-10 w-10 place-items-center rounded-full text-foreground transition-colors hover:bg-surface-tertiary md:hidden"
             >
               <Burger open={open} />
             </button>
@@ -86,14 +88,14 @@ export function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.2 }}
-            className="mx-4 mt-2 overflow-hidden rounded-sm border border-border glass backdrop-blur-2xl backdrop-saturate-150 p-2 md:hidden"
+            className="glass mx-4 mt-2 overflow-hidden rounded-2xl border border-border p-2 backdrop-blur-2xl backdrop-saturate-150 md:hidden"
           >
             <ul className="flex flex-col">
               {links.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="block rounded-sm px-4 py-3 font-mono text-sm uppercase tracking-wider text-muted transition-colors hover:bg-surface-2 hover:text-accent"
+                    className="block rounded-xl px-4 py-3 text-base text-muted transition-colors hover:bg-surface-tertiary hover:text-foreground"
                   >
                     {link.label}
                   </Link>
@@ -107,12 +109,12 @@ export function Navbar() {
   );
 }
 
-function Burger({ open }) {
+function Burger({ open }: { open: boolean }) {
   return (
     <div className="relative h-4 w-5">
-      <span className={`absolute left-0 h-0.5 w-5 bg-current transition-all duration-300 ${open ? "top-1/2 -translate-y-1/2 rotate-45" : "top-0"}`} />
-      <span className={`absolute left-0 top-1/2 h-0.5 w-5 -translate-y-1/2 bg-current transition-all duration-300 ${open ? "opacity-0" : "opacity-100"}`} />
-      <span className={`absolute left-0 h-0.5 w-5 bg-current transition-all duration-300 ${open ? "top-1/2 -translate-y-1/2 -rotate-45" : "bottom-0"}`} />
+      <span className={`absolute left-0 h-0.5 w-5 rounded-full bg-current transition-all duration-300 ${open ? "top-1/2 -translate-y-1/2 rotate-45" : "top-0"}`} />
+      <span className={`absolute left-0 top-1/2 h-0.5 w-5 -translate-y-1/2 rounded-full bg-current transition-all duration-300 ${open ? "opacity-0" : "opacity-100"}`} />
+      <span className={`absolute left-0 h-0.5 w-5 rounded-full bg-current transition-all duration-300 ${open ? "top-1/2 -translate-y-1/2 -rotate-45" : "bottom-0"}`} />
     </div>
   );
 }

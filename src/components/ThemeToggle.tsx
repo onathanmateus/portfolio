@@ -1,17 +1,19 @@
 "use client";
 
 import { motion, AnimatePresence } from "motion/react";
+import { Button } from "@heroui/react";
 import { useTheme } from "./ThemeProvider";
 
 export function ThemeToggle() {
   const { theme, toggleTheme } = useTheme();
 
   return (
-    <button
-      type="button"
-      onClick={toggleTheme}
+    <Button
+      isIconOnly
+      variant="ghost"
       aria-label={theme === "dark" ? "Ativar tema claro" : "Ativar tema escuro"}
-      className="relative grid h-10 w-10 place-items-center rounded-full border border-border bg-surface text-foreground transition-colors hover:text-accent"
+      onPress={toggleTheme}
+      className="relative h-10 w-10 rounded-full"
     >
       <AnimatePresence mode="wait" initial={false}>
         <motion.span
@@ -20,12 +22,12 @@ export function ThemeToggle() {
           animate={{ y: 0, opacity: 1, rotate: 0 }}
           exit={{ y: 12, opacity: 0, rotate: 90 }}
           transition={{ duration: 0.2 }}
-          className="absolute"
+          className="absolute grid place-items-center"
         >
           {theme === "dark" ? <SunIcon /> : <MoonIcon />}
         </motion.span>
       </AnimatePresence>
-    </button>
+    </Button>
   );
 }
 

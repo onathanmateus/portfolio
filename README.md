@@ -1,19 +1,20 @@
 <div align="center">
 
-# ⚡ Portfólio — Nathan Mateus
+# Portfólio — Nathan Mateus
 
-Portfólio pessoal **cyberpunk** de **Nathan Mateus**, Analista de Sistemas Pleno
-especialista em **Protheus (ADVPL / TLPP)** com base sólida em desenvolvimento web.
+Portfólio pessoal de **Nathan Mateus**, Analista de Sistemas Pleno especialista em
+**Protheus (ADVPL / TLPP)** com base sólida em desenvolvimento web.
 
-Experiência imersiva e disruptiva: landing 3D, terminal interativo, fundo WebGL e tema claro/escuro.
+Visual limpo e elegante inspirado na **Apple**, com tema escuro **Dracula**,
+componentes **HeroUI** e animações sutis.
 
 <br/>
 
 ![Next.js](https://img.shields.io/badge/Next.js-16-000000?style=for-the-badge&logo=next.js&logoColor=white)
 ![React](https://img.shields.io/badge/React-19-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
-![Three.js](https://img.shields.io/badge/Three.js-R3F-000000?style=for-the-badge&logo=three.js&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![HeroUI](https://img.shields.io/badge/HeroUI-v3-7C3AED?style=for-the-badge)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-0EA5E9?style=for-the-badge&logo=tailwindcss&logoColor=white)
-![Motion](https://img.shields.io/badge/Motion-12-FF4D8D?style=for-the-badge&logo=framer&logoColor=white)
 ![Vercel](https://img.shields.io/badge/Deploy-Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
 
 </div>
@@ -22,41 +23,40 @@ Experiência imersiva e disruptiva: landing 3D, terminal interativo, fundo WebGL
 
 ## ✨ Destaques
 
-- 🧊 **Landing 3D** — abertura com um objeto neon distorcido (wireframe) e partículas, em WebGL via **React Three Fiber**, reagindo ao mouse.
-- 🖥️ **Terminal interativo** — abre na primeira visita e fica acessível a qualquer momento (botão, `Ctrl+K` ou `~`); navegue digitando comandos.
-- 🌌 **Fundo WebGL reativo** — campo de energia cyberpunk que responde ao scroll e ao cursor.
-- 🗺️ **Multi-page** — landing + rotas dedicadas para cada seção, com transições (cortina + entrada animada).
-- 🎯 **Cursor HUD custom** + botões magnéticos, **decode/scramble** de texto, **tilt 3D** nos cards e **marquee** de skills.
-- 🌗 **Tema claro/escuro** — alternável, com persistência e _script_ anti-_flash_.
+- 🍎 **Design inspirado na Apple** — tipografia generosa, bastante respiro, cards suaves e foco no conteúdo.
+- 🧩 **HeroUI v3** — biblioteca de componentes (Card, Button, Chip…) como base da interface.
+- 🌗 **Tema claro/escuro** — claro estilo Apple (accent azul) e escuro **Dracula** (accent roxo), com persistência e _script_ anti-_flash_.
+- 🎞️ **Animações sutis** — entradas suaves com [Motion](https://motion.dev), sem exageros.
+- 🧷 **100% TypeScript** — tipagem de ponta a ponta.
+- ✅ **Testes automatizados** — unitários com **Jest** + Testing Library e e2e com **Playwright**.
+- 🔄 **CI/CD** — GitHub Actions roda lint, typecheck, testes e build a cada push; Dependabot mantém as dependências atualizadas com _auto-merge_.
 - 📊 **Vercel Analytics + Speed Insights** integrados.
-- 📱 **Responsivo** e ♿ **acessível** — respeita `prefers-reduced-motion` e desliga efeitos pesados em telas de toque.
+- 📱 **Responsivo** e ♿ **acessível** — respeita `prefers-reduced-motion`.
 
 ## 🗺️ Rotas
 
 | Rota | Conteúdo |
 | --- | --- |
-| `/` | Landing 3D (nome, boas-vindas e navegação) |
+| `/` | Landing (nome, função e navegação) |
 | `/sobre` | Sobre mim |
 | `/experiencia` | Experiência profissional (timeline) |
 | `/skills` | Conhecimentos técnicos |
 | `/formacao` | Formação acadêmica |
 | `/contato` | Canais de contato |
 
-## ⌨️ Comandos do terminal
-
-`sobre` · `experiencia` · `skills` · `formacao` · `contato` · `github` · `linkedin` · `email` · `tema` · `clear` · `help` · `start`
-
 ## 🛠️ Tecnologias
 
 | Camada | Ferramenta |
 | --- | --- |
 | Framework | [Next.js 16](https://nextjs.org) (App Router) |
+| Linguagem | [TypeScript](https://www.typescriptlang.org) |
 | UI | [React 19](https://react.dev) |
-| Componentes | [HeroUI v3](https://heroui.com) — base para componentes novos |
-| 3D / WebGL | [Three.js](https://threejs.org) · [React Three Fiber](https://r3f.docs.pmnd.rs) · [drei](https://github.com/pmndrs/drei) |
+| Componentes | [HeroUI v3](https://heroui.com) |
 | Estilo | [Tailwind CSS v4](https://tailwindcss.com) |
 | Animações | [Motion](https://motion.dev) |
-| Fontes | [Geist](https://vercel.com/font) + [Orbitron](https://fonts.google.com/specimen/Orbitron) via `next/font` |
+| Testes | [Jest](https://jestjs.io) + [Testing Library](https://testing-library.com) · [Playwright](https://playwright.dev) |
+| CI/CD | [GitHub Actions](https://github.com/features/actions) + [Dependabot](https://docs.github.com/code-security/dependabot) |
+| Fontes | [Geist](https://vercel.com/font) via `next/font` |
 | Métricas | [Vercel Analytics](https://vercel.com/analytics) · [Speed Insights](https://vercel.com/docs/speed-insights) |
 | Hospedagem | [Vercel](https://vercel.com) |
 
@@ -66,37 +66,24 @@ Experiência imersiva e disruptiva: landing 3D, terminal interativo, fundo WebGL
 
 ### Pré-requisitos
 
-- [Node.js](https://nodejs.org) **18.18+** (recomendado 20 ou superior)
-- npm (já vem com o Node) — ou `yarn`/`pnpm`, se preferir
+- [Node.js](https://nodejs.org) **20+**
+- npm (já vem com o Node)
 
 ### Passo a passo
 
-**1.** Clone o repositório:
-
 ```bash
+# 1. Clone o repositório
 git clone https://github.com/onathanmateus/portfolio.git
 cd portfolio
-```
 
-**2.** Instale as dependências:
-
-```bash
+# 2. Instale as dependências
 npm install
-```
 
-**3.** Inicie o servidor de desenvolvimento:
-
-```bash
+# 3. Inicie o servidor de desenvolvimento
 npm run dev
 ```
 
-**4.** Abra no navegador:
-
-```
-http://localhost:3000
-```
-
-> 💡 A página recarrega automaticamente a cada alteração nos arquivos.
+Abra <http://localhost:3000> no navegador. A página recarrega automaticamente a cada alteração.
 
 ---
 
@@ -108,16 +95,30 @@ http://localhost:3000
 | `npm run build` | Gera a versão de produção otimizada |
 | `npm run start` | Serve a versão de produção (após o `build`) |
 | `npm run lint` | Verifica o código com o ESLint |
+| `npm run typecheck` | Checa os tipos com o TypeScript |
+| `npm run test` | Roda os testes unitários (Jest) |
+| `npm run test:e2e` | Roda os testes end-to-end (Playwright) |
+
+---
+
+## 🧪 Testes
+
+- **Unitários** (`__tests__/`): Jest + React Testing Library, ambiente `jsdom`.
+- **End-to-end** (`tests-e2e/`): Playwright navega pelas rotas e valida o conteúdo.
+
+```bash
+npm run test          # unitários
+npm run test:e2e      # e2e (instale os navegadores com: npx playwright install)
+```
 
 ---
 
 ## ✏️ Personalizando o conteúdo
 
-Todo o conteúdo (textos, experiências, skills, formação e contatos) está
-centralizado em um único arquivo, fácil de editar:
+Todo o conteúdo (textos, experiências, skills, formação e contatos) está centralizado em:
 
 ```
-src/data/portfolio.js
+src/data/portfolio.ts
 ```
 
 Basta alterar os dados desse arquivo — não é preciso mexer nos componentes.
@@ -127,15 +128,14 @@ Basta alterar os dados desse arquivo — não é preciso mexer nos componentes.
 ```
 src/
 ├── app/
-│   ├── layout.js          # Layout raiz: tema, cursor, terminal, shader, fontes
-│   ├── page.js            # Landing (/)
-│   ├── template.js        # Transição de entrada das páginas
-│   ├── globals.css        # Tokens de tema, neon, circuito e utilitários
+│   ├── layout.tsx         # Layout raiz: tema, fontes, métricas
+│   ├── page.tsx           # Landing (/)
+│   ├── globals.css        # Tokens de tema (Apple/Dracula) sobre o HeroUI
 │   └── (site)/            # Rotas das seções (Navbar + Footer)
 │       ├── sobre/ experiencia/ skills/ formacao/ contato/
-├── components/            # Landing, Scene3D, Terminal, Navbar, Cursor, etc.
+├── components/            # Hero, Navbar, About, Experience, Skills… (HeroUI)
 └── data/
-    └── portfolio.js       # 👈 Conteúdo do site
+    └── portfolio.ts       # 👈 Conteúdo do site
 ```
 
 ---

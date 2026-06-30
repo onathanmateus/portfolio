@@ -1,10 +1,7 @@
-import { Geist, Geist_Mono, Orbitron } from "next/font/google";
+import type { Metadata } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider, themeInitScript } from "@/components/ThemeProvider";
-import { Cursor } from "@/components/Cursor";
-import { Terminal } from "@/components/Terminal";
-import { ShaderBackground } from "@/components/ShaderBackground";
-import { Scene3DLayer } from "@/components/Scene3DLayer";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
@@ -18,13 +15,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const orbitron = Orbitron({
-  variable: "--font-orbitron",
-  subsets: ["latin"],
-  weight: ["500", "600", "700", "800"],
-});
-
-export const metadata = {
+export const metadata: Metadata = {
   title: "Nathan Mateus — Analista de Sistemas Pleno",
   description:
     "Portfólio de Nathan Mateus, Analista de Sistemas Pleno especialista em Protheus (ADVPL / TLPP) com experiência em desenvolvimento web (React, Next.js, Node.js).",
@@ -38,31 +29,20 @@ export const metadata = {
   },
 };
 
-export default function RootLayout({ children }) {
+export default function RootLayout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html
       lang="pt-BR"
       suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} ${orbitron.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
       <body className="relative min-h-full" suppressHydrationWarning>
-        {/* Fundo WebGL surreal (atrás de tudo) */}
-        <ShaderBackground className="pointer-events-none fixed inset-0 -z-10 h-full w-full" />
-        {/* Objeto 3D da landing (layer global persistente) */}
-        <Scene3DLayer />
-        <ThemeProvider>
-          {children}
-          <Cursor />
-          <Terminal />
-        </ThemeProvider>
-        {/* Scanlines globais (overlay sutil) */}
-        <div
-          className="scanlines pointer-events-none fixed inset-0 z-50 opacity-60"
-          aria-hidden="true"
-        />
+        <ThemeProvider>{children}</ThemeProvider>
         <Analytics />
         <SpeedInsights />
       </body>

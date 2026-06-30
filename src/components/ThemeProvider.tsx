@@ -1,19 +1,35 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  type ReactNode,
+} from "react";
 
-const ThemeContext = createContext({ theme: "dark", toggleTheme: () => {} });
+type Theme = "light" | "dark";
+
+interface ThemeContextValue {
+  theme: Theme | null;
+  toggleTheme: () => void;
+}
+
+const ThemeContext = createContext<ThemeContextValue>({
+  theme: "dark",
+  toggleTheme: () => {},
+});
 
 // Aplica a classe no <html> e persiste a escolha.
-function applyTheme(theme) {
+function applyTheme(theme: Theme) {
   const root = document.documentElement;
   root.classList.toggle("dark", theme === "dark");
   root.style.colorScheme = theme;
 
   // Força a recriação do render tree para repintar TODAS as camadas com o
-  // tema novo. Sem isso, navegadores mobile mantêm camadas compostas (do
-  // framer-motion) com o tema antigo até uma rolagem. O toggle de display é
-  // síncrono (mesmo frame), então não há flash visível.
+  // tema novo. Sem isso, navegadores mobile mantêm camadas compostas com o
+  // tema antigo até uma rolagem. O toggle de display é síncrono (mesmo
+  // frame), então não há flash visível.
   const body = document.body;
   if (body) {
     body.style.display = "none";
@@ -22,8 +38,8 @@ function applyTheme(theme) {
     body.style.display = "";
   }
 
-  // Reforço: um "nudge" de rolagem de 1px replica exatamente o que corrige
-  // manualmente (rolar), invalidando os tiles de pintura do conteúdo.
+  // Reforço: um "nudge" de rolagem de 1px replica o que corrige manualmente
+  // (rolar), invalidando os tiles de pintura do conteúdo.
   requestAnimationFrame(() => {
     const y = window.scrollY;
     window.scrollTo(0, y + 1);
@@ -31,14 +47,14 @@ function applyTheme(theme) {
   });
 }
 
-export function ThemeProvider({ children }) {
-  const [theme, setTheme] = useState(null);
+export function ThemeProvider({ children }: { children: ReactNode }) {
+  const [theme, setTheme] = useState<Theme | null>(null);
 
-  // Sincroniza o estado do React com um sistema externo: a classe que o
-  // script anti-flash já aplicou no <html> antes da hidratação. Manter o
-  // estado inicial como null evita divergência de hidratação (server/client).
+  // Sincroniza o estado do React com a classe que o script anti-flash já
+  // aplicou no <html> antes da hidratação. Iniciar como null evita
+  // divergência de hidratação (server/client).
   useEffect(() => {
-    const initial = document.documentElement.classList.contains("dark")
+    const initial: Theme = document.documentElement.classList.contains("dark")
       ? "dark"
       : "light";
     // eslint-disable-next-line react-hooks/set-state-in-effect -- sincronização com DOM externo (tema pré-hidratação)
@@ -47,7 +63,7 @@ export function ThemeProvider({ children }) {
 
   function toggleTheme() {
     setTheme((prev) => {
-      const next = prev === "dark" ? "light" : "dark";
+      const next: Theme = prev === "dark" ? "light" : "dark";
       applyTheme(next);
       try {
         localStorage.setItem("theme", next);

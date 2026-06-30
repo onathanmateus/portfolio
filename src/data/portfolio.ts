@@ -1,6 +1,43 @@
 // Conteúdo do portfólio — centralizado para facilitar manutenção.
 
-export const profile = {
+export interface Profile {
+  name: string;
+  role: string;
+  tagline: string;
+  location: string;
+  about: string[];
+}
+
+export interface Contact {
+  email: string;
+  linkedin: string;
+  github: string;
+}
+
+export interface Experience {
+  company: string;
+  url: string;
+  role: string;
+  period: string;
+  current: boolean;
+  summary: string;
+  highlights: string[];
+}
+
+export interface SkillGroup {
+  title: string;
+  items: string[];
+}
+
+export interface Education {
+  course: string;
+  school: string;
+  url: string;
+  period: string;
+  location: string;
+}
+
+export const profile: Profile = {
   name: "Nathan Mateus",
   role: "Analista de Sistemas Pleno",
   tagline: "Especialista em Protheus (ADVPL / TLPP) com base sólida em desenvolvimento web.",
@@ -11,13 +48,13 @@ export const profile = {
   ],
 };
 
-export const contact = {
+export const contact: Contact = {
   email: "nathanmateudeo@hotmail.com",
   linkedin: "https://www.linkedin.com/in/onathanmateus/",
   github: "https://github.com/onathanmateus",
 };
 
-export const experiences = [
+export const experiences: Experience[] = [
   {
     company: "HSB Consultoria",
     url: "https://hsbconsultoria.com.br/",
@@ -62,7 +99,7 @@ export const experiences = [
   },
 ];
 
-export const skillGroups = [
+export const skillGroups: SkillGroup[] = [
   {
     title: "ERP / Protheus",
     items: ["ADVPL / TLPP", "PO-UI"],
@@ -77,7 +114,7 @@ export const skillGroups = [
   },
 ];
 
-export const education = [
+export const education: Education[] = [
   {
     course: "Análise e Desenvolvimento de Sistemas (ADS)",
     school: "Universidade Potiguar — UNP",

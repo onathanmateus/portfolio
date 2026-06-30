@@ -1,270 +1,128 @@
 /* HeroUI v3 traz o próprio @import "tailwindcss" + base/tema/componentes.
-   Usamos o bundle dele como entrada única do Tailwind. Os tokens cyberpunk
-   abaixo ficam FORA de @layer, então têm prioridade sobre o tema do HeroUI
-   (preservando o visual e fazendo os componentes HeroUI herdarem nossa paleta). */
+   Usamos o bundle dele como entrada única do Tailwind. Os tokens abaixo ficam
+   FORA de @layer, então sobrescrevem as variáveis semânticas do HeroUI — assim
+   os componentes (Card, Button, Chip...) herdam a paleta Apple (claro) e
+   Dracula (escuro) automaticamente. */
 @import "@heroui/react/styles";
 
-/* Estratégia de dark mode manual: ativada pela classe .dark no <html> */
+/* Dark mode manual via classe .dark no <html> */
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* ---------- Tokens de tema (claro — "blueprint") ---------- */
+/* ---------- Tema claro — inspirado na Apple ---------- */
 :root {
-  --background: #f3f6f9;
+  --radius: 0.75rem;
+
+  --background: #f5f5f7;
+  --foreground: #1d1d1f;
+
   --surface: #ffffff;
-  --surface-2: #e9eff4;
-  --foreground: #06121c;
-  --muted: #42566a;
-  --border: rgba(14, 116, 144, 0.22);
-  --accent: #0e7490;
-  --accent-soft: #0891b2;
-  --grid-line: rgba(14, 116, 144, 0.10);
-  --glow: rgba(14, 116, 144, 0.22);
-  --scan: rgba(6, 18, 28, 0.04);
+  --surface-foreground: #1d1d1f;
+  --surface-secondary: #ffffff;
+  --surface-tertiary: #f5f5f7;
+
+  --overlay: #ffffff;
+  --overlay-foreground: #1d1d1f;
+
+  --muted: #6e6e73;
+  --border: #d2d2d7;
+  --separator: #e8e8ed;
+
+  --accent: #0071e3;
+  --accent-foreground: #ffffff;
+  --focus: #0071e3;
+  --link: #0071e3;
 }
 
-/* ---------- Tokens de tema (escuro — "neon") ---------- */
+/* ---------- Tema escuro — Dracula ---------- */
 .dark {
-  --background: #05070d;
-  --surface: #0a0f1a;
-  --surface-2: #0f1828;
-  --foreground: #d7ebf7;
-  --muted: #6f8aa3;
-  --border: rgba(34, 211, 238, 0.16);
-  --accent: #22d3ee;
-  --accent-soft: #67e8f9;
-  --grid-line: rgba(34, 211, 238, 0.08);
-  --glow: rgba(34, 211, 238, 0.55);
-  --scan: rgba(0, 0, 0, 0.16);
+  --background: #282a36;
+  --foreground: #f8f8f2;
+
+  --surface: #343746;
+  --surface-foreground: #f8f8f2;
+  --surface-secondary: #343746;
+  --surface-tertiary: #3c3f51;
+
+  --overlay: #343746;
+  --overlay-foreground: #f8f8f2;
+
+  --muted: #9aa0c4;
+  --border: #44475a;
+  --separator: #3a3d4d;
+
+  --accent: #bd93f9;
+  --accent-foreground: #282a36;
+  --focus: #bd93f9;
+  --link: #bd93f9;
 }
 
+/* Mapeia as fontes do next/font para os utilitários do Tailwind */
 @theme inline {
-  --color-background: var(--background);
-  --color-surface: var(--surface);
-  --color-surface-2: var(--surface-2);
-  --color-foreground: var(--foreground);
-  --color-muted: var(--muted);
-  --color-border: var(--border);
-  --color-accent: var(--accent);
-  --color-accent-soft: var(--accent-soft);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-  --font-display: var(--font-orbitron);
 }
 
 @layer base {
-  * {
-    border-color: var(--border);
-  }
-
   html {
     scroll-behavior: smooth;
-    scroll-padding-top: 5rem;
+    scroll-padding-top: 5.5rem;
     overflow-x: hidden;
+    -webkit-tap-highlight-color: transparent;
   }
 
   body {
     overflow-x: hidden;
-  }
-
-  body {
     background: var(--background);
     color: var(--foreground);
-    font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+    font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI",
+      Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
     transition: background-color 0.4s ease, color 0.4s ease;
   }
 
   ::selection {
-    background: var(--accent);
-    color: #04060a;
+    background: color-mix(in oklab, var(--accent) 24%, transparent);
   }
 }
 
 @layer utilities {
-  .font-display {
-    font-family: var(--font-display), var(--font-sans), sans-serif;
+  /* Vidro fosco translúcido (navbar/footer). O blur vem dos utilitários
+     backdrop-blur-* aplicados no JSX. */
+  .glass {
+    background: color-mix(in srgb, var(--background) 72%, transparent);
   }
 
-  /* Texto neon — cor sólida no claro, brilho forte só no escuro */
-  .neon-text {
-    color: var(--accent);
-  }
-  .dark .neon-text {
-    text-shadow: 0 0 6px var(--glow), 0 0 20px var(--glow);
-  }
-
+  /* Texto em degradê suave para títulos de destaque */
   .text-gradient {
-    background-image: linear-gradient(120deg, var(--accent-soft), var(--accent) 60%, #3b82f6);
+    background-image: linear-gradient(
+      120deg,
+      var(--foreground),
+      color-mix(in oklab, var(--accent) 70%, var(--foreground))
+    );
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
   }
 
-  /* Fundo translúcido. O blur é aplicado via utilities nativas do Tailwind
-     (backdrop-blur-*) no JSX, pois o Tailwind v4 sobrescreve backdrop-filter custom. */
-  .glass {
-    background: color-mix(in srgb, var(--surface) 60%, transparent);
+  /* Realce sutil ao passar o mouse em cards/links */
+  .lift {
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.3s ease, border-color 0.3s ease;
   }
-
-  /* Card cyberpunk: borda fina + bracket de canto (HUD) + brilho no hover */
-  .cyber-card {
-    position: relative;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
-  }
-  .cyber-card::before {
-    content: "";
-    position: absolute;
-    top: -1px;
-    right: -1px;
-    width: 16px;
-    height: 16px;
-    border-top: 2px solid var(--accent);
-    border-right: 2px solid var(--accent);
-    opacity: 0.45;
-    transition: opacity 0.3s ease, box-shadow 0.3s ease;
-  }
-  .cyber-card:hover {
-    border-color: color-mix(in srgb, var(--accent) 55%, transparent);
-    box-shadow: 0 0 24px -8px var(--glow), inset 0 0 24px -18px var(--glow);
-    transform: translateY(-2px);
-  }
-  .cyber-card:hover::before {
-    opacity: 1;
-    box-shadow: 0 0 8px var(--glow);
-  }
-
-  /* Marquee infinito (ticker de skills) */
-  .marquee-track {
-    animation: marquee 26s linear infinite;
-  }
-  .marquee-track:hover {
-    animation-play-state: paused;
-  }
-
-  /* Perspectiva para tilt 3D */
-  .perspective {
-    perspective: 900px;
-  }
-
-  /* Scanlines globais (sutis) */
-  .scanlines {
-    background-image: repeating-linear-gradient(
-      0deg,
-      transparent 0,
-      transparent 2px,
-      var(--scan) 2px,
-      var(--scan) 3px
-    );
-  }
-
-  /* Linhas/pulsos de circuito */
-  .trace {
-    fill: none;
-    stroke: var(--grid-line);
-    stroke-width: 1;
-    stroke-linejoin: round;
-    stroke-linecap: round;
-  }
-  .pulse {
-    fill: none;
-    stroke: var(--accent);
-    stroke-width: 1.6;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    filter: drop-shadow(0 0 3px var(--glow)) drop-shadow(0 0 6px var(--glow));
-  }
-  .pulse-hero {
-    stroke-dasharray: 14 86;
-    animation: flow100 4s linear infinite;
-  }
-  .pulse-accent {
-    stroke-dasharray: 9 291;
-    animation: flow300 8s linear infinite;
-  }
-  .pad {
-    fill: var(--surface);
-    stroke: var(--accent);
-    stroke-width: 1;
-    opacity: 0.5;
-  }
-  .pad-live {
-    animation: padPulse 3s ease-in-out infinite;
-  }
-
-  /* Glitch (dispara "de vez em quando") */
-  .glitch {
-    position: relative;
-    display: inline-block;
-  }
-  .glitch::before,
-  .glitch::after {
-    content: attr(data-text);
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background: var(--background);
-    clip-path: inset(0 0 100% 0);
-  }
-  .glitch::before {
-    left: 2px;
-    text-shadow: -1px 0 var(--accent-soft);
-    animation: glitchTop 5s steps(2, end) infinite;
-  }
-  .glitch::after {
-    left: -2px;
-    text-shadow: 1px 0 #4f8cff;
-    animation: glitchBottom 5s steps(2, end) infinite;
+  .lift:hover {
+    transform: translateY(-4px);
   }
 }
 
-/* Esconde o cursor nativo quando o cursor custom está ativo (apenas ponteiro fino) */
-@media (pointer: fine) {
-  html.custom-cursor,
-  html.custom-cursor a,
-  html.custom-cursor button,
-  html.custom-cursor [role="button"] {
-    cursor: none;
-  }
-}
-
-@keyframes marquee {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
-}
-
-@keyframes flow100 {
-  to { stroke-dashoffset: -100; }
-}
-@keyframes flow300 {
-  to { stroke-dashoffset: -300; }
-}
-@keyframes padPulse {
-  0%, 100% { opacity: 0.35; }
-  50% { opacity: 1; filter: drop-shadow(0 0 4px var(--glow)); }
-}
-
-/* Glitch: identidade na maior parte do ciclo, fragmenta em janelas curtas */
-@keyframes glitchTop {
-  0%, 78%, 100% { clip-path: inset(0 0 100% 0); transform: translate(0); opacity: 0; }
-  80% { clip-path: inset(0 0 62% 0); transform: translate(-2px, -1px); opacity: 0.9; }
-  84% { clip-path: inset(8% 0 50% 0); transform: translate(3px, 1px); opacity: 0.9; }
-  88% { clip-path: inset(0 0 70% 0); transform: translate(-1px, 0); opacity: 0.9; }
-  92% { clip-path: inset(0 0 100% 0); opacity: 0; }
-}
-@keyframes glitchBottom {
-  0%, 78%, 100% { clip-path: inset(100% 0 0 0); transform: translate(0); opacity: 0; }
-  81% { clip-path: inset(60% 0 0 0); transform: translate(2px, 1px); opacity: 0.9; }
-  85% { clip-path: inset(72% 0 8% 0); transform: translate(-3px, -1px); opacity: 0.9; }
-  89% { clip-path: inset(55% 0 0 0); transform: translate(1px, 0); opacity: 0.9; }
-  93% { clip-path: inset(100% 0 0 0); opacity: 0; }
-}
-
-/* Respeita usuários que preferem menos movimento */
+/* Respeita quem prefere menos movimento */
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  *, *::before, *::after {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
