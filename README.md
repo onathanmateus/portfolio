@@ -10,6 +10,8 @@ componentes **HeroUI** e animações sutis.
 
 <br/>
 
+[![CI](https://github.com/onathanmateus/portfolio/actions/workflows/ci.yml/badge.svg)](https://github.com/onathanmateus/portfolio/actions/workflows/ci.yml)
+
 ![Next.js](https://img.shields.io/badge/Next.js-16-000000?style=for-the-badge&logo=next.js&logoColor=white)
 ![React](https://img.shields.io/badge/React-19-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
@@ -113,6 +115,27 @@ npm run test:e2e      # e2e (instale os navegadores com: npx playwright install)
 
 ---
 
+## 🔄 CI/CD e automação
+
+Os workflows ficam em `.github/`:
+
+| Arquivo | O que faz |
+| --- | --- |
+| `workflows/ci.yml` | A cada `push` no `main` e em todo PR: `lint` → `typecheck` → Jest → `build` → Playwright |
+| `dependabot.yml` | Abre PRs semanais de atualização (npm + GitHub Actions), agrupados |
+| `workflows/dependabot-auto-merge.yml` | Quando a CI passa num PR do Dependabot, faz _squash merge_ e apaga o branch |
+
+### ⚙️ Configuração única no GitHub (necessária para o auto-merge)
+
+O merge automático só funciona depois de habilitar, uma vez, nas configurações do repositório:
+
+1. **Settings → Actions → General → Workflow permissions** → marcar **Read and write permissions**.
+2. **Settings → General → Pull Requests** → marcar **Allow auto-merge**.
+
+Sem isso, a CI continua rodando normalmente — apenas o merge automático fica sem permissão.
+
+---
+
 ## ✏️ Personalizando o conteúdo
 
 Todo o conteúdo (textos, experiências, skills, formação e contatos) está centralizado em:
@@ -126,16 +149,20 @@ Basta alterar os dados desse arquivo — não é preciso mexer nos componentes.
 ## 📁 Estrutura do projeto
 
 ```
-src/
-├── app/
-│   ├── layout.tsx         # Layout raiz: tema, fontes, métricas
-│   ├── page.tsx           # Landing (/)
-│   ├── globals.css        # Tokens de tema (Apple/Dracula) sobre o HeroUI
-│   └── (site)/            # Rotas das seções (Navbar + Footer)
-│       ├── sobre/ experiencia/ skills/ formacao/ contato/
-├── components/            # Hero, Navbar, About, Experience, Skills… (HeroUI)
-└── data/
-    └── portfolio.ts       # 👈 Conteúdo do site
+.
+├── .github/               # Workflows de CI, Dependabot e auto-merge
+├── __tests__/             # Testes unitários (Jest)
+├── tests-e2e/             # Testes end-to-end (Playwright)
+└── src/
+    ├── app/
+    │   ├── layout.tsx     # Layout raiz: tema, fontes, métricas
+    │   ├── page.tsx       # Landing (/)
+    │   ├── globals.css    # Tokens de tema (Apple/Dracula) sobre o HeroUI
+    │   └── (site)/        # Rotas das seções (Navbar + Footer)
+    │       ├── sobre/ experiencia/ skills/ formacao/ contato/
+    ├── components/        # Hero, Navbar, About, Experience, Skills… (HeroUI)
+    └── data/
+        └── portfolio.ts   # 👈 Conteúdo do site
 ```
 
 ---
