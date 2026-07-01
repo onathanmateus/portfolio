@@ -39,8 +39,6 @@ linhas de circuito, componentes **HeroUI**, fonte **JetBrains Mono** e efeito de
 - 📊 **Vercel Analytics + Speed Insights** integrados.
 - 📱 **Responsivo** e ♿ **acessível** — foco visível por teclado, `theme-color`, `aria-label`s e respeita `prefers-reduced-motion`.
 
-> A URL canônica vem de `NEXT_PUBLIC_SITE_URL` (defina no ambiente/Vercel); sem ela, cai no domínio do deploy (`VERCEL_URL`) ou `localhost`.
-
 ## 🗺️ Rotas
 
 | Rota | Conteúdo |
