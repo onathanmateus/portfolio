@@ -28,7 +28,7 @@ componentes **HeroUI** e animações sutis.
 - 🍎 **Design inspirado na Apple** — tipografia generosa, bastante respiro, cards suaves e foco no conteúdo.
 - 🧩 **HeroUI v3** — biblioteca de componentes (Card, Button, Chip…) como base da interface.
 - 🌗 **Tema claro/escuro** — claro estilo Apple (accent azul) e escuro **Dracula** (accent roxo), com persistência e _script_ anti-_flash_.
-- 🎞️ **Animações sutis** — entradas suaves com [Motion](https://motion.dev), sem exageros.
+- 🎞️ **Animações sutis** — com [Motion](https://motion.dev): aurora de fundo, _spotlight_ que segue o cursor, botões magnéticos, _pill_ deslizante na navbar, barra de progresso de rolagem, _shimmer_ no nome e _reveals_ no scroll. Tudo discreto e respeitando `prefers-reduced-motion`.
 - 🧷 **100% TypeScript** — tipagem de ponta a ponta.
 - ✅ **Testes automatizados** — unitários com **Jest** + Testing Library e e2e com **Playwright**.
 - 🔄 **CI/CD** — GitHub Actions roda lint, typecheck, testes e build a cada push; Dependabot mantém as dependências atualizadas com _auto-merge_.

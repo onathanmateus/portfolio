@@ -68,17 +68,21 @@
     scroll-padding-top: 5.5rem;
     overflow-x: hidden;
     -webkit-tap-highlight-color: transparent;
+    /* Fundo na raiz para que as camadas fixas (Aurora/Spotlight, -z-10)
+       fiquem acima dele e abaixo do conteúdo. */
+    background: var(--background);
+    transition: background-color 0.4s ease;
   }
 
   body {
     overflow-x: hidden;
-    background: var(--background);
+    background: transparent;
     color: var(--foreground);
     font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI",
       Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
-    transition: background-color 0.4s ease, color 0.4s ease;
+    transition: color 0.4s ease;
   }
 
   ::selection {
@@ -107,12 +111,72 @@
 
   /* Realce sutil ao passar o mouse em cards/links */
   .lift {
-    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
-      box-shadow 0.3s ease, border-color 0.3s ease;
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.35s ease, border-color 0.35s ease;
   }
   .lift:hover {
     transform: translateY(-4px);
+    border-color: color-mix(in oklab, var(--accent) 45%, var(--border));
+    box-shadow: 0 16px 40px -18px color-mix(in oklab, var(--accent) 55%, transparent);
   }
+
+  /* Nome do Hero com brilho que desliza pelo gradiente */
+  .shimmer {
+    background-image: linear-gradient(
+      110deg,
+      var(--foreground) 0%,
+      var(--foreground) 35%,
+      color-mix(in oklab, var(--accent) 85%, var(--foreground)) 50%,
+      var(--foreground) 65%,
+      var(--foreground) 100%
+    );
+    background-size: 220% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: shimmer 6s ease-in-out infinite;
+  }
+
+  /* Aurora de fundo — manchas de gradiente que derivam devagar */
+  .aurora-blob {
+    position: absolute;
+    border-radius: 9999px;
+    filter: blur(70px);
+    opacity: 0.5;
+    will-change: transform;
+  }
+  .dark .aurora-blob {
+    opacity: 0.35;
+  }
+  .aurora-a {
+    background: radial-gradient(circle, var(--accent), transparent 70%);
+    animation: drift-a 22s ease-in-out infinite alternate;
+  }
+  .aurora-b {
+    background: radial-gradient(circle, color-mix(in oklab, var(--accent) 60%, #9b6dff), transparent 70%);
+    animation: drift-b 28s ease-in-out infinite alternate;
+  }
+  .aurora-c {
+    background: radial-gradient(circle, color-mix(in oklab, var(--accent) 50%, #22d3ee), transparent 70%);
+    animation: drift-c 26s ease-in-out infinite alternate;
+  }
+}
+
+@keyframes shimmer {
+  0%, 100% { background-position: 150% 0; }
+  50% { background-position: -50% 0; }
+}
+@keyframes drift-a {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to { transform: translate3d(6%, 8%, 0) scale(1.15); }
+}
+@keyframes drift-b {
+  from { transform: translate3d(0, 0, 0) scale(1.1); }
+  to { transform: translate3d(-8%, -6%, 0) scale(1); }
+}
+@keyframes drift-c {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to { transform: translate3d(5%, -9%, 0) scale(1.2); }
 }
 
 /* Respeita quem prefere menos movimento */

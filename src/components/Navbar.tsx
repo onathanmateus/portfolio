@@ -50,13 +50,18 @@ export function Navbar() {
             {links.map((link) => {
               const active = pathname === link.href;
               return (
-                <li key={link.href}>
+                <li key={link.href} className="relative">
+                  {active ? (
+                    <motion.span
+                      layoutId="nav-pill"
+                      className="absolute inset-0 rounded-full bg-surface-tertiary"
+                      transition={{ type: "spring", stiffness: 400, damping: 32 }}
+                    />
+                  ) : null}
                   <Link
                     href={link.href}
-                    className={`rounded-full px-3.5 py-1.5 text-sm transition-colors ${
-                      active
-                        ? "text-accent"
-                        : "text-muted hover:bg-surface-tertiary hover:text-foreground"
+                    className={`relative z-10 block rounded-full px-3.5 py-1.5 text-sm transition-colors ${
+                      active ? "text-accent" : "text-muted hover:text-foreground"
                     }`}
                   >
                     {link.label}

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { motion } from "motion/react";
 import { profile } from "@/data/portfolio";
+import { Magnetic } from "./Magnetic";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -44,7 +45,7 @@ export function Hero() {
 
       <motion.h1
         {...item(0.18)}
-        className="text-gradient max-w-3xl text-5xl font-semibold tracking-tight sm:text-7xl"
+        className="shimmer max-w-3xl text-5xl font-semibold tracking-tight sm:text-7xl"
       >
         {profile.name}
       </motion.h1>
@@ -54,18 +55,22 @@ export function Hero() {
       </motion.p>
 
       <motion.div {...item(0.34)} className="mt-10 flex flex-wrap items-center justify-center gap-3">
-        <Link
-          href="/sobre"
-          className="rounded-full bg-accent px-6 py-3 text-sm font-medium text-accent-foreground transition-transform hover:scale-[1.03] active:scale-95"
-        >
-          Conhecer trajetória
-        </Link>
-        <Link
-          href="/contato"
-          className="rounded-full border border-border px-6 py-3 text-sm font-medium text-foreground transition-colors hover:border-accent hover:text-accent"
-        >
-          Entrar em contato
-        </Link>
+        <Magnetic>
+          <Link
+            href="/sobre"
+            className="inline-block rounded-full bg-accent px-6 py-3 text-sm font-medium text-accent-foreground shadow-lg shadow-accent/25 transition-transform active:scale-95"
+          >
+            Conhecer trajetória
+          </Link>
+        </Magnetic>
+        <Magnetic>
+          <Link
+            href="/contato"
+            className="inline-block rounded-full border border-border px-6 py-3 text-sm font-medium text-foreground transition-colors hover:border-accent hover:text-accent"
+          >
+            Entrar em contato
+          </Link>
+        </Magnetic>
       </motion.div>
 
       <motion.p {...item(0.42)} className="mt-12 text-sm text-muted">
