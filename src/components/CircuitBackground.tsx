@@ -97,7 +97,10 @@ export function CircuitBackground() {
       const cols = Math.floor(W / G);
       const rows = Math.floor(H / G);
       if (cols < 2 || rows < 2) return;
-      const count = Math.max(10, Math.min(60, Math.round((W * H) / 26000)));
+      // Menos traços em telas pequenas (custo de pintura no celular).
+      const small = W < 720;
+      const divisor = small ? 40000 : 26000;
+      const count = Math.max(8, Math.min(small ? 26 : 60, Math.round((W * H) / divisor)));
       for (let n = 0; n < count; n++) {
         const pts: Pt[] = [];
         let cx = rnd(cols);

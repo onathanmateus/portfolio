@@ -1,8 +1,10 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider, themeInitScript } from "@/components/ThemeProvider";
 import { CircuitBackground } from "@/components/CircuitBackground";
+import { siteConfig, siteUrl } from "@/lib/site";
+import { contact, profile } from "@/data/portfolio";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
@@ -13,17 +15,59 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Nathan Mateus — Analista de Sistemas Pleno",
-  description:
-    "Portfólio de Nathan Mateus, Analista de Sistemas Pleno especialista em Protheus (ADVPL / TLPP) com experiência em desenvolvimento web (React, Next.js, Node.js).",
-  keywords: ["Nathan Mateus", "Protheus", "ADVPL", "TLPP", "Desenvolvedor", "React", "Next.js"],
-  authors: [{ name: "Nathan Mateus" }],
-  openGraph: {
-    title: "Nathan Mateus — Analista de Sistemas Pleno",
-    description: "Especialista em Protheus (ADVPL / TLPP) com base sólida em desenvolvimento web.",
-    locale: "pt_BR",
-    type: "website",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: siteConfig.title,
+    template: "%s — Nathan Mateus",
   },
+  description: siteConfig.description,
+  keywords: ["Nathan Mateus", "Protheus", "ADVPL", "TLPP", "Desenvolvedor", "React", "Next.js"],
+  authors: [{ name: siteConfig.name, url: siteUrl }],
+  creator: siteConfig.name,
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    locale: siteConfig.locale,
+    url: siteUrl,
+    siteName: siteConfig.name,
+    title: siteConfig.title,
+    description: siteConfig.description,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteConfig.title,
+    description: siteConfig.description,
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true },
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#eef1f6" },
+    { media: "(prefers-color-scheme: dark)", color: "#12151b" },
+  ],
+};
+
+// Dados estruturados: ajuda o Google a entender quem é a pessoa.
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: profile.name,
+  jobTitle: profile.role,
+  url: siteUrl,
+  email: `mailto:${contact.email}`,
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Natal",
+    addressRegion: "RN",
+    addressCountry: "BR",
+  },
+  sameAs: [contact.linkedin, contact.github],
+  knowsAbout: ["Protheus", "ADVPL", "TLPP", "React", "Next.js", "Node.js", "TypeScript"],
 };
 
 export default function RootLayout({
@@ -33,10 +77,15 @@ export default function RootLayout({
     <html
       lang="pt-BR"
       suppressHydrationWarning
+      data-scroll-behavior="smooth"
       className={`${jetbrainsMono.variable} h-full antialiased`}
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+        />
       </head>
       <body className="relative min-h-full" suppressHydrationWarning>
         <ThemeProvider>

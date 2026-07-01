@@ -35,8 +35,11 @@ linhas de circuito, componentes **HeroUI**, fonte **JetBrains Mono** e efeito de
 - 🧷 **100% TypeScript** — tipagem de ponta a ponta.
 - ✅ **Testes automatizados** — unitários com **Jest** + Testing Library e e2e com **Playwright**.
 - 🔄 **CI/CD** — GitHub Actions roda lint, typecheck, testes e build a cada push; Dependabot mantém as dependências atualizadas com _auto-merge_.
+- 🔎 **SEO & compartilhamento** — metadata por rota, **OG/Twitter image** gerada dinamicamente (`next/og`), `sitemap.xml`, `robots.txt`, `metadataBase` e **JSON-LD `Person`**.
 - 📊 **Vercel Analytics + Speed Insights** integrados.
-- 📱 **Responsivo** e ♿ **acessível** — respeita `prefers-reduced-motion`.
+- 📱 **Responsivo** e ♿ **acessível** — foco visível por teclado, `theme-color`, `aria-label`s e respeita `prefers-reduced-motion`.
+
+> A URL canônica vem de `NEXT_PUBLIC_SITE_URL` (defina no ambiente/Vercel); sem ela, cai no domínio do deploy (`VERCEL_URL`) ou `localhost`.
 
 ## 🗺️ Rotas
 

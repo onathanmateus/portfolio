@@ -35,8 +35,6 @@ export function Contact() {
           </RevealItem>
         ))}
       </Stagger>
-
-      <p className="mono mt-8 text-sm text-muted">Respondo normalmente em até um dia útil.</p>
     </section>
   );
 }
