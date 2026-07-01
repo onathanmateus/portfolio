@@ -1,75 +1,71 @@
 /* HeroUI v3 traz o próprio @import "tailwindcss" + base/tema/componentes.
    Usamos o bundle dele como entrada única do Tailwind. Os tokens abaixo ficam
    FORA de @layer, então sobrescrevem as variáveis semânticas do HeroUI — assim
-   os componentes (Card, Button, Chip...) herdam a paleta Apple (claro) e
-   Dracula (escuro) automaticamente. */
+   os componentes (Card, Button, Chip...) herdam a paleta azul (claro e escuro). */
 @import "@heroui/react/styles";
 
 /* Dark mode manual via classe .dark no <html> */
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* ---------- Tema claro — inspirado na Apple ---------- */
+/* ---------- Tema claro — azul sobre cinza claro ---------- */
 :root {
-  --radius: 0.75rem;
+  --radius: 0.7rem;
 
-  --background: #f5f5f7;
-  --foreground: #1d1d1f;
+  --background: #eef1f6;
+  --foreground: #0f151d;
 
   --surface: #ffffff;
-  --surface-foreground: #1d1d1f;
+  --surface-foreground: #0f151d;
   --surface-secondary: #ffffff;
-  --surface-tertiary: #f5f5f7;
+  --surface-tertiary: #e6ebf2;
 
   --overlay: #ffffff;
-  --overlay-foreground: #1d1d1f;
+  --overlay-foreground: #0f151d;
 
-  --muted: #6e6e73;
-  --border: #d2d2d7;
-  --separator: #e8e8ed;
+  --muted: #5b6675;
+  --border: #d2dae4;
+  --separator: #e3e9f0;
 
-  --accent: #0071e3;
+  --accent: #0a6dff;
   --accent-foreground: #ffffff;
-  --focus: #0071e3;
-  --link: #0071e3;
+  --focus: #0a6dff;
+  --link: #0a6dff;
 }
 
-/* ---------- Tema escuro — Dracula ---------- */
+/* ---------- Tema escuro — cinza-escuro (não preto), azul ---------- */
 .dark {
-  --background: #282a36;
-  --foreground: #f8f8f2;
+  --background: #12151b;
+  --foreground: #e7ecf3;
 
-  --surface: #343746;
-  --surface-foreground: #f8f8f2;
-  --surface-secondary: #343746;
-  --surface-tertiary: #3c3f51;
+  --surface: #1b2029;
+  --surface-foreground: #e7ecf3;
+  --surface-secondary: #1b2029;
+  --surface-tertiary: #262d38;
 
-  --overlay: #343746;
-  --overlay-foreground: #f8f8f2;
+  --overlay: #1b2029;
+  --overlay-foreground: #e7ecf3;
 
-  --muted: #9aa0c4;
-  --border: #44475a;
-  --separator: #3a3d4d;
+  --muted: #97a2b2;
+  --border: #2b323d;
+  --separator: #232a33;
 
-  --accent: #bd93f9;
-  --accent-foreground: #282a36;
-  --focus: #bd93f9;
-  --link: #bd93f9;
+  --accent: #4d9dff;
+  --accent-foreground: #0a0e14;
+  --focus: #4d9dff;
+  --link: #4d9dff;
 }
 
-/* Mapeia as fontes do next/font para os utilitários do Tailwind */
+/* Fontes: tech/terminal (Space Grotesk + JetBrains Mono) */
 @theme inline {
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-space-grotesk);
+  --font-mono: var(--font-jetbrains);
 }
 
 @layer base {
   html {
     scroll-behavior: smooth;
-    scroll-padding-top: 5.5rem;
     overflow-x: hidden;
     -webkit-tap-highlight-color: transparent;
-    /* Fundo na raiz para que as camadas fixas (Aurora/Spotlight, -z-10)
-       fiquem acima dele e abaixo do conteúdo. */
     background: var(--background);
     transition: background-color 0.4s ease;
   }
@@ -78,7 +74,7 @@
     overflow-x: hidden;
     background: transparent;
     color: var(--foreground);
-    font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI",
+    font-family: var(--font-space-grotesk), -apple-system, BlinkMacSystemFont, "Segoe UI",
       Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
@@ -86,47 +82,28 @@
   }
 
   ::selection {
-    background: color-mix(in oklab, var(--accent) 24%, transparent);
+    background: color-mix(in oklab, var(--accent) 26%, transparent);
   }
 }
 
 @layer utilities {
-  /* Vidro fosco translúcido (navbar/footer). O blur vem dos utilitários
-     backdrop-blur-* aplicados no JSX. */
+  /* Vidro translúcido — deixa a luz do fundo passar (navbar/footer) */
   .glass {
-    background: color-mix(in srgb, var(--background) 72%, transparent);
+    background: color-mix(in srgb, var(--surface) 55%, transparent);
   }
 
-  /* Texto em degradê suave para títulos de destaque */
-  .text-gradient {
-    background-image: linear-gradient(
-      120deg,
-      var(--foreground),
-      color-mix(in oklab, var(--accent) 70%, var(--foreground))
-    );
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+  /* Rótulos/monospace em estilo terminal */
+  .mono {
+    font-family: var(--font-jetbrains), ui-monospace, monospace;
   }
 
-  /* Realce sutil ao passar o mouse em cards/links */
-  .lift {
-    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-      box-shadow 0.35s ease, border-color 0.35s ease;
-  }
-  .lift:hover {
-    transform: translateY(-4px);
-    border-color: color-mix(in oklab, var(--accent) 45%, var(--border));
-    box-shadow: 0 16px 40px -18px color-mix(in oklab, var(--accent) 55%, transparent);
-  }
-
-  /* Nome do Hero com brilho que desliza pelo gradiente */
+  /* Nome do Hero com brilho azul deslizando */
   .shimmer {
     background-image: linear-gradient(
       110deg,
       var(--foreground) 0%,
       var(--foreground) 35%,
-      color-mix(in oklab, var(--accent) 85%, var(--foreground)) 50%,
+      color-mix(in oklab, var(--accent) 90%, var(--foreground)) 50%,
       var(--foreground) 65%,
       var(--foreground) 100%
     );
@@ -137,28 +114,27 @@
     animation: shimmer 6s ease-in-out infinite;
   }
 
-  /* Aurora de fundo — manchas de gradiente que derivam devagar */
-  .aurora-blob {
-    position: absolute;
-    border-radius: 9999px;
-    filter: blur(70px);
-    opacity: 0.5;
-    will-change: transform;
+  /* Cursor piscando (estética terminal) */
+  .caret::after {
+    content: "";
+    display: inline-block;
+    width: 0.55ch;
+    height: 1em;
+    margin-left: 0.15ch;
+    translate: 0 0.12em;
+    background: var(--accent);
+    animation: blink 1.1s steps(1) infinite;
   }
-  .dark .aurora-blob {
-    opacity: 0.35;
+
+  /* Realce ao passar o mouse em cards */
+  .lift {
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.35s ease, border-color 0.35s ease;
   }
-  .aurora-a {
-    background: radial-gradient(circle, var(--accent), transparent 70%);
-    animation: drift-a 22s ease-in-out infinite alternate;
-  }
-  .aurora-b {
-    background: radial-gradient(circle, color-mix(in oklab, var(--accent) 60%, #9b6dff), transparent 70%);
-    animation: drift-b 28s ease-in-out infinite alternate;
-  }
-  .aurora-c {
-    background: radial-gradient(circle, color-mix(in oklab, var(--accent) 50%, #22d3ee), transparent 70%);
-    animation: drift-c 26s ease-in-out infinite alternate;
+  .lift:hover {
+    transform: translateY(-4px);
+    border-color: color-mix(in oklab, var(--accent) 50%, var(--border));
+    box-shadow: 0 16px 40px -18px color-mix(in oklab, var(--accent) 60%, transparent);
   }
 }
 
@@ -166,27 +142,15 @@
   0%, 100% { background-position: 150% 0; }
   50% { background-position: -50% 0; }
 }
-@keyframes drift-a {
-  from { transform: translate3d(0, 0, 0) scale(1); }
-  to { transform: translate3d(6%, 8%, 0) scale(1.15); }
-}
-@keyframes drift-b {
-  from { transform: translate3d(0, 0, 0) scale(1.1); }
-  to { transform: translate3d(-8%, -6%, 0) scale(1); }
-}
-@keyframes drift-c {
-  from { transform: translate3d(0, 0, 0) scale(1); }
-  to { transform: translate3d(5%, -9%, 0) scale(1.2); }
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  50.01%, 100% { opacity: 0; }
 }
 
 /* Respeita quem prefere menos movimento */
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-  *,
-  *::before,
-  *::after {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;

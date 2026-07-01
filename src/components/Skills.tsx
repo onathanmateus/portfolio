@@ -5,23 +5,23 @@ import { SectionHeading } from "./SectionHeading";
 
 export function Skills() {
   return (
-    <section id="skills" className="mx-auto w-full max-w-5xl scroll-mt-24">
+    <section id="skills" className="mx-auto flex w-full max-w-5xl flex-1 flex-col justify-center">
       <SectionHeading
-        eyebrow="Stack"
+        eyebrow="// stack"
         title="Conhecimentos técnicos"
         subtitle="Ferramentas e tecnologias com que trabalho no dia a dia."
       />
 
-      <Stagger className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      <Stagger className="grid flex-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {skillGroups.map((group) => (
-          <RevealItem key={group.title}>
-            <Card className="lift h-full">
+          <RevealItem key={group.title} className="h-full">
+            <Card className="lift flex h-full flex-col">
               <Card.Header>
-                <Card.Title className="text-lg">{group.title}</Card.Title>
+                <Card.Title className="mono text-lg">{group.title}</Card.Title>
               </Card.Header>
-              <Card.Content className="flex flex-row flex-wrap items-center gap-2">
+              <Card.Content className="flex flex-1 flex-row flex-wrap content-center items-center gap-2">
                 {group.items.map((item) => (
-                  <Chip key={item} variant="secondary" size="sm">
+                  <Chip key={item} variant="secondary">
                     {item}
                   </Chip>
                 ))}

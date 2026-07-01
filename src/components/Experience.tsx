@@ -6,8 +6,8 @@ import { SectionHeading } from "./SectionHeading";
 
 export function Experience() {
   return (
-    <section id="experiencia" className="mx-auto w-full max-w-5xl scroll-mt-24">
-      <SectionHeading eyebrow="Trajetória" title="Experiência profissional" />
+    <section id="experiencia" className="mx-auto flex w-full max-w-5xl flex-1 flex-col justify-center">
+      <SectionHeading eyebrow="// trajetoria" title="Experiência profissional" />
 
       <Stagger className="flex flex-col gap-5">
         {experiences.map((exp, i) => (

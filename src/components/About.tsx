@@ -5,10 +5,10 @@ import { SectionHeading } from "./SectionHeading";
 
 export function About() {
   return (
-    <section id="sobre" className="mx-auto w-full max-w-5xl scroll-mt-24">
-      <SectionHeading eyebrow="Sobre" title="Um pouco sobre mim" />
+    <section id="sobre" className="mx-auto flex w-full max-w-5xl flex-1 flex-col justify-center">
+      <SectionHeading eyebrow="// sobre" title="Um pouco sobre mim" />
 
-      <div className="grid gap-8 md:grid-cols-[1.6fr_1fr]">
+      <div className="grid flex-1 items-center gap-8 md:grid-cols-[1.6fr_1fr]">
         <Reveal className="space-y-5">
           {profile.about.map((paragraph, i) => (
             <p key={i} className="text-lg leading-relaxed text-muted">
@@ -19,7 +19,7 @@ export function About() {
 
         <Reveal delay={0.1}>
           <Card className="lift h-full">
-            <Card.Content className="space-y-5">
+            <Card.Content className="flex h-full flex-col justify-center gap-5">
               <Detail label="Cargo atual" value={profile.role} />
               <Detail label="Localização" value={profile.location} />
               <Detail label="Foco" value="Protheus · ADVPL / TLPP · Web" />
@@ -34,7 +34,7 @@ export function About() {
 function Detail({ label, value }: { label: string; value: string }) {
   return (
     <div>
-      <dt className="text-xs font-semibold tracking-wide text-accent uppercase">{label}</dt>
+      <dt className="mono text-xs tracking-wide text-accent uppercase">{label}</dt>
       <dd className="mt-1 font-medium text-foreground">{value}</dd>
     </div>
   );

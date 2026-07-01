@@ -11,7 +11,7 @@ export function SectionHeading({ eyebrow, title, subtitle }: SectionHeadingProps
     <div className="mb-12">
       {eyebrow ? (
         <Reveal>
-          <p className="mb-3 text-sm font-semibold tracking-wide text-accent">
+          <p className="mono mb-3 text-sm font-medium tracking-wide text-accent">
             {eyebrow}
           </p>
         </Reveal>

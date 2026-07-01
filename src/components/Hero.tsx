@@ -24,22 +24,15 @@ export function Hero() {
 
   return (
     <main className="relative flex min-h-[100svh] flex-col items-center justify-center overflow-hidden px-5 text-center">
-      {/* brilho suave de fundo */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute left-1/2 top-1/3 -z-10 h-[480px] w-[480px] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-50 blur-3xl"
-        style={{ background: "radial-gradient(circle, color-mix(in oklab, var(--accent) 35%, transparent), transparent 70%)" }}
-      />
-
       <motion.div
         {...item(0.05)}
-        className="mb-8 grid h-24 w-24 place-items-center rounded-full text-2xl font-semibold text-accent-foreground shadow-lg"
-        style={{ background: "linear-gradient(135deg, var(--accent), color-mix(in oklab, var(--accent) 60%, #000))" }}
+        className="mb-8 grid h-24 w-24 place-items-center rounded-2xl text-2xl font-semibold text-accent-foreground shadow-lg shadow-accent/25"
+        style={{ background: "linear-gradient(135deg, var(--accent), color-mix(in oklab, var(--accent) 55%, #000))" }}
       >
         {initials}
       </motion.div>
 
-      <motion.p {...item(0.12)} className="mb-4 text-sm font-semibold tracking-wide text-accent">
+      <motion.p {...item(0.12)} className="mono caret mb-4 text-sm font-medium tracking-wide text-accent">
         {profile.role}
       </motion.p>
 
@@ -73,7 +66,7 @@ export function Hero() {
         </Magnetic>
       </motion.div>
 
-      <motion.p {...item(0.42)} className="mt-12 text-sm text-muted">
+      <motion.p {...item(0.42)} className="mono mt-12 text-sm text-muted">
         {profile.location}
       </motion.p>
     </main>

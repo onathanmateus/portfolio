@@ -35,17 +35,17 @@ export function Navbar() {
     <header className="fixed inset-x-0 top-0 z-50">
       <div className="mx-auto max-w-5xl px-4 sm:px-6">
         <nav
-          className={`mt-3 flex items-center justify-between rounded-2xl border border-border bg-surface/85 px-4 py-2.5 backdrop-blur-2xl backdrop-saturate-150 transition-all duration-300 sm:px-5 ${
+          className={`mt-3 flex items-center justify-between rounded-2xl border border-border/70 bg-surface/40 px-4 py-2.5 backdrop-blur-xl backdrop-saturate-150 transition-all duration-300 sm:px-5 ${
             scrolled
-              ? "shadow-[0_12px_36px_-12px_rgba(0,0,0,0.45)]"
-              : "shadow-[0_6px_20px_-12px_rgba(0,0,0,0.35)]"
+              ? "shadow-[0_12px_36px_-16px_rgba(0,0,0,0.5)]"
+              : "shadow-[0_6px_20px_-16px_rgba(0,0,0,0.4)]"
           }`}
         >
           <Link
             href="/"
-            className="text-sm font-semibold tracking-tight text-foreground transition-opacity hover:opacity-70"
+            className="mono text-sm font-semibold tracking-tight text-foreground transition-opacity hover:opacity-70"
           >
-            Nathan Mateus
+            <span className="text-accent">~/</span>nathan
           </Link>
 
           <ul className="hidden items-center gap-1 md:flex">
@@ -62,7 +62,7 @@ export function Navbar() {
                   ) : null}
                   <Link
                     href={link.href}
-                    className={`relative z-10 block rounded-full px-3.5 py-1.5 text-sm transition-colors ${
+                    className={`mono relative z-10 block rounded-full px-3.5 py-1.5 text-sm transition-colors ${
                       active ? "text-accent" : "text-muted hover:text-foreground"
                     }`}
                   >
@@ -95,14 +95,14 @@ export function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.2 }}
-            className="mx-4 mt-2 overflow-hidden rounded-2xl border border-border bg-surface/95 p-2 shadow-xl backdrop-blur-2xl backdrop-saturate-150 md:hidden"
+            className="mx-4 mt-2 overflow-hidden rounded-2xl border border-border/70 bg-surface/60 p-2 shadow-xl backdrop-blur-xl backdrop-saturate-150 md:hidden"
           >
             <ul className="flex flex-col">
               {links.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="block rounded-xl px-4 py-3 text-base text-muted transition-colors hover:bg-surface-tertiary hover:text-foreground"
+                    className="mono block rounded-xl px-4 py-3 text-base text-muted transition-colors hover:bg-surface-tertiary hover:text-foreground"
                   >
                     {link.label}
                   </Link>

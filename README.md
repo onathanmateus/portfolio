@@ -5,8 +5,8 @@
 Portfólio pessoal de **Nathan Mateus**, Analista de Sistemas Pleno especialista em
 **Protheus (ADVPL / TLPP)** com base sólida em desenvolvimento web.
 
-Visual limpo e elegante inspirado na **Apple**, com tema escuro **Dracula**,
-componentes **HeroUI** e animações sutis.
+Visual **tech/terminal** com tema azul (claro e escuro), fundo animado de
+linhas de circuito, componentes **HeroUI** e fontes Space Grotesk + JetBrains Mono.
 
 <br/>
 
@@ -25,10 +25,11 @@ componentes **HeroUI** e animações sutis.
 
 ## ✨ Destaques
 
-- 🍎 **Design inspirado na Apple** — tipografia generosa, bastante respiro, cards suaves e foco no conteúdo.
+- 🧬 **Estética tech/terminal** — fontes Space Grotesk + JetBrains Mono, rótulos em estilo terminal e navbar translúcida (a luz do fundo passa por trás).
+- 🔌 **Fundo animado de circuito** — traços de "linhas de comunicação de chip" com pulsos de luz que viajam por eles (canvas 2D leve); roda no celular e no desktop, pausa com `prefers-reduced-motion` e com a aba oculta.
 - 🧩 **HeroUI v3** — biblioteca de componentes (Card, Button, Chip…) como base da interface.
-- 🌗 **Tema claro/escuro** — claro estilo Apple (accent azul) e escuro **Dracula** (accent roxo), com persistência e _script_ anti-_flash_.
-- 🌊 **Fundo animado WebGL** — campo fluido de cores da marca (shader leve, 1 triângulo fullscreen) que se move devagar com um feixe cruzando de tempos em tempos; roda no celular e no desktop, pausa com `prefers-reduced-motion` e com a aba oculta.
+- 🌗 **Tema claro/escuro** — azul nos dois; escuro em cinza-grafite (legível, sem contraste agressivo), com persistência e _script_ anti-_flash_.
+- 🖥️ **Uma tela por página** — no desktop cada seção ocupa a viewport inteira, com o conteúdo esticado e o rodapé sempre visível (sem rolar atrás dele).
 - 🎞️ **Animações** — com [Motion](https://motion.dev): botões magnéticos, _pill_ deslizante na navbar, _shimmer_ no nome e _reveals_ no scroll.
 - 🧷 **100% TypeScript** — tipagem de ponta a ponta.
 - ✅ **Testes automatizados** — unitários com **Jest** + Testing Library e e2e com **Playwright**.

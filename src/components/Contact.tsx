@@ -4,45 +4,33 @@ import { Reveal, Stagger, RevealItem } from "./Reveal";
 import { SectionHeading } from "./SectionHeading";
 
 const channels = [
-  {
-    label: "Email",
-    value: contact.email,
-    href: `mailto:${contact.email}`,
-  },
-  {
-    label: "LinkedIn",
-    value: "in/onathanmateus",
-    href: contact.linkedin,
-  },
-  {
-    label: "GitHub",
-    value: "@onathanmateus",
-    href: contact.github,
-  },
+  { label: "Email", value: contact.email, href: `mailto:${contact.email}` },
+  { label: "LinkedIn", value: "in/onathanmateus", href: contact.linkedin },
+  { label: "GitHub", value: "@onathanmateus", href: contact.github },
 ];
 
 export function Contact() {
   return (
-    <section id="contato" className="mx-auto w-full max-w-5xl scroll-mt-24">
+    <section id="contato" className="mx-auto flex w-full max-w-5xl flex-1 flex-col justify-center">
       <SectionHeading
-        eyebrow="Contato"
+        eyebrow="// contato"
         title="Vamos conversar"
         subtitle="Aberto a novas oportunidades e parcerias. Escolha o melhor canal."
       />
 
-      <Stagger className="grid gap-5 sm:grid-cols-3">
+      <Stagger className="grid flex-1 gap-5 sm:grid-cols-3">
         {channels.map((channel) => (
-          <RevealItem key={channel.label}>
+          <RevealItem key={channel.label} className="h-full">
             <a
               href={channel.href}
               target={channel.href.startsWith("http") ? "_blank" : undefined}
               rel={channel.href.startsWith("http") ? "noopener noreferrer" : undefined}
-              className="block h-full focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-2xl"
+              className="block h-full rounded-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
             >
-              <Card className="lift h-full">
+              <Card className="lift flex h-full flex-col justify-center">
                 <Card.Header>
-                  <Card.Title className="text-base text-accent">{channel.label}</Card.Title>
-                  <Card.Description className="break-all text-foreground">
+                  <Card.Title className="mono text-sm text-accent">{channel.label}</Card.Title>
+                  <Card.Description className="break-all text-lg text-foreground">
                     {channel.value}
                   </Card.Description>
                 </Card.Header>
@@ -53,7 +41,7 @@ export function Contact() {
       </Stagger>
 
       <Reveal delay={0.15}>
-        <p className="mt-10 text-center text-sm text-muted">
+        <p className="mono mt-8 text-center text-sm text-muted">
           Respondo normalmente em até um dia útil.
         </p>
       </Reveal>
