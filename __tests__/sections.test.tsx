@@ -45,7 +45,7 @@ describe("Projects", () => {
       expect(screen.getByText(tag)).toBeInTheDocument();
     }
     expect(screen.getByRole("link", { name: /acessar/i })).toHaveAttribute("href", project.url);
-    expect(screen.getByRole("link", { name: /github/i })).toHaveAttribute("href", project.repo);
+    expect(screen.queryByRole("link", { name: /github/i })).toBeNull();
   });
 });
 
