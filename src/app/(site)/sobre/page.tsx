@@ -6,7 +6,7 @@ export const metadata: Metadata = { title: "Sobre — Nathan Mateus" };
 
 export default function Page() {
   return (
-    <SectionShell next={{ href: "/experiencia", label: "Experiência" }}>
+    <SectionShell>
       <About />
     </SectionShell>
   );
