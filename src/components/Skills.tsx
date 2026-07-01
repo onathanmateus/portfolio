@@ -1,4 +1,4 @@
-import { Card, Chip } from "@heroui/react";
+import { Chip } from "@heroui/react";
 import { skillGroups } from "@/data/portfolio";
 import { Stagger, RevealItem } from "./Reveal";
 import { SectionHeading } from "./SectionHeading";
@@ -12,21 +12,19 @@ export function Skills() {
         subtitle="Ferramentas e tecnologias com que trabalho no dia a dia."
       />
 
-      <Stagger className="grid flex-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      <Stagger className="flex flex-1 flex-col justify-center divide-y divide-border">
         {skillGroups.map((group) => (
-          <RevealItem key={group.title} className="h-full">
-            <Card className="lift flex h-full flex-col">
-              <Card.Header>
-                <Card.Title className="mono text-lg">{group.title}</Card.Title>
-              </Card.Header>
-              <Card.Content className="flex flex-1 flex-row flex-wrap content-center items-center gap-2">
+          <RevealItem key={group.title}>
+            <div className="grid items-center gap-4 py-7 md:grid-cols-[220px_1fr]">
+              <h3 className="mono text-sm text-accent">{group.title}</h3>
+              <div className="flex flex-wrap gap-2">
                 {group.items.map((item) => (
-                  <Chip key={item} variant="secondary">
+                  <Chip key={item} variant="secondary" size="lg">
                     {item}
                   </Chip>
                 ))}
-              </Card.Content>
-            </Card>
+              </div>
+            </div>
           </RevealItem>
         ))}
       </Stagger>

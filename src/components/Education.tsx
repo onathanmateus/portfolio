@@ -9,10 +9,10 @@ export function Education() {
     <section id="formacao" className="mx-auto flex w-full max-w-5xl flex-1 flex-col justify-center">
       <SectionHeading eyebrow="// formacao" title="Educação" />
 
-      <Stagger className="grid flex-1 gap-5 sm:grid-cols-2">
+      <Stagger className="grid gap-5 sm:grid-cols-2">
         {education.map((item) => (
-          <RevealItem key={item.course} className="h-full">
-            <Card className="lift flex h-full flex-col justify-center">
+          <RevealItem key={item.course}>
+            <Card className="lift h-full">
               <Card.Header>
                 <Card.Title className="text-lg">{item.course}</Card.Title>
                 <Card.Description>

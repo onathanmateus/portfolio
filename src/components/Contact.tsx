@@ -1,12 +1,11 @@
-import { Card } from "@heroui/react";
 import { contact } from "@/data/portfolio";
-import { Reveal, Stagger, RevealItem } from "./Reveal";
+import { Stagger, RevealItem } from "./Reveal";
 import { SectionHeading } from "./SectionHeading";
 
 const channels = [
-  { label: "Email", value: contact.email, href: `mailto:${contact.email}` },
-  { label: "LinkedIn", value: "in/onathanmateus", href: contact.linkedin },
-  { label: "GitHub", value: "@onathanmateus", href: contact.github },
+  { label: "email", value: contact.email, href: `mailto:${contact.email}` },
+  { label: "linkedin", value: "in/onathanmateus", href: contact.linkedin },
+  { label: "github", value: "@onathanmateus", href: contact.github },
 ];
 
 export function Contact() {
@@ -18,33 +17,26 @@ export function Contact() {
         subtitle="Aberto a novas oportunidades e parcerias. Escolha o melhor canal."
       />
 
-      <Stagger className="grid flex-1 gap-5 sm:grid-cols-3">
+      <Stagger className="flex flex-1 flex-col justify-center divide-y divide-border">
         {channels.map((channel) => (
-          <RevealItem key={channel.label} className="h-full">
+          <RevealItem key={channel.label}>
             <a
               href={channel.href}
               target={channel.href.startsWith("http") ? "_blank" : undefined}
               rel={channel.href.startsWith("http") ? "noopener noreferrer" : undefined}
-              className="block h-full rounded-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+              className="group grid items-center gap-1 py-7 md:grid-cols-[220px_1fr] focus:outline-none focus-visible:text-accent"
             >
-              <Card className="lift flex h-full flex-col justify-center">
-                <Card.Header>
-                  <Card.Title className="mono text-sm text-accent">{channel.label}</Card.Title>
-                  <Card.Description className="break-all text-lg text-foreground">
-                    {channel.value}
-                  </Card.Description>
-                </Card.Header>
-              </Card>
+              <span className="mono text-sm text-muted">{`// ${channel.label}`}</span>
+              <span className="flex items-center gap-3 text-2xl font-medium text-foreground transition-colors group-hover:text-accent sm:text-3xl">
+                {channel.value}
+                <span className="text-accent transition-transform group-hover:translate-x-1">→</span>
+              </span>
             </a>
           </RevealItem>
         ))}
       </Stagger>
 
-      <Reveal delay={0.15}>
-        <p className="mono mt-8 text-center text-sm text-muted">
-          Respondo normalmente em até um dia útil.
-        </p>
-      </Reveal>
+      <p className="mono mt-8 text-sm text-muted">Respondo normalmente em até um dia útil.</p>
     </section>
   );
 }

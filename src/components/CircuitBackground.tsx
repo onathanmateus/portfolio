@@ -53,6 +53,19 @@ function pointAt(tr: Trace, dist: number): Pt {
   return { x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t };
 }
 
+// Pontos do rastro entre d0 e d1 SEGUINDO o traço (inclui os vértices das
+// curvas no meio) — para o rastro acompanhar as dobras em vez de cortar reto.
+function tailPoints(tr: Trace, d0: number, d1: number): Pt[] {
+  const a = Math.max(0, d0);
+  const b = Math.min(tr.total, d1);
+  const pts: Pt[] = [pointAt(tr, a)];
+  for (let i = 0; i < tr.cum.length; i++) {
+    if (tr.cum[i] > a && tr.cum[i] < b) pts.push(tr.pts[i]);
+  }
+  pts.push(pointAt(tr, b));
+  return pts;
+}
+
 export function CircuitBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const { theme } = useTheme();
@@ -219,19 +232,23 @@ export function CircuitBackground() {
           p.speed = 45 + Math.random() * 70;
           continue;
         }
-        const head = pointAt(tr, p.dist);
-        const tail = pointAt(tr, p.dist - TAIL);
-        const grad = ctx.createLinearGradient(tail.x, tail.y, head.x, head.y);
-        grad.addColorStop(0, c.pulseSoft);
-        grad.addColorStop(1, c.pulse);
-        ctx.strokeStyle = grad;
+        // Rastro seguindo o traço (polilinha), com fade do fim → cabeça.
+        const pts = tailPoints(tr, p.dist - TAIL, p.dist);
+        ctx.strokeStyle = c.pulse;
         ctx.lineWidth = 2;
         ctx.lineCap = "round";
-        ctx.beginPath();
-        ctx.moveTo(tail.x, tail.y);
-        ctx.lineTo(head.x, head.y);
-        ctx.stroke();
+        ctx.lineJoin = "round";
+        for (let k = 1; k < pts.length; k++) {
+          const t = k / (pts.length - 1); // 0 no fim → 1 na cabeça
+          ctx.globalAlpha = t * t;
+          ctx.beginPath();
+          ctx.moveTo(pts[k - 1].x, pts[k - 1].y);
+          ctx.lineTo(pts[k].x, pts[k].y);
+          ctx.stroke();
+        }
+        ctx.globalAlpha = 1;
 
+        const head = pts[pts.length - 1];
         ctx.fillStyle = c.pulse;
         ctx.shadowColor = c.pulse;
         ctx.shadowBlur = 8;

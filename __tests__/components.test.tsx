@@ -19,14 +19,14 @@ describe("Footer", () => {
     render(<Footer />);
     expect(screen.getByText(new RegExp(profile.name))).toBeInTheDocument();
 
-    const email = screen.getByRole("link", { name: "Email" });
+    const email = screen.getByRole("link", { name: "email" });
     expect(email).toHaveAttribute("href", `mailto:${contact.email}`);
 
-    expect(screen.getByRole("link", { name: "LinkedIn" })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: "linkedin" })).toHaveAttribute(
       "href",
       contact.linkedin,
     );
-    expect(screen.getByRole("link", { name: "GitHub" })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: "github" })).toHaveAttribute(
       "href",
       contact.github,
     );
