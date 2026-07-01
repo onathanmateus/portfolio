@@ -1,4 +1,5 @@
 import { Reveal } from "./Reveal";
+import { Typewriter } from "./Typewriter";
 
 interface SectionHeadingProps {
   eyebrow?: string;
@@ -18,9 +19,12 @@ export function SectionHeading({ eyebrow, title, subtitle }: SectionHeadingProps
       ) : null}
 
       <Reveal delay={0.05}>
-        <h2 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
-          {title}
-        </h2>
+        <Typewriter
+          as="h2"
+          trigger="hover"
+          text={title}
+          className="inline-block cursor-default text-3xl font-semibold tracking-tight text-foreground sm:text-4xl"
+        />
       </Reveal>
 
       {subtitle ? (

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { motion } from "motion/react";
 import { profile } from "@/data/portfolio";
 import { Magnetic } from "./Magnetic";
+import { Typewriter } from "./Typewriter";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -38,9 +39,16 @@ export function Hero() {
 
       <motion.h1
         {...item(0.18)}
-        className="shimmer max-w-3xl text-5xl font-semibold tracking-tight sm:text-7xl"
+        className="max-w-3xl text-5xl font-semibold tracking-tight sm:text-7xl"
       >
-        {profile.name}
+        <Typewriter
+          as="span"
+          trigger="mount"
+          startDelay={350}
+          speed={70}
+          text={profile.name}
+          className="shimmer inline-block"
+        />
       </motion.h1>
 
       <motion.p {...item(0.26)} className="mt-6 max-w-xl text-lg text-muted sm:text-xl">
