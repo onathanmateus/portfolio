@@ -5,10 +5,10 @@ import { SectionHeading } from "./SectionHeading";
 
 export function About() {
   return (
-    <section id="sobre" className="mx-auto flex w-full max-w-5xl flex-1 flex-col justify-center">
+    <section id="sobre" className="mx-auto my-auto w-full max-w-5xl">
       <SectionHeading eyebrow="// sobre" title="Um pouco sobre mim" />
 
-      <div className="grid flex-1 items-center gap-8 md:grid-cols-[1.6fr_1fr]">
+      <div className="grid items-center gap-8 md:grid-cols-[1.6fr_1fr]">
         <Reveal className="space-y-5">
           {profile.about.map((paragraph, i) => (
             <p key={i} className="text-lg leading-relaxed text-muted">

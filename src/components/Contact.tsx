@@ -10,14 +10,14 @@ const channels = [
 
 export function Contact() {
   return (
-    <section id="contato" className="mx-auto flex w-full max-w-5xl flex-1 flex-col justify-center">
+    <section id="contato" className="mx-auto my-auto w-full max-w-5xl">
       <SectionHeading
         eyebrow="// contato"
         title="Vamos conversar"
         subtitle="Aberto a novas oportunidades e parcerias. Escolha o melhor canal."
       />
 
-      <Stagger className="flex flex-1 flex-col justify-center divide-y divide-border">
+      <Stagger className="flex flex-col divide-y divide-border">
         {channels.map((channel) => (
           <RevealItem key={channel.label}>
             <a

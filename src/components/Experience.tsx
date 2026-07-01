@@ -6,7 +6,7 @@ import { SectionHeading } from "./SectionHeading";
 
 export function Experience() {
   return (
-    <section id="experiencia" className="mx-auto flex w-full max-w-5xl flex-1 flex-col justify-center">
+    <section id="experiencia" className="mx-auto my-auto w-full max-w-5xl">
       <SectionHeading eyebrow="// trajetoria" title="Experiência profissional" />
 
       <Stagger className="flex flex-col gap-5">

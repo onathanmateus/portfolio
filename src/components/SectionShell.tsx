@@ -15,7 +15,7 @@ export function SectionShell({ children }: SectionShellProps) {
       initial={{ opacity: 0, y: 14 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-      className="flex min-h-full flex-1 flex-col px-5 py-10 sm:px-6"
+      className="flex min-h-full flex-1 flex-col px-5 pt-10 pb-14 sm:px-6"
     >
       {children}
     </motion.div>

@@ -5,19 +5,19 @@ import { SectionHeading } from "./SectionHeading";
 
 export function Skills() {
   return (
-    <section id="skills" className="mx-auto flex w-full max-w-5xl flex-1 flex-col justify-center">
+    <section id="skills" className="mx-auto my-auto w-full max-w-5xl">
       <SectionHeading
         eyebrow="// stack"
         title="Conhecimentos técnicos"
         subtitle="Ferramentas e tecnologias com que trabalho no dia a dia."
       />
 
-      <Stagger className="flex flex-1 flex-col justify-center divide-y divide-border">
+      <Stagger className="flex flex-col divide-y divide-border">
         {skillGroups.map((group) => (
           <RevealItem key={group.title}>
-            <div className="grid items-center gap-4 py-7 md:grid-cols-[220px_1fr]">
-              <h3 className="mono text-sm text-accent">{group.title}</h3>
-              <div className="flex flex-wrap gap-2">
+            <div className="grid gap-3 py-8 md:grid-cols-[240px_1fr] md:items-center">
+              <span className="mono text-sm text-muted">{`// ${group.title}`}</span>
+              <div className="flex flex-wrap gap-2.5">
                 {group.items.map((item) => (
                   <Chip key={item} variant="secondary" size="lg">
                     {item}

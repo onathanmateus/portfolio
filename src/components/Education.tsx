@@ -1,36 +1,35 @@
 import Link from "next/link";
-import { Card } from "@heroui/react";
 import { education } from "@/data/portfolio";
 import { Stagger, RevealItem } from "./Reveal";
 import { SectionHeading } from "./SectionHeading";
 
 export function Education() {
   return (
-    <section id="formacao" className="mx-auto flex w-full max-w-5xl flex-1 flex-col justify-center">
+    <section id="formacao" className="mx-auto my-auto w-full max-w-5xl">
       <SectionHeading eyebrow="// formacao" title="Educação" />
 
-      <Stagger className="grid gap-5 sm:grid-cols-2">
+      <Stagger className="flex flex-col divide-y divide-border">
         {education.map((item) => (
           <RevealItem key={item.course}>
-            <Card className="lift h-full">
-              <Card.Header>
-                <Card.Title className="text-lg">{item.course}</Card.Title>
-                <Card.Description>
+            <div className="grid gap-2 py-8 md:grid-cols-[240px_1fr] md:items-baseline">
+              <span className="mono text-sm text-muted">{item.period}</span>
+              <div>
+                <h3 className="text-xl font-medium text-foreground sm:text-2xl">
+                  {item.course}
+                </h3>
+                <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-muted">
                   <Link
                     href={item.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="font-medium text-foreground transition-colors hover:text-accent"
+                    className="transition-colors hover:text-accent"
                   >
                     {item.school}
                   </Link>
-                </Card.Description>
-              </Card.Header>
-              <Card.Footer className="mono justify-between text-sm text-muted">
-                <span>{item.period}</span>
-                <span>{item.location}</span>
-              </Card.Footer>
-            </Card>
+                  <span className="mono text-sm">· {item.location}</span>
+                </div>
+              </div>
+            </div>
           </RevealItem>
         ))}
       </Stagger>
