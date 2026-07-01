@@ -2,9 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider, themeInitScript } from "@/components/ThemeProvider";
-import { Aurora } from "@/components/Aurora";
-import { Spotlight } from "@/components/Spotlight";
-import { ScrollProgress } from "@/components/ScrollProgress";
+import { FluidBackground } from "@/components/FluidBackground";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
@@ -45,10 +43,8 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
       <body className="relative min-h-full" suppressHydrationWarning>
-        <Aurora />
-        <Spotlight />
         <ThemeProvider>
-          <ScrollProgress />
+          <FluidBackground />
           {children}
         </ThemeProvider>
         <Analytics />

@@ -35,8 +35,10 @@ export function Navbar() {
     <header className="fixed inset-x-0 top-0 z-50">
       <div className="mx-auto max-w-5xl px-4 sm:px-6">
         <nav
-          className={`glass mt-3 flex items-center justify-between rounded-2xl px-4 py-2.5 backdrop-blur-2xl backdrop-saturate-150 transition-shadow duration-300 sm:px-5 ${
-            scrolled ? "border border-border shadow-[0_8px_30px_-12px_rgba(0,0,0,0.25)]" : "border border-transparent"
+          className={`mt-3 flex items-center justify-between rounded-2xl border border-border bg-surface/85 px-4 py-2.5 backdrop-blur-2xl backdrop-saturate-150 transition-all duration-300 sm:px-5 ${
+            scrolled
+              ? "shadow-[0_12px_36px_-12px_rgba(0,0,0,0.45)]"
+              : "shadow-[0_6px_20px_-12px_rgba(0,0,0,0.35)]"
           }`}
         >
           <Link
@@ -93,7 +95,7 @@ export function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.2 }}
-            className="glass mx-4 mt-2 overflow-hidden rounded-2xl border border-border p-2 backdrop-blur-2xl backdrop-saturate-150 md:hidden"
+            className="mx-4 mt-2 overflow-hidden rounded-2xl border border-border bg-surface/95 p-2 shadow-xl backdrop-blur-2xl backdrop-saturate-150 md:hidden"
           >
             <ul className="flex flex-col">
               {links.map((link) => (
