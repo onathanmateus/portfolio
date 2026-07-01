@@ -12,6 +12,7 @@ test.describe("Navegação entre as seções", () => {
   const routes = [
     { path: "/sobre", heading: "Um pouco sobre mim" },
     { path: "/experiencia", heading: "Experiência profissional" },
+    { path: "/projetos", heading: "Projetos" },
     { path: "/skills", heading: "Conhecimentos técnicos" },
     { path: "/formacao", heading: "Educação" },
     { path: "/contato", heading: "Vamos conversar" },

@@ -1,8 +1,9 @@
 import { render, screen } from "@testing-library/react";
 import { Skills } from "@/components/Skills";
 import { Contact } from "@/components/Contact";
+import { Projects } from "@/components/Projects";
 import { Typewriter } from "@/components/Typewriter";
-import { skillGroups, contact } from "@/data/portfolio";
+import { skillGroups, contact, projects } from "@/data/portfolio";
 
 describe("Skills", () => {
   it("mostra todos os grupos e itens", () => {
@@ -31,6 +32,20 @@ describe("Contact", () => {
       "href",
       contact.github,
     );
+  });
+});
+
+describe("Projects", () => {
+  it("mostra o projeto com tags e links de acesso e GitHub", () => {
+    render(<Projects />);
+    const project = projects[0];
+
+    expect(screen.getByRole("heading", { name: project.name })).toBeInTheDocument();
+    for (const tag of project.tags) {
+      expect(screen.getByText(tag)).toBeInTheDocument();
+    }
+    expect(screen.getByRole("link", { name: /acessar/i })).toHaveAttribute("href", project.url);
+    expect(screen.getByRole("link", { name: /github/i })).toHaveAttribute("href", project.repo);
   });
 });
 
