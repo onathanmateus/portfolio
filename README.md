@@ -18,6 +18,7 @@ linhas de circuito, componentes **HeroUI**, fonte **JetBrains Mono** e efeito de
 ![HeroUI](https://img.shields.io/badge/HeroUI-v3-7C3AED?style=for-the-badge)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-0EA5E9?style=for-the-badge&logo=tailwindcss&logoColor=white)
 ![Vercel](https://img.shields.io/badge/Deploy-Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-0A6DFF?style=for-the-badge)
 
 </div>
 
@@ -162,9 +163,9 @@ Basta alterar os dados desse arquivo — não é preciso mexer nos componentes.
     ├── app/
     │   ├── layout.tsx     # Layout raiz: tema, fontes, métricas
     │   ├── page.tsx       # Landing (/)
-    │   ├── globals.css    # Tokens de tema (Apple/Dracula) sobre o HeroUI
+    │   ├── globals.css    # Tokens de tema (azul; claro + escuro) sobre o HeroUI
     │   └── (site)/        # Rotas das seções (Navbar + Footer)
-    │       ├── sobre/ experiencia/ skills/ formacao/ contato/
+    │       ├── sobre/ experiencia/ projetos/ skills/ formacao/ contato/
     ├── components/        # Hero, Navbar, About, Experience, Skills… (HeroUI)
     └── data/
         └── portfolio.ts   # 👈 Conteúdo do site
@@ -177,6 +178,13 @@ Basta alterar os dados desse arquivo — não é preciso mexer nos componentes.
 - **E-mail:** nathanmateudeo@hotmail.com
 - **LinkedIn:** [in/onathanmateus](https://www.linkedin.com/in/onathanmateus/)
 - **GitHub:** [@onathanmateus](https://github.com/onathanmateus)
+
+---
+
+## 📄 Licença
+
+Código sob a licença [MIT](LICENSE) — sinta-se livre para estudar e reutilizar.
+O conteúdo pessoal (nome, textos, identidade visual) permanece de propriedade de Nathan Mateus.
 
 <div align="center">
 <br/>
