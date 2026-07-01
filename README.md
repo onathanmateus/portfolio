@@ -10,7 +10,7 @@ linhas de circuito, componentes **HeroUI**, fonte **JetBrains Mono** e efeito de
 
 <br/>
 
-[![CI](https://github.com/onathanmateus/portfolio/actions/workflows/ci.yml/badge.svg)](https://github.com/onathanmateus/portfolio/actions/workflows/ci.yml)
+[![CI](https://img.shields.io/github/actions/workflow/status/onathanmateus/portfolio/ci.yml?style=for-the-badge&logo=githubactions&logoColor=white&label=CI)](https://github.com/onathanmateus/portfolio/actions/workflows/ci.yml)
 
 ![Next.js](https://img.shields.io/badge/Next.js-16-000000?style=for-the-badge&logo=next.js&logoColor=white)
 ![React](https://img.shields.io/badge/React-19-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
