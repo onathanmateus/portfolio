@@ -5,7 +5,7 @@ import { SectionShell } from "@/components/SectionShell";
 export const metadata: Metadata = {
   title: "Projetos",
   description:
-    "Projetos desenvolvidos por Nathan Mateus, com código aberto no GitHub e demonstrações no ar.",
+    "Projetos desenvolvidos por Nathan Mateus, disponíveis no ar para explorar.",
 };
 
 export default function Page() {

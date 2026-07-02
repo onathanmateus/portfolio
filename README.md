@@ -47,7 +47,7 @@ linhas de circuito, componentes **HeroUI**, fonte **JetBrains Mono** e efeito de
 | `/` | Landing (nome, função e navegação) |
 | `/sobre` | Sobre mim |
 | `/experiencia` | Experiência profissional (timeline) |
-| `/projetos` | Projetos (com links de código e demo) |
+| `/projetos` | Projetos (com demos no ar) |
 | `/skills` | Conhecimentos técnicos |
 | `/formacao` | Formação acadêmica |
 | `/contato` | Canais de contato |
