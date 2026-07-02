@@ -49,7 +49,7 @@ export const profile: Profile = {
   name: "Nathan Mateus",
   role: "Analista de Sistemas Pleno",
   tagline: "Especialista em Protheus (ADVPL / TLPP) com base sólida em desenvolvimento web.",
-  location: "Natal / RN — Brasil",
+  location: "Parnamirim / RN — Brasil",
   about: [
     "Desde o início da minha trajetória como autodidata em programação, tenho me dedicado a aprender e aplicar conhecimentos que vão além da teoria. Participei de projetos voluntários e iniciativas desafiadoras, onde pude crescer e aprimorar minhas habilidades, especialmente em tecnologias web.",
     "Atualmente atuo como Analista de Sistemas Pleno, com foco no sistema Protheus e na linguagem ADVPL / TLPP, desenvolvendo soluções robustas e personalizadas para demandas empresariais. Também aplico meus conhecimentos em tecnologias web para criar integrações e soluções complementares, garantindo eficiência e inovação em cada projeto.",

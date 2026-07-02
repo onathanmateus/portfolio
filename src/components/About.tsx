@@ -18,7 +18,7 @@ export function About() {
         </Reveal>
 
         <Reveal delay={0.1}>
-          <Card className="lift h-full">
+          <Card className="liquid-glass lift h-full">
             <Card.Content className="flex h-full flex-col justify-center gap-5">
               <Detail label="Cargo atual" value={profile.role} />
               <Detail label="Localização" value={profile.location} />

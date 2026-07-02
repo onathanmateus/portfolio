@@ -62,7 +62,7 @@ const personJsonLd = {
   email: `mailto:${contact.email}`,
   address: {
     "@type": "PostalAddress",
-    addressLocality: "Natal",
+    addressLocality: "Parnamirim",
     addressRegion: "RN",
     addressCountry: "BR",
   },
