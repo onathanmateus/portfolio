@@ -12,10 +12,10 @@ export function Projects() {
         subtitle="Projetos que criei — disponíveis no ar para explorar."
       />
 
-      <Stagger className="flex flex-col divide-y divide-border">
+      <Stagger className="flex flex-col gap-4">
         {projects.map((project, i) => (
           <RevealItem key={project.name}>
-            <article className="grid gap-4 py-8 md:grid-cols-[240px_1fr]">
+            <article className="liquid-glass lift grid gap-4 rounded-2xl border p-6 md:grid-cols-[240px_1fr] md:p-8">
               <div className="mono text-sm text-muted">
                 <span className="text-accent">
                   {String(i + 1).padStart(2, "0")}

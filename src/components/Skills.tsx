@@ -12,10 +12,10 @@ export function Skills() {
         subtitle="Ferramentas e tecnologias com que trabalho no dia a dia."
       />
 
-      <Stagger className="flex flex-col divide-y divide-border">
+      <Stagger className="flex flex-col gap-4">
         {skillGroups.map((group) => (
           <RevealItem key={group.title}>
-            <div className="grid gap-3 py-8 md:grid-cols-[240px_1fr] md:items-center">
+            <div className="liquid-glass lift grid gap-3 rounded-2xl border p-6 md:grid-cols-[240px_1fr] md:items-center">
               <span className="mono text-sm text-muted">{`// ${group.title}`}</span>
               <div className="flex flex-wrap gap-2.5">
                 {group.items.map((item) => (

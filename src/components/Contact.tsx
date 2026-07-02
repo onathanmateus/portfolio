@@ -17,14 +17,14 @@ export function Contact() {
         subtitle="Aberto a novas oportunidades e parcerias. Escolha o melhor canal."
       />
 
-      <Stagger className="flex flex-col divide-y divide-border">
+      <Stagger className="flex flex-col gap-4">
         {channels.map((channel) => (
           <RevealItem key={channel.label}>
             <a
               href={channel.href}
               target={channel.href.startsWith("http") ? "_blank" : undefined}
               rel={channel.href.startsWith("http") ? "noopener noreferrer" : undefined}
-              className="group grid items-center gap-1 py-7 md:grid-cols-[220px_1fr] focus:outline-none focus-visible:text-accent"
+              className="liquid-glass lift group grid items-center gap-1 rounded-2xl border p-6 md:grid-cols-[220px_1fr] focus:outline-none focus-visible:text-accent"
             >
               <span className="mono text-sm text-muted">{`// ${channel.label}`}</span>
               <span className="flex items-center gap-3 text-2xl font-medium text-foreground transition-colors group-hover:text-accent sm:text-3xl">
