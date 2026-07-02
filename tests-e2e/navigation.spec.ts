@@ -27,10 +27,10 @@ test.describe("Navegação entre as seções", () => {
 
   test("página de projetos mostra o projeto e o link de acesso", async ({ page }) => {
     await page.goto("/projetos");
-    await expect(page.getByRole("heading", { name: "Controle Financeiro" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "FinTrack" })).toBeVisible();
     await expect(page.getByRole("link", { name: /acessar/i })).toHaveAttribute(
       "href",
-      /controle-financeiro/,
+      /fintrack/,
     );
   });
 

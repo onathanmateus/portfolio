@@ -124,10 +124,10 @@ export const skillGroups: SkillGroup[] = [
 
 export const projects: Project[] = [
   {
-    name: "Controle Financeiro",
+    name: "FinTrack",
     description:
       "Dashboard local-first de finanças pessoais: transações com categorias e carteiras, indicadores, metas de economia, gráficos, importação de CSV e relatórios em PDF. Segurança por PIN e mascaramento de valores — os dados ficam no próprio navegador.",
-    url: "https://controle-financeiro-nathan-mateus.vercel.app/",
+    url: "https://fintrack-nathan-mateus.vercel.app/",
     tags: ["Next.js", "React", "TypeScript", "HeroUI", "Tailwind CSS", "Recharts"],
   },
 ];
