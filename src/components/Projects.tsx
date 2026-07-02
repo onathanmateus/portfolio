@@ -9,7 +9,7 @@ export function Projects() {
       <SectionHeading
         eyebrow="// projetos"
         title="Projetos"
-        subtitle="Coisas que construí — código aberto e no ar para explorar."
+        subtitle="Projetos que criei — disponíveis no ar para explorar."
       />
 
       <Stagger className="flex flex-col divide-y divide-border">
