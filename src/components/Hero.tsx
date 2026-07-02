@@ -59,7 +59,7 @@ export function Hero() {
         <Magnetic>
           <Link
             href="/sobre"
-            className="inline-block rounded-full bg-accent px-6 py-3 text-sm font-medium text-accent-foreground shadow-lg shadow-accent/25 transition-transform active:scale-95"
+            className="liquid-sheen inline-block rounded-full bg-accent px-6 py-3 text-sm font-medium text-accent-foreground shadow-lg shadow-accent/25 transition-transform active:scale-95"
           >
             Conhecer trajetória
           </Link>
@@ -67,7 +67,7 @@ export function Hero() {
         <Magnetic>
           <Link
             href="/contato"
-            className="inline-block rounded-full border border-border px-6 py-3 text-sm font-medium text-foreground transition-colors hover:border-accent hover:text-accent"
+            className="liquid-glass inline-block rounded-full border px-6 py-3 text-sm font-medium text-foreground transition-colors hover:border-accent hover:text-accent"
           >
             Entrar em contato
           </Link>
