@@ -14,10 +14,12 @@ export default defineConfig({
     trace: "on-first-retry",
   },
   projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
+  // Roda contra o build de produção: hidratação rápida e estável (sem a
+  // compilação sob demanda do dev, que causa corrida no clique sob carga).
   webServer: {
-    command: "npm run dev",
+    command: "npm run build && npm run start",
     url: baseURL,
     reuseExistingServer: !process.env.CI,
-    timeout: 120 * 1000,
+    timeout: 180 * 1000,
   },
 });

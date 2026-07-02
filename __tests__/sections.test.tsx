@@ -36,7 +36,7 @@ describe("Contact", () => {
 });
 
 describe("Projects", () => {
-  it("mostra o projeto com tags e links de acesso e GitHub", () => {
+  it("mostra o projeto com tags e link de acesso, sem link de repositório", () => {
     render(<Projects />);
     const project = projects[0];
 
@@ -45,6 +45,7 @@ describe("Projects", () => {
       expect(screen.getByText(tag)).toBeInTheDocument();
     }
     expect(screen.getByRole("link", { name: /acessar/i })).toHaveAttribute("href", project.url);
+    // repo é opcional; sem ele o botão GitHub não aparece
     expect(screen.queryByRole("link", { name: /github/i })).toBeNull();
   });
 });

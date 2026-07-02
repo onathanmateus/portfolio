@@ -25,10 +25,23 @@ test.describe("Navegação entre as seções", () => {
     });
   }
 
+  test("página de projetos mostra o projeto e o link de acesso", async ({ page }) => {
+    await page.goto("/projetos");
+    await expect(page.getByRole("heading", { name: "Controle Financeiro" })).toBeVisible();
+    await expect(page.getByRole("link", { name: /acessar/i })).toHaveAttribute(
+      "href",
+      /controle-financeiro/,
+    );
+  });
+
   test("navega pela navbar a partir da landing", async ({ page }) => {
     await page.goto("/");
-    await page.getByRole("link", { name: "Experiência", exact: true }).click();
-    await expect(page).toHaveURL(/\/experiencia$/);
+    const link = page.getByRole("link", { name: "Experiência", exact: true });
+    await link.waitFor({ state: "visible" });
+    await Promise.all([
+      page.waitForURL(/\/experiencia$/, { timeout: 15000 }),
+      link.click(),
+    ]);
     await expect(page.getByRole("heading", { name: "Experiência profissional" })).toBeVisible();
   });
 });
