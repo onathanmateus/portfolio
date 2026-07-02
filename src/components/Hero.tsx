@@ -56,15 +56,15 @@ export function Hero() {
       </motion.p>
 
       <motion.div {...item(0.34)} className="mt-10 flex flex-wrap items-center justify-center gap-3">
-        <Magnetic>
+        <Magnetic className="inline-flex">
           <Link
             href="/sobre"
-            className="liquid-sheen inline-block rounded-full bg-accent px-6 py-3 text-sm font-medium text-accent-foreground shadow-lg shadow-accent/25 transition-transform active:scale-95"
+            className="liquid-sheen inline-block rounded-full border border-transparent bg-accent px-6 py-3 text-sm font-medium text-accent-foreground shadow-lg shadow-accent/25 transition-transform active:scale-95"
           >
             Conhecer trajetória
           </Link>
         </Magnetic>
-        <Magnetic>
+        <Magnetic className="inline-flex">
           <Link
             href="/contato"
             className="liquid-glass inline-block rounded-full border px-6 py-3 text-sm font-medium text-foreground transition-colors hover:border-accent hover:text-accent"
