@@ -13,6 +13,10 @@ interface Pt {
   y: number;
 }
 interface Trace {
+  // Padrão fixo em coordenadas normalizadas (0..1). O desenho é definido uma
+  // única vez; ao redimensionar só reescalamos para pixels — nunca sorteamos
+  // de novo.
+  npts: Pt[];
   pts: Pt[];
   cum: number[];
   total: number;
@@ -92,7 +96,10 @@ export function CircuitBackground() {
 
     const rnd = (n: number) => Math.floor(Math.random() * n);
 
-    const buildTraces = () => {
+    // Sorteia o PADRÃO uma única vez, guardando os pontos normalizados (0..1).
+    // A densidade/quantidade é decidida no tamanho inicial e mantida — assim o
+    // desenho não muda quando a janela é redimensionada.
+    const buildPattern = () => {
       traces = [];
       const cols = Math.floor(W / G);
       const rows = Math.floor(H / G);
@@ -122,23 +129,31 @@ export function CircuitBackground() {
           if (np.x !== last.x || np.y !== last.y) pts.push(np);
         }
         if (pts.length < 2) continue;
-        const cum = [0];
-        let total = 0;
-        for (let i = 1; i < pts.length; i++) {
-          total += Math.hypot(pts[i].x - pts[i - 1].x, pts[i].y - pts[i - 1].y);
-          cum.push(total);
-        }
-        traces.push({ pts, cum, total });
+        // Normaliza pela dimensão-base (tamanho no momento do sorteio).
+        const npts = pts.map((p) => ({ x: p.x / W, y: p.y / H }));
+        traces.push({ npts, pts: [], cum: [], total: 0 });
       }
 
       const pcount = Math.max(6, Math.min(22, Math.round(traces.length / 2.5)));
       pulses = [];
       for (let i = 0; i < pcount; i++) {
-        pulses.push({
-          ti: rnd(traces.length),
-          dist: Math.random() * (traces[rnd(traces.length)]?.total || 100),
-          speed: 45 + Math.random() * 70,
-        });
+        pulses.push({ ti: rnd(traces.length), dist: 0, speed: 45 + Math.random() * 70 });
+      }
+    };
+
+    // Reescala o padrão fixo para o tamanho atual (a cada resize). Como cada
+    // segmento é eixo-alinhado, escalar x e y de forma independente preserva os
+    // ângulos retos — só estica/encolhe o mesmo desenho.
+    const layout = () => {
+      for (const tr of traces) {
+        tr.pts = tr.npts.map((p) => ({ x: p.x * W, y: p.y * H }));
+        tr.cum = [0];
+        let total = 0;
+        for (let i = 1; i < tr.pts.length; i++) {
+          total += Math.hypot(tr.pts[i].x - tr.pts[i - 1].x, tr.pts[i].y - tr.pts[i - 1].y);
+          tr.cum.push(total);
+        }
+        tr.total = total;
       }
     };
 
@@ -198,17 +213,39 @@ export function CircuitBackground() {
       offCtx.restore();
     };
 
-    const resize = () => {
+    const setDims = () => {
       dpr = Math.min(window.devicePixelRatio || 1, 1.5);
       W = window.innerWidth;
       H = window.innerHeight;
       canvas.width = Math.floor(W * dpr);
       canvas.height = Math.floor(H * dpr);
-      buildTraces();
+    };
+
+    const resize = () => {
+      setDims();
+      layout();
       rebuildStaticLayer();
     };
-    resize();
-    window.addEventListener("resize", resize);
+
+    // Setup inicial: dimensões → sorteia o padrão UMA vez → posiciona os pulsos.
+    setDims();
+    buildPattern();
+    layout();
+    for (const p of pulses) p.dist = Math.random() * (traces[p.ti]?.total || 100);
+    rebuildStaticLayer();
+
+    // Coalesce os eventos de resize num único relayout por frame (evita
+    // recalcular a cada pixel enquanto a janela é arrastada).
+    let resizeScheduled = false;
+    const onResize = () => {
+      if (resizeScheduled) return;
+      resizeScheduled = true;
+      requestAnimationFrame(() => {
+        resizeScheduled = false;
+        resize();
+      });
+    };
+    window.addEventListener("resize", onResize);
 
     const TAIL = 26;
     let raf = 0;
@@ -303,7 +340,7 @@ export function CircuitBackground() {
     return () => {
       running = false;
       cancelAnimationFrame(raf);
-      window.removeEventListener("resize", resize);
+      window.removeEventListener("resize", onResize);
       document.removeEventListener("visibilitychange", onVisibility);
       themeObserver.disconnect();
       clearTimeout(themeTimer);
