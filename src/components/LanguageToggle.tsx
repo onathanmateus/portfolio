@@ -16,7 +16,7 @@ export function LanguageToggle() {
       aria-checked={lang === "en"}
       aria-label={t.langSwitch}
       onClick={toggleLang}
-      className="relative inline-flex items-center gap-1 rounded-full border border-border/70 bg-surface-tertiary/60 p-1"
+      className="relative inline-flex cursor-pointer items-center gap-1 rounded-full border border-border/70 bg-surface-tertiary/60 p-1"
     >
       <motion.span
         aria-hidden="true"
