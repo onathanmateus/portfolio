@@ -1,12 +1,17 @@
+"use client";
+
 import Link from "next/link";
-import { education } from "@/data/portfolio";
 import { Stagger, RevealItem } from "./Reveal";
 import { SectionHeading } from "./SectionHeading";
+import { useContent, useUi } from "./LanguageProvider";
 
 export function Education() {
+  const { education } = useContent();
+  const t = useUi();
+
   return (
     <section id="formacao" className="mx-auto my-auto w-full max-w-5xl">
-      <SectionHeading eyebrow="// formacao" title="Educação" />
+      <SectionHeading eyebrow={t.education.eyebrow} title={t.education.title} />
 
       <Stagger className="flex flex-col gap-3">
         {education.map((item) => (

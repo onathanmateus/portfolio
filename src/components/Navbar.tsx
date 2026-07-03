@@ -5,20 +5,23 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "motion/react";
 import { ThemeToggle } from "./ThemeToggle";
-
-const links = [
-  { href: "/sobre", label: "Sobre" },
-  { href: "/experiencia", label: "Experiência" },
-  { href: "/projetos", label: "Projetos" },
-  { href: "/skills", label: "Skills" },
-  { href: "/formacao", label: "Formação" },
-  { href: "/contato", label: "Contato" },
-];
+import { LanguageToggle } from "./LanguageToggle";
+import { useUi } from "./LanguageProvider";
 
 export function Navbar() {
   const pathname = usePathname();
+  const t = useUi();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+
+  const links = [
+    { href: "/sobre", label: t.nav.sobre },
+    { href: "/experiencia", label: t.nav.experiencia },
+    { href: "/projetos", label: t.nav.projetos },
+    { href: "/skills", label: t.nav.skills },
+    { href: "/formacao", label: t.nav.formacao },
+    { href: "/contato", label: t.nav.contato },
+  ];
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -75,11 +78,12 @@ export function Navbar() {
           </ul>
 
           <div className="flex items-center gap-1.5">
+            <LanguageToggle />
             <ThemeToggle />
             <button
               type="button"
               onClick={() => setOpen((v) => !v)}
-              aria-label="Abrir menu"
+              aria-label={t.openMenu}
               aria-expanded={open}
               className="grid h-10 w-10 place-items-center rounded-full text-foreground transition-colors hover:bg-surface-tertiary md:hidden"
             >

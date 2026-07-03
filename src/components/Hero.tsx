@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import { motion } from "motion/react";
-import { profile } from "@/data/portfolio";
 import { Magnetic } from "./Magnetic";
 import { Typewriter } from "./Typewriter";
+import { useContent, useUi } from "./LanguageProvider";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -17,6 +17,8 @@ function item(delay: number) {
 }
 
 export function Hero() {
+  const { profile } = useContent();
+  const t = useUi();
   const initials = profile.name
     .split(" ")
     .map((n) => n[0])
@@ -61,7 +63,7 @@ export function Hero() {
             href="/sobre"
             className="liquid-sheen inline-block rounded-full border border-transparent bg-accent px-6 py-3 text-sm font-medium text-accent-foreground shadow-lg shadow-accent/25 transition-transform active:scale-95"
           >
-            Conhecer trajetória
+            {t.hero.ctaJourney}
           </Link>
         </Magnetic>
         <Magnetic className="inline-flex">
@@ -69,7 +71,7 @@ export function Hero() {
             href="/contato"
             className="liquid-glass inline-block rounded-full border px-6 py-3 text-sm font-medium text-foreground transition-colors hover:border-accent hover:text-accent"
           >
-            Entrar em contato
+            {t.hero.ctaContact}
           </Link>
         </Magnetic>
       </motion.div>

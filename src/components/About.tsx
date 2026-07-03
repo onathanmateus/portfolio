@@ -1,12 +1,17 @@
+"use client";
+
 import { Card } from "@heroui/react";
-import { profile } from "@/data/portfolio";
 import { Reveal } from "./Reveal";
 import { SectionHeading } from "./SectionHeading";
+import { useContent, useUi } from "./LanguageProvider";
 
 export function About() {
+  const { profile } = useContent();
+  const t = useUi();
+
   return (
     <section id="sobre" className="mx-auto my-auto w-full max-w-5xl">
-      <SectionHeading eyebrow="// sobre" title="Um pouco sobre mim" />
+      <SectionHeading eyebrow={t.about.eyebrow} title={t.about.title} />
 
       <div className="grid items-center gap-8 md:grid-cols-[1.6fr_1fr]">
         <Reveal className="space-y-5">
@@ -20,9 +25,9 @@ export function About() {
         <Reveal delay={0.1}>
           <Card className="liquid-glass lift h-full">
             <Card.Content className="flex h-full flex-col justify-center gap-5">
-              <Detail label="Cargo atual" value={profile.role} />
-              <Detail label="Localização" value={profile.location} />
-              <Detail label="Foco" value="Protheus · ADVPL / TLPP · Web" />
+              <Detail label={t.about.role} value={profile.role} />
+              <Detail label={t.about.location} value={profile.location} />
+              <Detail label={t.about.focus} value={t.about.focusValue} />
             </Card.Content>
           </Card>
         </Reveal>

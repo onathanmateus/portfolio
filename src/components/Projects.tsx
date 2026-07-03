@@ -1,15 +1,20 @@
+"use client";
+
 import { Chip } from "@heroui/react";
-import { projects } from "@/data/portfolio";
 import { Stagger, RevealItem } from "./Reveal";
 import { SectionHeading } from "./SectionHeading";
+import { useContent, useUi } from "./LanguageProvider";
 
 export function Projects() {
+  const { projects } = useContent();
+  const t = useUi();
+
   return (
     <section id="projetos" className="mx-auto my-auto w-full max-w-5xl">
       <SectionHeading
-        eyebrow="// projetos"
-        title="Projetos"
-        subtitle="Projetos que criei — disponíveis no ar para explorar."
+        eyebrow={t.projects.eyebrow}
+        title={t.projects.title}
+        subtitle={t.projects.subtitle}
       />
 
       <Stagger className="flex flex-col gap-3">
@@ -23,7 +28,7 @@ export function Projects() {
                 {project.url ? (
                   <span className="mt-2 flex items-center gap-2">
                     <span className="h-1.5 w-1.5 rounded-full bg-accent" aria-hidden="true" />
-                    online
+                    {t.projects.online}
                   </span>
                 ) : null}
               </div>
@@ -52,7 +57,7 @@ export function Projects() {
                       rel="noopener noreferrer"
                       className="group inline-flex items-center gap-2 text-accent transition-colors hover:text-foreground"
                     >
-                      Acessar
+                      {t.projects.access}
                       <span className="transition-transform group-hover:translate-x-0.5">→</span>
                     </a>
                   ) : null}

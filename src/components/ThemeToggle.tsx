@@ -3,15 +3,17 @@
 import { motion, AnimatePresence } from "motion/react";
 import { Button } from "@heroui/react";
 import { useTheme } from "./ThemeProvider";
+import { useUi } from "./LanguageProvider";
 
 export function ThemeToggle() {
   const { theme, toggleTheme } = useTheme();
+  const t = useUi();
 
   return (
     <Button
       isIconOnly
       variant="ghost"
-      aria-label={theme === "dark" ? "Ativar tema claro" : "Ativar tema escuro"}
+      aria-label={theme === "dark" ? t.themeToLight : t.themeToDark}
       onPress={toggleTheme}
       className="relative h-10 w-10 rounded-full"
     >

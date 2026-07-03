@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider, themeInitScript } from "@/components/ThemeProvider";
+import { LanguageProvider, langInitScript } from "@/components/LanguageProvider";
 import { CircuitBackground } from "@/components/CircuitBackground";
 import { siteConfig, siteUrl } from "@/lib/site";
 import { contact, profile } from "@/data/portfolio";
@@ -82,6 +83,7 @@ export default function RootLayout({
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+        <script dangerouslySetInnerHTML={{ __html: langInitScript }} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
@@ -89,8 +91,10 @@ export default function RootLayout({
       </head>
       <body className="relative min-h-full" suppressHydrationWarning>
         <ThemeProvider>
-          <CircuitBackground />
-          {children}
+          <LanguageProvider>
+            <CircuitBackground />
+            {children}
+          </LanguageProvider>
         </ThemeProvider>
         <Analytics />
         <SpeedInsights />

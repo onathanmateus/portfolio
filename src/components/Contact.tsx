@@ -1,6 +1,9 @@
+"use client";
+
 import { contact } from "@/data/portfolio";
 import { Stagger, RevealItem } from "./Reveal";
 import { SectionHeading } from "./SectionHeading";
+import { useUi } from "./LanguageProvider";
 
 const channels = [
   { label: "email", value: contact.email, href: `mailto:${contact.email}` },
@@ -9,12 +12,14 @@ const channels = [
 ];
 
 export function Contact() {
+  const t = useUi();
+
   return (
     <section id="contato" className="mx-auto my-auto w-full max-w-5xl">
       <SectionHeading
-        eyebrow="// contato"
-        title="Vamos conversar"
-        subtitle="Aberto a novas oportunidades e parcerias. Escolha o melhor canal."
+        eyebrow={t.contact.eyebrow}
+        title={t.contact.title}
+        subtitle={t.contact.subtitle}
       />
 
       <Stagger className="flex flex-col gap-3">

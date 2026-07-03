@@ -1,13 +1,18 @@
+"use client";
+
 import Link from "next/link";
 import { Card, Chip } from "@heroui/react";
-import { experiences } from "@/data/portfolio";
 import { Stagger, RevealItem } from "./Reveal";
 import { SectionHeading } from "./SectionHeading";
+import { useContent, useUi } from "./LanguageProvider";
 
 export function Experience() {
+  const { experiences } = useContent();
+  const t = useUi();
+
   return (
     <section id="experiencia" className="mx-auto my-auto w-full max-w-5xl">
-      <SectionHeading eyebrow="// trajetoria" title="Experiência profissional" />
+      <SectionHeading eyebrow={t.experience.eyebrow} title={t.experience.title} />
 
       <Stagger className="flex flex-col gap-3">
         {experiences.map((exp, i) => (
@@ -19,7 +24,7 @@ export function Experience() {
                     <Card.Title className="text-xl">{exp.role}</Card.Title>
                     {exp.current ? (
                       <Chip color="accent" variant="soft" size="sm">
-                        Atual
+                        {t.experience.current}
                       </Chip>
                     ) : null}
                   </div>

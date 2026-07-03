@@ -1,15 +1,20 @@
+"use client";
+
 import { Chip } from "@heroui/react";
-import { skillGroups } from "@/data/portfolio";
 import { Stagger, RevealItem } from "./Reveal";
 import { SectionHeading } from "./SectionHeading";
+import { useContent, useUi } from "./LanguageProvider";
 
 export function Skills() {
+  const { skillGroups } = useContent();
+  const t = useUi();
+
   return (
     <section id="skills" className="mx-auto my-auto w-full max-w-5xl">
       <SectionHeading
-        eyebrow="// stack"
-        title="Conhecimentos técnicos"
-        subtitle="Ferramentas e tecnologias com que trabalho no dia a dia."
+        eyebrow={t.skills.eyebrow}
+        title={t.skills.title}
+        subtitle={t.skills.subtitle}
       />
 
       <Stagger className="flex flex-col gap-3">
