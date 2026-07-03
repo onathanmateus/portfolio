@@ -54,6 +54,24 @@ export function Typewriter({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Quando o texto muda depois de montado (ex.: troca de idioma), redigita
+  // para o novo texto — inclusive nos títulos com gatilho "hover".
+  const mounted = useRef(false);
+  useEffect(() => {
+    if (!mounted.current) {
+      mounted.current = true;
+      return;
+    }
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- sincroniza texto sem animação (reduced-motion)
+      setDisplay(text);
+      return;
+    }
+    type(0);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [text]);
+
   const onEnter = () => {
     if (trigger === "hover" && !typing) type(0);
   };
