@@ -10,7 +10,7 @@ export default function SiteLayout({
   return (
     <div className="flex h-[100svh] flex-col overflow-hidden">
       <Navbar />
-      <main className="flex min-h-0 flex-1 flex-col overflow-y-auto pt-24">
+      <main className="flex min-h-0 flex-1 flex-col overflow-y-auto pt-20">
         {children}
       </main>
       <Footer />

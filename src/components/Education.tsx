@@ -8,10 +8,10 @@ export function Education() {
     <section id="formacao" className="mx-auto my-auto w-full max-w-5xl">
       <SectionHeading eyebrow="// formacao" title="Educação" />
 
-      <Stagger className="flex flex-col gap-4">
+      <Stagger className="flex flex-col gap-3">
         {education.map((item) => (
           <RevealItem key={item.course}>
-            <div className="liquid-glass lift grid gap-2 rounded-2xl border p-6 md:grid-cols-[240px_1fr] md:items-baseline">
+            <div className="liquid-glass lift grid gap-2 rounded-2xl border p-5 md:grid-cols-[240px_1fr] md:items-baseline">
               <span className="mono text-sm text-muted">{item.period}</span>
               <div>
                 <h3 className="text-xl font-medium text-foreground sm:text-2xl">

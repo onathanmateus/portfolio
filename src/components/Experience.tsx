@@ -9,10 +9,10 @@ export function Experience() {
     <section id="experiencia" className="mx-auto my-auto w-full max-w-5xl">
       <SectionHeading eyebrow="// trajetoria" title="Experiência profissional" />
 
-      <Stagger className="flex flex-col gap-5">
+      <Stagger className="flex flex-col gap-3">
         {experiences.map((exp, i) => (
           <RevealItem key={`${exp.company}-${i}`}>
-            <Card className="liquid-glass lift">
+            <Card className="liquid-glass lift p-3.5">
               <Card.Header className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
                 <div className="space-y-1">
                   <div className="flex flex-wrap items-center gap-2">
@@ -37,9 +37,9 @@ export function Experience() {
                 <span className="shrink-0 text-sm text-muted">{exp.period}</span>
               </Card.Header>
 
-              <Card.Content className="space-y-4">
+              <Card.Content className="space-y-3">
                 <p className="leading-relaxed text-muted">{exp.summary}</p>
-                <ul className="space-y-2">
+                <ul className="space-y-1.5">
                   {exp.highlights.map((h, j) => (
                     <li key={j} className="flex gap-3 text-sm text-muted">
                       <span aria-hidden="true" className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
