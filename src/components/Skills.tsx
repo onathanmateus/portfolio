@@ -18,8 +18,8 @@ export function Skills() {
       />
 
       <Stagger className="flex flex-col gap-3">
-        {skillGroups.map((group) => (
-          <RevealItem key={group.title}>
+        {skillGroups.map((group, i) => (
+          <RevealItem key={i}>
             <div className="liquid-glass lift grid gap-3 rounded-2xl border p-5 md:grid-cols-[240px_1fr] md:items-center">
               <span className="mono text-sm text-muted">{`// ${group.title}`}</span>
               <div className="flex flex-wrap gap-2.5">

@@ -29,7 +29,7 @@ export function SectionHeading({ eyebrow, title, subtitle }: SectionHeadingProps
 
       {subtitle ? (
         <Reveal delay={0.1}>
-          <p className="mt-4 max-w-2xl text-lg text-muted">{subtitle}</p>
+          <p className="mt-4 max-w-2xl text-base text-muted sm:text-lg">{subtitle}</p>
         </Reveal>
       ) : null}
     </div>

@@ -19,29 +19,16 @@ function item(delay: number) {
 export function Hero() {
   const { profile } = useContent();
   const t = useUi();
-  const initials = profile.name
-    .split(" ")
-    .map((n) => n[0])
-    .join("")
-    .slice(0, 2);
 
   return (
     <main className="relative flex min-h-[100svh] flex-col items-center justify-center overflow-hidden px-5 text-center">
-      <motion.div
-        {...item(0.05)}
-        className="mb-8 grid h-24 w-24 place-items-center rounded-2xl text-2xl font-semibold text-accent-foreground shadow-lg shadow-accent/25"
-        style={{ background: "linear-gradient(135deg, var(--accent), color-mix(in oklab, var(--accent) 55%, #000))" }}
-      >
-        {initials}
-      </motion.div>
-
       <motion.p {...item(0.12)} className="mono caret mb-4 text-sm font-medium tracking-wide text-accent">
         {profile.role}
       </motion.p>
 
       <motion.h1
         {...item(0.18)}
-        className="max-w-3xl text-5xl font-semibold tracking-tight sm:text-7xl"
+        className="max-w-3xl text-4xl font-semibold tracking-tight sm:text-6xl md:text-7xl"
       >
         <Typewriter
           as="span"
@@ -53,7 +40,7 @@ export function Hero() {
         />
       </motion.h1>
 
-      <motion.p {...item(0.26)} className="mt-6 max-w-xl text-lg text-muted sm:text-xl">
+      <motion.p {...item(0.26)} className="mt-6 max-w-xl text-base text-muted sm:text-lg md:text-xl">
         {profile.tagline}
       </motion.p>
 

@@ -14,8 +14,8 @@ export function Education() {
       <SectionHeading eyebrow={t.education.eyebrow} title={t.education.title} />
 
       <Stagger className="flex flex-col gap-3">
-        {education.map((item) => (
-          <RevealItem key={item.course}>
+        {education.map((item, i) => (
+          <RevealItem key={i}>
             <div className="liquid-glass lift grid gap-2 rounded-2xl border p-5 md:grid-cols-[240px_1fr] md:items-baseline">
               <span className="mono text-sm text-muted">{item.period}</span>
               <div>

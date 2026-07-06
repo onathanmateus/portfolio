@@ -16,7 +16,7 @@ export function About() {
       <div className="grid items-center gap-8 md:grid-cols-[1.6fr_1fr]">
         <Reveal className="space-y-5">
           {profile.about.map((paragraph, i) => (
-            <p key={i} className="text-lg leading-relaxed text-muted">
+            <p key={i} className="text-base leading-relaxed text-muted sm:text-lg">
               {paragraph}
             </p>
           ))}

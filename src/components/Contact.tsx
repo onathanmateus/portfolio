@@ -32,9 +32,9 @@ export function Contact() {
               className="liquid-glass lift group grid items-center gap-1 rounded-2xl border p-5 md:grid-cols-[220px_1fr] focus:outline-none focus-visible:text-accent"
             >
               <span className="mono text-sm text-muted">{`// ${channel.label}`}</span>
-              <span className="flex items-center gap-3 text-2xl font-medium text-foreground transition-colors group-hover:text-accent sm:text-3xl">
-                {channel.value}
-                <span className="text-accent transition-transform group-hover:translate-x-1">→</span>
+              <span className="flex min-w-0 items-center gap-3 text-lg font-medium text-foreground transition-colors group-hover:text-accent sm:text-2xl md:text-3xl">
+                <span className="min-w-0 break-all">{channel.value}</span>
+                <span className="shrink-0 text-accent transition-transform group-hover:translate-x-1">→</span>
               </span>
             </a>
           </RevealItem>

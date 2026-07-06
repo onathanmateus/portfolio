@@ -142,7 +142,7 @@ export const projects: Project[] = [
   {
     name: "FinTrack",
     description:
-      "Dashboard local-first de finanças pessoais: transações com categorias e carteiras, indicadores, metas de economia, gráficos, importação de CSV e relatórios em PDF. Segurança por PIN e mascaramento de valores — os dados ficam no próprio navegador.",
+      "Dashboard local-first de finanças pessoais: transações com categorias e carteiras, indicadores, metas de economia, gráficos, importação de CSV e relatórios em PDF. Mascaramento de valores — os dados ficam no próprio navegador.",
     url: "https://fintrack-nathan-mateus.vercel.app/",
     tags: ["Next.js", "React", "TypeScript", "HeroUI", "Tailwind CSS", "Recharts"],
   },
@@ -242,7 +242,7 @@ const projectsEn: Project[] = [
   {
     name: "FinTrack",
     description:
-      "Local-first personal finance dashboard: transactions with categories and wallets, indicators, savings goals, charts, CSV import and PDF reports. PIN security and value masking — your data stays in your own browser.",
+      "Local-first personal finance dashboard: transactions with categories and wallets, indicators, savings goals, charts, CSV import and PDF reports. Value masking — your data stays in your own browser.",
     url: "https://fintrack-nathan-mateus.vercel.app/",
     tags: ["Next.js", "React", "TypeScript", "HeroUI", "Tailwind CSS", "Recharts"],
   },
