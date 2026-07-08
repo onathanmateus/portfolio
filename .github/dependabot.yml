@@ -8,6 +8,11 @@ updates:
     open-pull-requests-limit: 10
     commit-message:
       prefix: "deps"
+    ignore:
+      # ESLint 10 quebra o eslint-plugin-react embutido no eslint-config-next
+      # (usa getFilename, removido no v10). Preso ao 9 até o Next suportar.
+      - dependency-name: "eslint"
+        update-types: ["version-update:semver-major"]
     groups:
       npm-dependencies:
         patterns:
