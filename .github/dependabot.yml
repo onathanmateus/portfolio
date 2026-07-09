@@ -13,6 +13,10 @@ updates:
       # (usa getFilename, removido no v10). Preso ao 9 até o Next suportar.
       - dependency-name: "eslint"
         update-types: ["version-update:semver-major"]
+      # TypeScript 7 quebra o typescript-eslint embutido no eslint-config-next
+      # (erro "reading 'Cjs'") e o build da Vercel. Preso ao 6 até o Next suportar.
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
     groups:
       npm-dependencies:
         patterns:
