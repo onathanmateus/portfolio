@@ -1,35 +1,34 @@
 version: 2
 updates:
-  # Dependências npm — agrupadas em um único PR semanal
-  - package-ecosystem: "npm"
+  - package-ecosystem: npm
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: weekly
     open-pull-requests-limit: 10
+    labels: ["dependencies"]
     commit-message:
-      prefix: "deps"
+      prefix: "chore(deps)"
+      prefix-development: "chore(deps-dev)"
     ignore:
-      # ESLint 10 quebra o eslint-plugin-react embutido no eslint-config-next
-      # (usa getFilename, removido no v10). Preso ao 9 até o Next suportar.
+      # ESLint 10 é incompatível com o eslint-config-next atual.
       - dependency-name: "eslint"
         update-types: ["version-update:semver-major"]
-      # TypeScript 7 quebra o typescript-eslint embutido no eslint-config-next
-      # (erro "reading 'Cjs'") e o build da Vercel. Preso ao 6 até o Next suportar.
+      # TypeScript 7 quebra o typescript-estree (lint) e o build do Next 16
+      # ("typescript not installed"). Segurar o major até a toolchain suportar.
       - dependency-name: "typescript"
         update-types: ["version-update:semver-major"]
     groups:
-      npm-dependencies:
-        patterns:
-          - "*"
-
-  # Atualizações das próprias GitHub Actions
-  - package-ecosystem: "github-actions"
+      dev-dependencies:
+        dependency-type: development
+      production-dependencies:
+        dependency-type: production
+  - package-ecosystem: github-actions
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: weekly
+    labels: ["dependencies"]
     commit-message:
       prefix: "ci"
     groups:
       github-actions:
-        patterns:
-          - "*"
+        patterns: ["*"]
